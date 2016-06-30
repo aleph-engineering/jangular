@@ -1,0 +1,25 @@
+{
+  "name": "jangular",
+  "version": "1.0.0",
+  "description": "Jasmine matchers for AngularJS framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "karma start karma.conf.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:eduardo-lago-aguilar/jangular.git"
+  },
+  "keywords": [
+    "jasmine",
+    "angularjs",
+    "tdd",
+    "bdd",
+    "testing"
+  ],
+  "author": "Eduardo Lago Aguilar",
+  "license": "GPLv3",
+  "bugs": {
+    "url": "https://github.com/eduardo-lago-aguilar/jangular/issues"
+  }
+}
