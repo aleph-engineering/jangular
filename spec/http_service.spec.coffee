@@ -1,14 +1,14 @@
 'use strict'
 
-describe 'http service matchers', ->
+describe 'sample http service matchers', ->
   # make the matchers available
   beforeEach -> jasmine.addMatchers jangular_http_matchers
 
   # initialize module
-  beforeEach -> module 'jangular.sample.module'
+  beforeEach -> module 'sample.module'
 
   # inject the http service (SUT)
-  beforeEach inject (http_service) => @subject = http_service
+  beforeEach inject (sampleHttpService) => @subject = sampleHttpService
 
   # after every test assert for no pending expectation & request
   afterEach inject ($httpBackend) ->

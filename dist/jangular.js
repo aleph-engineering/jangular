@@ -1,6 +1,6 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
-var allow_get, allow_post, assert_unwrapped_data, err, expect_get, expect_post, expect_to_be_function, expect_to_be_promise, fail_get, fail_post, flush, grab_data, http_backend, jangular_http_matchers, jangular_matchers, ok, pass, to_get, to_get_and_unwrap, to_post, to_post_and_unwrap, to_unwrap_get, to_unwrap_post, validate_arguments_count;
+var allow_get, allow_post, assert_is_spy, assert_unwrapped_data, err, expect_get, expect_post, expect_to_be_function, expect_to_be_promise, fail_get, fail_post, flush, http_backend, jangular_controller_matchers, jangular_http_matchers, jangular_matchers, ok, pass, q, spy_have_been_called, to_call_service, to_get, to_get_and_unwrap, to_post, to_post_and_unwrap, to_unwrap_get, to_unwrap_post, validate_arguments_count;
 
 ok = 200;
 
@@ -78,15 +78,6 @@ fail_post = function() {
 
 flush = function() {
   return http_backend().flush();
-};
-
-grab_data = function(promise) {
-  var _actual_data;
-  _actual_data = void 0;
-  promise.then(function(data) {
-    return _actual_data = data;
-  });
-  return _actual_data;
 };
 
 assert_unwrapped_data = function(actual_data, expected_data) {
@@ -222,7 +213,59 @@ jangular_http_matchers = {
 
 window.jangular_http_matchers = jangular_http_matchers;
 
-jangular_matchers = angular.merge({}, jangular_http_matchers);
+assert_is_spy = function(_spy) {
+  if (!jasmine.isSpy(_spy)) {
+    throw new Error("Expected a spy, but got " + (jasmine.pp(_spy)) + ".");
+  }
+};
+
+q = function() {
+  var _q;
+  _q = void 0;
+  inject(function($q) {
+    return _q = $q;
+  });
+  return _q;
+};
+
+spy_have_been_called = function(_spy) {
+  var obj1, result;
+  pass = _spy.calls.any();
+  return result = {
+    pass: pass,
+    message: pass != null ? pass : (
+      obj1 = {},
+      obj1["Expected spy " + (_spy.and.identity()) + " not to have been called."] = "Expected spy " + (_spy.and.identity()) + "  to have been called.'",
+      obj1
+    )
+  };
+};
+
+to_call_service = function() {
+  return {
+    compare: function(fn, service, fn_name) {
+      var _spy, deferred;
+      validate_arguments_count(arguments, 3, 'to_call_service takes only 2 arguments: target service to spy on and the function name');
+      expect_to_be_function(fn);
+      _spy = spyOn(service, fn_name);
+      assert_is_spy(_spy);
+      deferred = q().defer();
+      deferred.resolve();
+      _spy.and.returnValue(deferred.promise);
+      fn();
+      return spy_have_been_called(_spy);
+    }
+  };
+};
+
+jangular_controller_matchers = {
+  to_call_service: to_call_service,
+  toCallService: to_call_service
+};
+
+window.jangular_controller_matchers = jangular_controller_matchers;
+
+jangular_matchers = angular.merge({}, jangular_controller_matchers, jangular_http_matchers);
 
 window.jangular_matchers = jangular_matchers;
 

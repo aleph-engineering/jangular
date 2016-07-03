@@ -73,7 +73,7 @@ assert_unwrapped_data = (actual_data, expected_data) ->
 
 to_get = ->
   compare: (fn, uri) ->
-    # validations
+# validations
     validate_arguments_count arguments, 2, 'to_get takes a single uri argument.'
     expect_to_be_function fn
 
@@ -90,7 +90,7 @@ to_get = ->
 
 to_unwrap_get = ->
   compare: (fn) ->
-    # validations
+# validations
     validate_arguments_count arguments, 1, 'to_unwrap_get takes no arguments.'
     expect_to_be_function fn
 
@@ -112,7 +112,7 @@ to_unwrap_get = ->
 
 to_get_and_unwrap = ->
   compare: (fn, uri) ->
-    # validations
+# validations
     validate_arguments_count arguments, 2, 'to_get_and_unwrap takes a single uri argument.'
     expect_to_be_function fn
 
@@ -133,7 +133,7 @@ to_get_and_unwrap = ->
 
 to_post = ->
   compare: (fn, uri, body) ->
-    # validations
+# validations
     validate_arguments_count arguments, 3, 'to_post takes a uri and post body arguments.'
     expect_to_be_function fn
 
@@ -150,7 +150,7 @@ to_post = ->
 
 to_unwrap_post = ->
   compare: (fn) ->
-    # validations
+# validations
     validate_arguments_count arguments, 1, 'to_unwrap_post takes no arguments.'
     expect_to_be_function fn
 
@@ -171,7 +171,7 @@ to_unwrap_post = ->
 
 to_post_and_unwrap = ->
   compare: (fn, uri, body) ->
-    # validations
+# validations
     validate_arguments_count arguments, 3, 'to_post takes a uri and post body arguments.'
     expect_to_be_function fn
 
@@ -206,7 +206,53 @@ jangular_http_matchers =
 
 window.jangular_http_matchers = jangular_http_matchers
 
-jangular_matchers = angular.merge {}, jangular_http_matchers
+################################
+# jangular controller matchers #
+################################
+
+assert_is_spy = (_spy) ->
+  throw new Error "Expected a spy, but got #{jasmine.pp _spy}." unless jasmine.isSpy _spy
+
+q = ->
+  _q = undefined
+  inject ($q) -> _q = $q
+  _q
+
+spy_have_been_called = (_spy) ->
+  pass = _spy.calls.any()
+  result =
+    pass: pass
+    message: pass ? "Expected spy #{_spy.and.identity()} not to have been called.": "Expected spy #{_spy.and.identity()}  to have been called.'"
+
+to_call_service = ->
+  compare: (fn, service, fn_name) ->
+
+    # validations
+    validate_arguments_count arguments, 3, 'to_call_service takes only 2 arguments: target service to spy on and the function name'
+    expect_to_be_function fn
+
+    # spy on service
+    _spy = spyOn service, fn_name
+    assert_is_spy _spy
+
+    # spy on service and return a solved promise
+    deferred = q().defer()
+    deferred.resolve()
+    _spy.and.returnValue deferred.promise
+
+    # make the call
+    fn()
+
+    # assert
+    spy_have_been_called _spy
+
+jangular_controller_matchers =
+  to_call_service: to_call_service
+  toCallService: to_call_service
+
+window.jangular_controller_matchers = jangular_controller_matchers
+
+jangular_matchers = angular.merge {}, jangular_controller_matchers, jangular_http_matchers
 window.jangular_matchers = jangular_matchers
 
 module.exports = jangular_matchers

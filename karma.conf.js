@@ -4,16 +4,17 @@ module.exports = function (config) {
         basePath: './',
         files: [
             'node_modules/angular-ui-router/node_modules/angular/angular.js',
+            'node_modules/angular-ui-router/release/angular-ui-router.js',
             'node_modules/angular-mocks/angular-mocks.js',
-            {
-                pattern: 'dist/*.js'
-            },
-            //{
-            //    pattern: 'src/*.coffee'
-            //},
-            {
-                pattern: 'spec/*.coffee'
-            },
+
+            'dist/jangular.js',
+
+            'spec/samples/module.coffee',
+            'spec/samples/http_service.coffee',
+            'spec/samples/controller.coffee',
+
+            'spec/http_service.spec.coffee',
+            'spec/controller.spec.coffee',
         ],
 
         autoWatch: true,
@@ -39,10 +40,16 @@ module.exports = function (config) {
 
         preprocessors: {
             // code
-            //'src/*.coffee': ['coffeelint', 'coffee', 'coverage'],
-            'dist/*.js': ['coverage'],
+            'dist/jangular.js': ['coverage'],
+
+            // samples
+            'spec/samples/module.coffee': ['coffee', 'coverage'],
+            'spec/samples/http_service.coffee': ['coffee', 'coverage'],
+            'spec/samples/controller.coffee': ['coffee', 'coverage'],
+
             // specs
-            'spec/*.coffee': ['coffee', 'coverage']
+            'spec/http_service.spec.coffee': ['coffee', 'coverage'],
+            'spec/controller.spec.coffee': ['coffee', 'coverage']
         },
         coffeelint: {
             onStart: true,
