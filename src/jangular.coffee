@@ -61,11 +61,6 @@ fail_post = ->
 flush = ->
   http_backend().flush()
 
-grab_data = (promise) ->
-  _actual_data = undefined
-  promise.then (data) -> _actual_data = data
-  _actual_data
-
 assert_unwrapped_data = (actual_data, expected_data) ->
   result =
     pass: actual_data is expected_data
