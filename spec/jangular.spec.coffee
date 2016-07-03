@@ -5,7 +5,7 @@ describe 'http service matchers', ->
   beforeEach -> jasmine.addMatchers jangular_http_matchers
 
   # initialize module
-  beforeEach -> module 'jangular.spec.module'
+  beforeEach -> module 'jangular.sample.module'
 
   # inject the http service (SUT)
   beforeEach inject (http_service) => @subject = http_service

@@ -8,4 +8,4 @@ http_service = ($http) ->
   new HttpService
 
 
-angular.module('jangular.spec.module', []).factory 'http_service', ['$http', http_service]
+angular.module('jangular.sample.module', []).factory 'http_service', ['$http', http_service]
