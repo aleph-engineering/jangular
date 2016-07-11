@@ -87,8 +87,6 @@ jangular_controller_matchers = {
   toCallService: to_call_service
 };
 
-window.jangular_controller_matchers = jangular_controller_matchers;
-
 module.exports = jangular_controller_matchers;
 
 },{"./jangular_common":2}],4:[function(require,module,exports){
@@ -300,8 +298,6 @@ jangular_http_matchers = {
   toPostAndUnwrap: to_post_and_unwrap
 };
 
-window.jangular_http_matchers = jangular_http_matchers;
-
 module.exports = jangular_http_matchers;
 
 },{"./jangular_common":2}]},{},[1]);
@@ -405,8 +401,6 @@ jangular_controller_matchers = {
   to_call_service: to_call_service,
   toCallService: to_call_service
 };
-
-window.jangular_controller_matchers = jangular_controller_matchers;
 
 module.exports = jangular_controller_matchers;
 
@@ -639,8 +633,6 @@ jangular_http_matchers = {
   to_post_and_unwrap: to_post_and_unwrap,
   toPostAndUnwrap: to_post_and_unwrap
 };
-
-window.jangular_http_matchers = jangular_http_matchers;
 
 module.exports = jangular_http_matchers;
 

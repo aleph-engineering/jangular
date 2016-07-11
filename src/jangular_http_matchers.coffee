@@ -199,8 +199,6 @@ jangular_http_matchers =
   to_post_and_unwrap: to_post_and_unwrap
   toPostAndUnwrap: to_post_and_unwrap
 
-window.jangular_http_matchers = jangular_http_matchers
-
 module.exports = jangular_http_matchers
 
 

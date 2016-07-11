@@ -49,7 +49,5 @@ jangular_controller_matchers =
   to_call_service: to_call_service
   toCallService: to_call_service
 
-window.jangular_controller_matchers = jangular_controller_matchers
-
 module.exports = jangular_controller_matchers
 
