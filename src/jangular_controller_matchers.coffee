@@ -9,6 +9,7 @@ common = require './jangular_common'
 expect_to_be_function = common.expect_to_be_function
 validate_arguments_count = common.validate_arguments_count
 validate_arguments_gt = common.validate_arguments_gt
+throw_fn_expected = common.throw_fn_expected
 
 assert_is_spy = (_spy) ->
   throw new Error "Expected a spy, but got #{jasmine.pp _spy}." unless jasmine.isSpy _spy
@@ -45,7 +46,7 @@ to_call_service = ->
 
     # validations
     validate_arguments_count arguments, 3, 'to_call_service takes only 2 arguments: target service to spy on and the function name'
-    expect_to_be_function fn
+    expect_to_be_function fn || throw_fn_expected 'fn'
 
     # spy on service
     _spy = spyOn service, fn_name
@@ -65,7 +66,7 @@ to_call_service = ->
 to_call_service_with = ->
   compare: (fn, service, fn_name, args...) ->
     validate_arguments_gt arguments, 3, 'to_call_service_with takes 3 or more arguments: target service to spy on, the function name and the expected arguments'
-    expect_to_be_function fn
+    expect_to_be_function fn || throw_fn_expected 'fn'
 
     # spy on service
     _spy = spyOn service, fn_name
@@ -82,11 +83,39 @@ to_call_service_with = ->
     # assert
     spy_have_been_called_with _spy, args
 
+to_subscribe_success = ->
+  compare: (fn, service, fn_name, callback) ->
+    validate_arguments_count arguments, 4, 'to_subscribe_success takes 3 arguments: target service to spy on, the function name and the callback'
+    expect_to_be_function fn || throw_fn_expected 'fn'
+    expect_to_be_function callback || throw_fn_expected 'callback'
+
+    # spy on service
+    service_spy = spyOn service, fn_name
+    assert_is_spy service_spy
+
+    # spy on service and return a solved promise
+    deferred = q().defer()
+    deferred.resolve()
+    service_spy.and.returnValue deferred.promise
+
+    # spy and stub on promise
+    _spy = spyOn deferred.promise, 'then'
+    assert_is_spy _spy
+    _spy.and.stub()
+
+    # make the call
+    fn()
+
+    # assert
+    spy_have_been_called_with _spy, [callback]
+
 jangular_controller_matchers =
   to_call_service: to_call_service
   toCallService: to_call_service
   to_call_service_with: to_call_service_with
   toCallServiceWith: to_call_service_with
+  to_subscribe_success: to_subscribe_success
+  toSubscribeSuccess: to_subscribe_success
 
 module.exports = jangular_controller_matchers
 

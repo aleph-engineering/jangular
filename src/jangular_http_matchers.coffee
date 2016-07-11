@@ -8,6 +8,7 @@ common = require './jangular_common'
 
 expect_to_be_function = common.expect_to_be_function
 validate_arguments_count = common.validate_arguments_count
+throw_fn_expected = common.throw_fn_expected
 
 ok = 200
 err = 500
@@ -70,7 +71,7 @@ to_get = ->
   compare: (fn, uri) ->
 # validations
     validate_arguments_count arguments, 2, 'to_get takes a single uri argument.'
-    expect_to_be_function fn
+    expect_to_be_function fn || throw_fn_expected 'fn'
 
     # expect http call
     expect_get uri
@@ -87,7 +88,7 @@ to_unwrap_get = ->
   compare: (fn) ->
 # validations
     validate_arguments_count arguments, 1, 'to_unwrap_get takes no arguments.'
-    expect_to_be_function fn
+    expect_to_be_function fn || throw_fn_expected 'fn'
 
     # allow http call & reply a random number
     expected_data = Math.random()
@@ -109,7 +110,7 @@ to_get_and_unwrap = ->
   compare: (fn, uri) ->
 # validations
     validate_arguments_count arguments, 2, 'to_get_and_unwrap takes a single uri argument.'
-    expect_to_be_function fn
+    expect_to_be_function fn || throw_fn_expected 'fn'
 
     # expect http call & reply a random number
     expected_data = Math.random()
@@ -130,7 +131,7 @@ to_post = ->
   compare: (fn, uri, body) ->
 # validations
     validate_arguments_count arguments, 3, 'to_post takes a uri and post body arguments.'
-    expect_to_be_function fn
+    expect_to_be_function fn || throw_fn_expected 'fn'
 
     # expect http call
     expect_post uri, body
@@ -147,7 +148,7 @@ to_unwrap_post = ->
   compare: (fn) ->
 # validations
     validate_arguments_count arguments, 1, 'to_unwrap_post takes no arguments.'
-    expect_to_be_function fn
+    expect_to_be_function fn || throw_fn_expected 'fn'
 
     # allow http call & reply a random number
     expected_data = Math.random()
@@ -168,7 +169,7 @@ to_post_and_unwrap = ->
   compare: (fn, uri, body) ->
 # validations
     validate_arguments_count arguments, 3, 'to_post takes a uri and post body arguments.'
-    expect_to_be_function fn
+    expect_to_be_function fn || throw_fn_expected 'fn'
 
     # expect http call
     expected_data = Math.random()

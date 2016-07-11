@@ -12,5 +12,10 @@ class SampleController
   do_service_call_with_hash_params: ({a, b, c}) =>
     @sampleHttpService.do_get_with_hash x: a, y: b, z: c
 
+  do_subscribe: =>
+    @sampleHttpService.do_get().then @do_get_success
+
+  do_get_success: ->
+
 angular.module('sample.module').controller 'SampleController', ['sampleHttpService', SampleController]
 
