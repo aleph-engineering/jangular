@@ -10,7 +10,7 @@ module.exports = jangular_matchers;
 
 },{"./jangular_controller_matchers.coffee":3,"./jangular_http_matchers.coffee":4}],2:[function(require,module,exports){
 'use strict';
-var expect_to_be_function, validate_arguments_count;
+var expect_to_be_function, validate_arguments_count, validate_arguments_gt;
 
 expect_to_be_function = function(fn) {
   return expect(fn).toEqual(jasmine.any(Function));
@@ -22,20 +22,30 @@ validate_arguments_count = function(args, arg_count, msg) {
   }
 };
 
+validate_arguments_gt = function(args, arg_count, msg) {
+  if (!(args.length > arg_count)) {
+    throw new Error(msg);
+  }
+};
+
 module.exports = {
   expect_to_be_function: expect_to_be_function,
-  validate_arguments_count: validate_arguments_count
+  validate_arguments_count: validate_arguments_count,
+  validate_arguments_gt: validate_arguments_gt
 };
 
 },{}],3:[function(require,module,exports){
 'use strict';
-var assert_is_spy, common, expect_to_be_function, jangular_controller_matchers, q, spy_have_been_called, to_call_service, validate_arguments_count;
+var assert_is_spy, common, expect_to_be_function, jangular_controller_matchers, q, spy_have_been_called, spy_have_been_called_with, to_call_service, to_call_service_with, validate_arguments_count, validate_arguments_gt,
+  slice = [].slice;
 
 common = require('./jangular_common');
 
 expect_to_be_function = common.expect_to_be_function;
 
 validate_arguments_count = common.validate_arguments_count;
+
+validate_arguments_gt = common.validate_arguments_gt;
 
 assert_is_spy = function(_spy) {
   if (!jasmine.isSpy(_spy)) {
@@ -65,6 +75,31 @@ spy_have_been_called = function(_spy) {
   };
 };
 
+spy_have_been_called_with = function(_spy, args) {
+  var pass, result;
+  result = {
+    pass: false
+  };
+  pass = _spy.calls.any();
+  if (!pass) {
+    result.message = function() {
+      return "Expected spy " + (_spy.and.identity()) + " to have been called with " + (jasmine.pp(args)) + " but it was never called.";
+    };
+  } else {
+    if (jasmine.matchersUtil.contains(_spy.calls.allArgs(), args, jasmine.customEqualityTesters)) {
+      result.pass = true;
+      result.message = function() {
+        return "Expected spy " + (_spy.and.identity()) + " not to have been called with " + (jasmine.pp(args)) + " but it was.";
+      };
+    } else {
+      result.message = function() {
+        return "Expected spy " + (_spy.and.identity()) + " to have been called with " + (jasmine.pp(args)) + " but actual calls were " + (jasmine.pp(_spy.calls.allArgs()).replace(/^\[ | \]$/g, '')) + ".";
+      };
+    }
+  }
+  return result;
+};
+
 to_call_service = function() {
   return {
     compare: function(fn, service, fn_name) {
@@ -82,9 +117,29 @@ to_call_service = function() {
   };
 };
 
+to_call_service_with = function() {
+  return {
+    compare: function() {
+      var _spy, args, deferred, fn, fn_name, service;
+      fn = arguments[0], service = arguments[1], fn_name = arguments[2], args = 4 <= arguments.length ? slice.call(arguments, 3) : [];
+      validate_arguments_gt(arguments, 3, 'to_call_service_with takes 3 or more arguments: target service to spy on, the function name and the expected arguments');
+      expect_to_be_function(fn);
+      _spy = spyOn(service, fn_name);
+      assert_is_spy(_spy);
+      deferred = q().defer();
+      deferred.resolve();
+      _spy.and.returnValue(deferred.promise);
+      fn();
+      return spy_have_been_called_with(_spy, args);
+    }
+  };
+};
+
 jangular_controller_matchers = {
   to_call_service: to_call_service,
-  toCallService: to_call_service
+  toCallService: to_call_service,
+  to_call_service_with: to_call_service_with,
+  toCallServiceWith: to_call_service_with
 };
 
 module.exports = jangular_controller_matchers;
@@ -304,7 +359,7 @@ module.exports = jangular_http_matchers;
 
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
-var expect_to_be_function, validate_arguments_count;
+var expect_to_be_function, validate_arguments_count, validate_arguments_gt;
 
 expect_to_be_function = function(fn) {
   return expect(fn).toEqual(jasmine.any(Function));
@@ -316,16 +371,23 @@ validate_arguments_count = function(args, arg_count, msg) {
   }
 };
 
+validate_arguments_gt = function(args, arg_count, msg) {
+  if (!(args.length > arg_count)) {
+    throw new Error(msg);
+  }
+};
+
 module.exports = {
   expect_to_be_function: expect_to_be_function,
-  validate_arguments_count: validate_arguments_count
+  validate_arguments_count: validate_arguments_count,
+  validate_arguments_gt: validate_arguments_gt
 };
 
 },{}]},{},[1]);
 
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
-var expect_to_be_function, validate_arguments_count;
+var expect_to_be_function, validate_arguments_count, validate_arguments_gt;
 
 expect_to_be_function = function(fn) {
   return expect(fn).toEqual(jasmine.any(Function));
@@ -337,20 +399,30 @@ validate_arguments_count = function(args, arg_count, msg) {
   }
 };
 
+validate_arguments_gt = function(args, arg_count, msg) {
+  if (!(args.length > arg_count)) {
+    throw new Error(msg);
+  }
+};
+
 module.exports = {
   expect_to_be_function: expect_to_be_function,
-  validate_arguments_count: validate_arguments_count
+  validate_arguments_count: validate_arguments_count,
+  validate_arguments_gt: validate_arguments_gt
 };
 
 },{}],2:[function(require,module,exports){
 'use strict';
-var assert_is_spy, common, expect_to_be_function, jangular_controller_matchers, q, spy_have_been_called, to_call_service, validate_arguments_count;
+var assert_is_spy, common, expect_to_be_function, jangular_controller_matchers, q, spy_have_been_called, spy_have_been_called_with, to_call_service, to_call_service_with, validate_arguments_count, validate_arguments_gt,
+  slice = [].slice;
 
 common = require('./jangular_common');
 
 expect_to_be_function = common.expect_to_be_function;
 
 validate_arguments_count = common.validate_arguments_count;
+
+validate_arguments_gt = common.validate_arguments_gt;
 
 assert_is_spy = function(_spy) {
   if (!jasmine.isSpy(_spy)) {
@@ -380,6 +452,31 @@ spy_have_been_called = function(_spy) {
   };
 };
 
+spy_have_been_called_with = function(_spy, args) {
+  var pass, result;
+  result = {
+    pass: false
+  };
+  pass = _spy.calls.any();
+  if (!pass) {
+    result.message = function() {
+      return "Expected spy " + (_spy.and.identity()) + " to have been called with " + (jasmine.pp(args)) + " but it was never called.";
+    };
+  } else {
+    if (jasmine.matchersUtil.contains(_spy.calls.allArgs(), args, jasmine.customEqualityTesters)) {
+      result.pass = true;
+      result.message = function() {
+        return "Expected spy " + (_spy.and.identity()) + " not to have been called with " + (jasmine.pp(args)) + " but it was.";
+      };
+    } else {
+      result.message = function() {
+        return "Expected spy " + (_spy.and.identity()) + " to have been called with " + (jasmine.pp(args)) + " but actual calls were " + (jasmine.pp(_spy.calls.allArgs()).replace(/^\[ | \]$/g, '')) + ".";
+      };
+    }
+  }
+  return result;
+};
+
 to_call_service = function() {
   return {
     compare: function(fn, service, fn_name) {
@@ -397,9 +494,29 @@ to_call_service = function() {
   };
 };
 
+to_call_service_with = function() {
+  return {
+    compare: function() {
+      var _spy, args, deferred, fn, fn_name, service;
+      fn = arguments[0], service = arguments[1], fn_name = arguments[2], args = 4 <= arguments.length ? slice.call(arguments, 3) : [];
+      validate_arguments_gt(arguments, 3, 'to_call_service_with takes 3 or more arguments: target service to spy on, the function name and the expected arguments');
+      expect_to_be_function(fn);
+      _spy = spyOn(service, fn_name);
+      assert_is_spy(_spy);
+      deferred = q().defer();
+      deferred.resolve();
+      _spy.and.returnValue(deferred.promise);
+      fn();
+      return spy_have_been_called_with(_spy, args);
+    }
+  };
+};
+
 jangular_controller_matchers = {
   to_call_service: to_call_service,
-  toCallService: to_call_service
+  toCallService: to_call_service,
+  to_call_service_with: to_call_service_with,
+  toCallServiceWith: to_call_service_with
 };
 
 module.exports = jangular_controller_matchers;
@@ -408,7 +525,7 @@ module.exports = jangular_controller_matchers;
 
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
-var expect_to_be_function, validate_arguments_count;
+var expect_to_be_function, validate_arguments_count, validate_arguments_gt;
 
 expect_to_be_function = function(fn) {
   return expect(fn).toEqual(jasmine.any(Function));
@@ -420,9 +537,16 @@ validate_arguments_count = function(args, arg_count, msg) {
   }
 };
 
+validate_arguments_gt = function(args, arg_count, msg) {
+  if (!(args.length > arg_count)) {
+    throw new Error(msg);
+  }
+};
+
 module.exports = {
   expect_to_be_function: expect_to_be_function,
-  validate_arguments_count: validate_arguments_count
+  validate_arguments_count: validate_arguments_count,
+  validate_arguments_gt: validate_arguments_gt
 };
 
 },{}],2:[function(require,module,exports){
