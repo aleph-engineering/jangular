@@ -140,6 +140,33 @@ to_subscribe_error = ->
     # assert
     spy_have_been_called_with _spy, [jasmine.any(Function), callback]
 
+to_subscribe = ->
+  compare: (fn, service, fn_name, callbacks...) ->
+    validate_arguments_gt arguments, 3, 'to_subscribe takes at least 3 arguments: target service to spy on, the function name and at least one callback'
+    expect_to_be_function fn || throw_fn_expected 'fn'
+    for callback, index in callbacks
+      expect_to_be_function callback || throw_fn_expected "callbacks[#{index}]"
+
+    # spy on service
+    service_spy = spyOn service, fn_name
+    assert_is_spy service_spy
+
+    # spy on service and return a solved promise
+    deferred = q().defer()
+    deferred.resolve()
+    service_spy.and.returnValue deferred.promise
+
+    # spy and stub on promise
+    _spy = spyOn deferred.promise, 'then'
+    assert_is_spy _spy
+    _spy.and.stub()
+
+    # make the call
+    fn()
+
+    # assert
+    spy_have_been_called_with _spy, callbacks
+
 to_callback_success_with = ->
   compare: (fn, service, fn_name, callback_obj, callback_fn_name, args...) ->
     validate_arguments_gt arguments, 5, 'to_callback_success_with takes at least 5 arguments: target service to spy on, the function name, the callback object, the callback function name and at least one argument'
@@ -207,6 +234,8 @@ jangular_controller_matchers =
   toSubscribeSuccess: to_subscribe_success
   to_subscribe_error: to_subscribe_error
   toSubscribeError: to_subscribe_error
+  to_subscribe: to_subscribe
+  toSubscribe: to_subscribe
   to_callback_success_with: to_callback_success_with
   toCallbackSuccessWith: to_callback_success_with
   to_callback_error_with: to_callback_error_with

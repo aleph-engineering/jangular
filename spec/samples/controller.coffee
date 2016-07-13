@@ -18,6 +18,9 @@ class SampleController
   do_subscribe_to_error: =>
     @sampleHttpService.do_get().then (->), @do_get_fails
 
+  do_full_subscribe: =>
+    @sampleHttpService.do_get().then @do_get_success, @do_get_fails
+
   do_get_success: ->
 
   do_get_fails: ->
