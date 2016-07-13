@@ -143,6 +143,35 @@ to_callback_success_with = ->
     # assert
     spy_have_been_called_with _spy, args
 
+to_callback_error_with = ->
+  compare: (fn, service, fn_name, callback_obj, callback_fn_name, args...) ->
+    validate_arguments_gt arguments, 5, 'to_callback_error_with takes at least 5 arguments: target service to spy on, the function name, the callback object, the callback function name and at least one argument'
+    expect_to_be_function fn || throw_fn_expected 'fn'
+
+    # spy on service
+    service_spy = spyOn service, fn_name
+    assert_is_spy service_spy
+
+    # spy on service and return a solved promise
+    deferred = q().defer()
+    service_spy.and.returnValue deferred.promise
+
+    # spy and stub on callback
+    _spy = spyOn callback_obj, callback_fn_name
+    assert_is_spy _spy
+    _spy.and.stub()
+
+    # make the call
+    fn()
+
+    # resolve promise
+    deferred.reject()
+#    rootScope().$on '$locationChangeStart', (event) -> event.preventDefault()
+#    rootScope().$apply()
+
+    # assert
+    spy_have_been_called_with _spy, args
+
 jangular_controller_matchers =
   to_call_service: to_call_service
   toCallService: to_call_service
@@ -152,6 +181,8 @@ jangular_controller_matchers =
   toSubscribeSuccess: to_subscribe_success
   to_callback_success_with: to_callback_success_with
   toCallbackSuccessWith: to_callback_success_with
+  to_callback_error_with: to_callback_error_with
+  toCallbackErrorWith: to_callback_error_with
 
 module.exports = jangular_controller_matchers
 

@@ -30,6 +30,10 @@ describe 'sample controller matchers', ->
     expect(@subject.do_subscribe).to_subscribe_success @service, 'do_get', @subject.do_get_success
 
   # to_callback_success_with
-  it 'callbacks the function when promises success with given parameters', =>
+  it 'callbacks the function when promise success with given parameters', =>
     expect(@subject.do_callback).to_callback_success_with @service, 'do_get', @subject, 'do_get_success_with', 1, 2, 3
+
+  # to_callback_error_with
+  it 'callbacks the function when promise fails with given parameters', =>
+    expect(@subject.do_failing_callback).to_callback_error_with @service, 'do_get', @subject, 'do_get_fails_with', 1, 2, 3
 
