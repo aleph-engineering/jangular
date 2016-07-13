@@ -10,10 +10,14 @@ module.exports = jangular_matchers;
 
 },{"./jangular_controller_matchers.coffee":3,"./jangular_http_matchers.coffee":4}],2:[function(require,module,exports){
 'use strict';
-var expect_to_be_function, throw_fn_expected, validate_arguments_count, validate_arguments_gt;
+var expect_to_be_function, is_a_function, throw_fn_expected, validate_arguments_count, validate_arguments_gt;
 
 expect_to_be_function = function(fn) {
   return expect(fn).toEqual(jasmine.any(Function));
+};
+
+is_a_function = function(obj) {
+  return typeof obj === 'function' || obj instanceof Function;
 };
 
 throw_fn_expected = function(fn_param_name) {
@@ -34,6 +38,7 @@ validate_arguments_gt = function(args, arg_count, msg) {
 
 module.exports = {
   expect_to_be_function: expect_to_be_function,
+  is_a_function: is_a_function,
   validate_arguments_count: validate_arguments_count,
   validate_arguments_gt: validate_arguments_gt,
   throw_fn_expected: throw_fn_expected
@@ -41,12 +46,14 @@ module.exports = {
 
 },{}],3:[function(require,module,exports){
 'use strict';
-var assert_is_spy, common, expect_to_be_function, jangular_controller_matchers, q, rootScope, spy_have_been_called, spy_have_been_called_with, throw_fn_expected, to_call_service, to_call_service_with, to_callback_error_with, to_callback_success_with, to_subscribe, to_subscribe_error, to_subscribe_success, validate_arguments_count, validate_arguments_gt,
+var assert_is_spy, common, expect_to_be_function, is_a_function, q, rootScope, spy_have_been_called, spy_have_been_called_with, throw_fn_expected, to_call_service, to_call_service_with, to_callback_error_with, to_callback_success_with, to_subscribe, to_subscribe_error, to_subscribe_success, validate_arguments_count, validate_arguments_gt,
   slice = [].slice;
 
 common = require('./jangular_common');
 
 expect_to_be_function = common.expect_to_be_function;
+
+is_a_function = common.is_a_function;
 
 validate_arguments_count = common.validate_arguments_count;
 
@@ -121,7 +128,9 @@ to_call_service = function() {
     compare: function(fn, service, fn_name) {
       var _spy, deferred;
       validate_arguments_count(arguments, 3, 'to_call_service takes only 2 arguments: target service to spy on and the function name');
-      expect_to_be_function(fn || throw_fn_expected('fn'));
+      if (!is_a_function(fn)) {
+        throw_fn_expected('fn');
+      }
       _spy = spyOn(service, fn_name);
       assert_is_spy(_spy);
       deferred = q().defer();
@@ -139,7 +148,9 @@ to_call_service_with = function() {
       var _spy, args, deferred, fn, fn_name, service;
       fn = arguments[0], service = arguments[1], fn_name = arguments[2], args = 4 <= arguments.length ? slice.call(arguments, 3) : [];
       validate_arguments_gt(arguments, 3, 'to_call_service_with takes 3 or more arguments: target service to spy on, the function name and the expected arguments');
-      expect_to_be_function(fn || throw_fn_expected('fn'));
+      if (!is_a_function(fn)) {
+        throw_fn_expected('fn');
+      }
       _spy = spyOn(service, fn_name);
       assert_is_spy(_spy);
       deferred = q().defer();
@@ -154,16 +165,21 @@ to_call_service_with = function() {
 to_subscribe_success = function() {
   return {
     compare: function(fn, service, fn_name, callback) {
-      var _spy, deferred, service_spy;
+      var _spy, promise, service_spy;
       validate_arguments_count(arguments, 4, 'to_subscribe_success takes 3 arguments: target service to spy on, the function name and the callback');
-      expect_to_be_function(fn || throw_fn_expected('fn'));
-      expect_to_be_function(callback || throw_fn_expected('callback'));
+      if (!is_a_function(fn)) {
+        throw_fn_expected('fn');
+      }
+      if (!is_a_function(callback)) {
+        throw_fn_expected('callback');
+      }
       service_spy = spyOn(service, fn_name);
       assert_is_spy(service_spy);
-      deferred = q().defer();
-      deferred.resolve();
-      service_spy.and.returnValue(deferred.promise);
-      _spy = spyOn(deferred.promise, 'then');
+      promise = {
+        then: function() {}
+      };
+      service_spy.and.returnValue(promise);
+      _spy = spyOn(promise, 'then');
       assert_is_spy(_spy);
       _spy.and.stub();
       fn();
@@ -175,16 +191,21 @@ to_subscribe_success = function() {
 to_subscribe_error = function() {
   return {
     compare: function(fn, service, fn_name, callback) {
-      var _spy, deferred, service_spy;
+      var _spy, promise, service_spy;
       validate_arguments_count(arguments, 4, 'to_subscribe_error takes 3 arguments: target service to spy on, the function name and the callback');
-      expect_to_be_function(fn || throw_fn_expected('fn'));
-      expect_to_be_function(callback || throw_fn_expected('callback'));
+      if (!is_a_function(fn)) {
+        throw_fn_expected('fn');
+      }
+      if (!is_a_function(callback)) {
+        throw_fn_expected('callback');
+      }
       service_spy = spyOn(service, fn_name);
       assert_is_spy(service_spy);
-      deferred = q().defer();
-      deferred.resolve();
-      service_spy.and.returnValue(deferred.promise);
-      _spy = spyOn(deferred.promise, 'then');
+      promise = {
+        then: function() {}
+      };
+      service_spy.and.returnValue(promise);
+      _spy = spyOn(promise, 'then');
       assert_is_spy(_spy);
       _spy.and.stub();
       fn();
@@ -196,20 +217,25 @@ to_subscribe_error = function() {
 to_subscribe = function() {
   return {
     compare: function() {
-      var _spy, callback, callbacks, deferred, fn, fn_name, i, index, len, service, service_spy;
+      var _spy, callback, callbacks, fn, fn_name, i, index, len, promise, service, service_spy;
       fn = arguments[0], service = arguments[1], fn_name = arguments[2], callbacks = 4 <= arguments.length ? slice.call(arguments, 3) : [];
       validate_arguments_gt(arguments, 3, 'to_subscribe takes at least 3 arguments: target service to spy on, the function name and at least one callback');
-      expect_to_be_function(fn || throw_fn_expected('fn'));
+      if (!is_a_function(fn)) {
+        throw_fn_expected('fn');
+      }
       for (index = i = 0, len = callbacks.length; i < len; index = ++i) {
         callback = callbacks[index];
-        expect_to_be_function(callback || throw_fn_expected("callbacks[" + index + "]"));
+        if (!is_a_function(callback)) {
+          throw_fn_expected("callbacks[" + index + "]");
+        }
       }
       service_spy = spyOn(service, fn_name);
       assert_is_spy(service_spy);
-      deferred = q().defer();
-      deferred.resolve();
-      service_spy.and.returnValue(deferred.promise);
-      _spy = spyOn(deferred.promise, 'then');
+      promise = {
+        then: function() {}
+      };
+      service_spy.and.returnValue(promise);
+      _spy = spyOn(promise, 'then');
       assert_is_spy(_spy);
       _spy.and.stub();
       fn();
@@ -221,19 +247,32 @@ to_subscribe = function() {
 to_callback_success_with = function() {
   return {
     compare: function() {
-      var _spy, args, callback_fn_name, callback_obj, deferred, fn, fn_name, service, service_spy;
+      var _spy, args, callback_fn_name, callback_obj, fn, fn_name, promise, service, service_spy, success_callback;
       fn = arguments[0], service = arguments[1], fn_name = arguments[2], callback_obj = arguments[3], callback_fn_name = arguments[4], args = 6 <= arguments.length ? slice.call(arguments, 5) : [];
       validate_arguments_gt(arguments, 5, 'to_callback_success_with takes at least 5 arguments: target service to spy on, the function name, the callback object, the callback function name and at least one argument');
-      expect_to_be_function(fn || throw_fn_expected('fn'));
+      if (!is_a_function(fn)) {
+        throw_fn_expected('fn');
+      }
       service_spy = spyOn(service, fn_name);
       assert_is_spy(service_spy);
-      deferred = q().defer();
-      service_spy.and.returnValue(deferred.promise);
+      success_callback = void 0;
+      promise = {
+        then: function(_success_callback) {
+          return success_callback = _success_callback;
+        }
+      };
+      service_spy.and.returnValue(promise);
       _spy = spyOn(callback_obj, callback_fn_name);
       assert_is_spy(_spy);
       _spy.and.stub();
       fn();
-      deferred.resolve();
+      if (success_callback == null) {
+        throw Error("service's " + fn_name + "(...).then(callback) was never called, or was called with null/undefined `callback` value");
+      }
+      if (!is_a_function(success_callback)) {
+        throw_fn_expected('success_callback');
+      }
+      success_callback();
       return spy_have_been_called_with(_spy, args);
     }
   };
@@ -242,25 +281,38 @@ to_callback_success_with = function() {
 to_callback_error_with = function() {
   return {
     compare: function() {
-      var _spy, args, callback_fn_name, callback_obj, deferred, fn, fn_name, service, service_spy;
+      var _spy, args, callback_fn_name, callback_obj, error_callback, fn, fn_name, promise, service, service_spy;
       fn = arguments[0], service = arguments[1], fn_name = arguments[2], callback_obj = arguments[3], callback_fn_name = arguments[4], args = 6 <= arguments.length ? slice.call(arguments, 5) : [];
       validate_arguments_gt(arguments, 5, 'to_callback_error_with takes at least 5 arguments: target service to spy on, the function name, the callback object, the callback function name and at least one argument');
-      expect_to_be_function(fn || throw_fn_expected('fn'));
+      if (!is_a_function(fn)) {
+        throw_fn_expected('fn');
+      }
       service_spy = spyOn(service, fn_name);
       assert_is_spy(service_spy);
-      deferred = q().defer();
-      service_spy.and.returnValue(deferred.promise);
+      error_callback = void 0;
+      promise = {
+        then: function(_, _error_callback) {
+          return error_callback = _error_callback;
+        }
+      };
+      service_spy.and.returnValue(promise);
       _spy = spyOn(callback_obj, callback_fn_name);
       assert_is_spy(_spy);
       _spy.and.stub();
       fn();
-      deferred.reject();
+      if (error_callback == null) {
+        throw Error("service's " + fn_name + "(...).then(_, error_callback) was never called, or was called with null/undefined `error_callback` value");
+      }
+      if (!is_a_function(error_callback)) {
+        throw_fn_expected('error_callback');
+      }
+      error_callback();
       return spy_have_been_called_with(_spy, args);
     }
   };
 };
 
-jangular_controller_matchers = {
+module.exports = {
   to_call_service: to_call_service,
   toCallService: to_call_service,
   to_call_service_with: to_call_service_with,
@@ -277,15 +329,15 @@ jangular_controller_matchers = {
   toCallbackErrorWith: to_callback_error_with
 };
 
-module.exports = jangular_controller_matchers;
-
 },{"./jangular_common":2}],4:[function(require,module,exports){
 'use strict';
-var allow_get, allow_post, assert_unwrapped_data, common, err, expect_get, expect_post, expect_to_be_function, expect_to_be_promise, fail_get, fail_post, flush, http_backend, jangular_http_matchers, ok, pass, throw_fn_expected, to_get, to_get_and_unwrap, to_post, to_post_and_unwrap, to_unwrap_get, to_unwrap_post, validate_arguments_count;
+var allow_get, allow_post, assert_unwrapped_data, common, err, expect_get, expect_post, expect_to_be_function, expect_to_be_promise, fail_get, fail_post, flush, http_backend, is_a_function, ok, pass, throw_fn_expected, to_get, to_get_and_unwrap, to_post, to_post_and_unwrap, to_unwrap_get, to_unwrap_post, validate_arguments_count;
 
 common = require('./jangular_common');
 
 expect_to_be_function = common.expect_to_be_function;
+
+is_a_function = common.is_a_function;
 
 validate_arguments_count = common.validate_arguments_count;
 
@@ -373,7 +425,9 @@ to_get = function() {
   return {
     compare: function(fn, uri) {
       validate_arguments_count(arguments, 2, 'to_get takes a single uri argument.');
-      expect_to_be_function(fn || throw_fn_expected('fn'));
+      if (!is_a_function(fn)) {
+        throw_fn_expected('fn');
+      }
       expect_get(uri);
       fn();
       flush();
@@ -387,7 +441,9 @@ to_unwrap_get = function() {
     compare: function(fn) {
       var actual_data, expected_data, promise;
       validate_arguments_count(arguments, 1, 'to_unwrap_get takes no arguments.');
-      expect_to_be_function(fn || throw_fn_expected('fn'));
+      if (!is_a_function(fn)) {
+        throw_fn_expected('fn');
+      }
       expected_data = Math.random();
       allow_get(expected_data);
       promise = fn();
@@ -407,7 +463,9 @@ to_get_and_unwrap = function() {
     compare: function(fn, uri) {
       var actual_data, expected_data, promise;
       validate_arguments_count(arguments, 2, 'to_get_and_unwrap takes a single uri argument.');
-      expect_to_be_function(fn || throw_fn_expected('fn'));
+      if (!is_a_function(fn)) {
+        throw_fn_expected('fn');
+      }
       expected_data = Math.random();
       expect_get(uri, expected_data);
       promise = fn();
@@ -426,7 +484,9 @@ to_post = function() {
   return {
     compare: function(fn, uri, body) {
       validate_arguments_count(arguments, 3, 'to_post takes a uri and post body arguments.');
-      expect_to_be_function(fn || throw_fn_expected('fn'));
+      if (!is_a_function(fn)) {
+        throw_fn_expected('fn');
+      }
       expect_post(uri, body);
       fn();
       flush();
@@ -440,7 +500,9 @@ to_unwrap_post = function() {
     compare: function(fn) {
       var actual_data, expected_data, promise;
       validate_arguments_count(arguments, 1, 'to_unwrap_post takes no arguments.');
-      expect_to_be_function(fn || throw_fn_expected('fn'));
+      if (!is_a_function(fn)) {
+        throw_fn_expected('fn');
+      }
       expected_data = Math.random();
       allow_post(expected_data);
       promise = fn();
@@ -460,7 +522,9 @@ to_post_and_unwrap = function() {
     compare: function(fn, uri, body) {
       var actual_data, expected_data, promise;
       validate_arguments_count(arguments, 3, 'to_post takes a uri and post body arguments.');
-      expect_to_be_function(fn || throw_fn_expected('fn'));
+      if (!is_a_function(fn)) {
+        throw_fn_expected('fn');
+      }
       expected_data = Math.random();
       expect_post(uri, body, expected_data);
       promise = fn();
@@ -475,7 +539,7 @@ to_post_and_unwrap = function() {
   };
 };
 
-jangular_http_matchers = {
+module.exports = {
   to_get: to_get,
   toGet: to_get,
   to_unwrap_get: to_unwrap_get,
@@ -490,16 +554,18 @@ jangular_http_matchers = {
   toPostAndUnwrap: to_post_and_unwrap
 };
 
-module.exports = jangular_http_matchers;
-
 },{"./jangular_common":2}]},{},[1]);
 
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
-var expect_to_be_function, throw_fn_expected, validate_arguments_count, validate_arguments_gt;
+var expect_to_be_function, is_a_function, throw_fn_expected, validate_arguments_count, validate_arguments_gt;
 
 expect_to_be_function = function(fn) {
   return expect(fn).toEqual(jasmine.any(Function));
+};
+
+is_a_function = function(obj) {
+  return typeof obj === 'function' || obj instanceof Function;
 };
 
 throw_fn_expected = function(fn_param_name) {
@@ -520,6 +586,7 @@ validate_arguments_gt = function(args, arg_count, msg) {
 
 module.exports = {
   expect_to_be_function: expect_to_be_function,
+  is_a_function: is_a_function,
   validate_arguments_count: validate_arguments_count,
   validate_arguments_gt: validate_arguments_gt,
   throw_fn_expected: throw_fn_expected
@@ -529,10 +596,14 @@ module.exports = {
 
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
-var expect_to_be_function, throw_fn_expected, validate_arguments_count, validate_arguments_gt;
+var expect_to_be_function, is_a_function, throw_fn_expected, validate_arguments_count, validate_arguments_gt;
 
 expect_to_be_function = function(fn) {
   return expect(fn).toEqual(jasmine.any(Function));
+};
+
+is_a_function = function(obj) {
+  return typeof obj === 'function' || obj instanceof Function;
 };
 
 throw_fn_expected = function(fn_param_name) {
@@ -553,6 +624,7 @@ validate_arguments_gt = function(args, arg_count, msg) {
 
 module.exports = {
   expect_to_be_function: expect_to_be_function,
+  is_a_function: is_a_function,
   validate_arguments_count: validate_arguments_count,
   validate_arguments_gt: validate_arguments_gt,
   throw_fn_expected: throw_fn_expected
@@ -560,12 +632,14 @@ module.exports = {
 
 },{}],2:[function(require,module,exports){
 'use strict';
-var assert_is_spy, common, expect_to_be_function, jangular_controller_matchers, q, rootScope, spy_have_been_called, spy_have_been_called_with, throw_fn_expected, to_call_service, to_call_service_with, to_callback_error_with, to_callback_success_with, to_subscribe, to_subscribe_error, to_subscribe_success, validate_arguments_count, validate_arguments_gt,
+var assert_is_spy, common, expect_to_be_function, is_a_function, q, rootScope, spy_have_been_called, spy_have_been_called_with, throw_fn_expected, to_call_service, to_call_service_with, to_callback_error_with, to_callback_success_with, to_subscribe, to_subscribe_error, to_subscribe_success, validate_arguments_count, validate_arguments_gt,
   slice = [].slice;
 
 common = require('./jangular_common');
 
 expect_to_be_function = common.expect_to_be_function;
+
+is_a_function = common.is_a_function;
 
 validate_arguments_count = common.validate_arguments_count;
 
@@ -640,7 +714,9 @@ to_call_service = function() {
     compare: function(fn, service, fn_name) {
       var _spy, deferred;
       validate_arguments_count(arguments, 3, 'to_call_service takes only 2 arguments: target service to spy on and the function name');
-      expect_to_be_function(fn || throw_fn_expected('fn'));
+      if (!is_a_function(fn)) {
+        throw_fn_expected('fn');
+      }
       _spy = spyOn(service, fn_name);
       assert_is_spy(_spy);
       deferred = q().defer();
@@ -658,7 +734,9 @@ to_call_service_with = function() {
       var _spy, args, deferred, fn, fn_name, service;
       fn = arguments[0], service = arguments[1], fn_name = arguments[2], args = 4 <= arguments.length ? slice.call(arguments, 3) : [];
       validate_arguments_gt(arguments, 3, 'to_call_service_with takes 3 or more arguments: target service to spy on, the function name and the expected arguments');
-      expect_to_be_function(fn || throw_fn_expected('fn'));
+      if (!is_a_function(fn)) {
+        throw_fn_expected('fn');
+      }
       _spy = spyOn(service, fn_name);
       assert_is_spy(_spy);
       deferred = q().defer();
@@ -673,16 +751,21 @@ to_call_service_with = function() {
 to_subscribe_success = function() {
   return {
     compare: function(fn, service, fn_name, callback) {
-      var _spy, deferred, service_spy;
+      var _spy, promise, service_spy;
       validate_arguments_count(arguments, 4, 'to_subscribe_success takes 3 arguments: target service to spy on, the function name and the callback');
-      expect_to_be_function(fn || throw_fn_expected('fn'));
-      expect_to_be_function(callback || throw_fn_expected('callback'));
+      if (!is_a_function(fn)) {
+        throw_fn_expected('fn');
+      }
+      if (!is_a_function(callback)) {
+        throw_fn_expected('callback');
+      }
       service_spy = spyOn(service, fn_name);
       assert_is_spy(service_spy);
-      deferred = q().defer();
-      deferred.resolve();
-      service_spy.and.returnValue(deferred.promise);
-      _spy = spyOn(deferred.promise, 'then');
+      promise = {
+        then: function() {}
+      };
+      service_spy.and.returnValue(promise);
+      _spy = spyOn(promise, 'then');
       assert_is_spy(_spy);
       _spy.and.stub();
       fn();
@@ -694,16 +777,21 @@ to_subscribe_success = function() {
 to_subscribe_error = function() {
   return {
     compare: function(fn, service, fn_name, callback) {
-      var _spy, deferred, service_spy;
+      var _spy, promise, service_spy;
       validate_arguments_count(arguments, 4, 'to_subscribe_error takes 3 arguments: target service to spy on, the function name and the callback');
-      expect_to_be_function(fn || throw_fn_expected('fn'));
-      expect_to_be_function(callback || throw_fn_expected('callback'));
+      if (!is_a_function(fn)) {
+        throw_fn_expected('fn');
+      }
+      if (!is_a_function(callback)) {
+        throw_fn_expected('callback');
+      }
       service_spy = spyOn(service, fn_name);
       assert_is_spy(service_spy);
-      deferred = q().defer();
-      deferred.resolve();
-      service_spy.and.returnValue(deferred.promise);
-      _spy = spyOn(deferred.promise, 'then');
+      promise = {
+        then: function() {}
+      };
+      service_spy.and.returnValue(promise);
+      _spy = spyOn(promise, 'then');
       assert_is_spy(_spy);
       _spy.and.stub();
       fn();
@@ -715,20 +803,25 @@ to_subscribe_error = function() {
 to_subscribe = function() {
   return {
     compare: function() {
-      var _spy, callback, callbacks, deferred, fn, fn_name, i, index, len, service, service_spy;
+      var _spy, callback, callbacks, fn, fn_name, i, index, len, promise, service, service_spy;
       fn = arguments[0], service = arguments[1], fn_name = arguments[2], callbacks = 4 <= arguments.length ? slice.call(arguments, 3) : [];
       validate_arguments_gt(arguments, 3, 'to_subscribe takes at least 3 arguments: target service to spy on, the function name and at least one callback');
-      expect_to_be_function(fn || throw_fn_expected('fn'));
+      if (!is_a_function(fn)) {
+        throw_fn_expected('fn');
+      }
       for (index = i = 0, len = callbacks.length; i < len; index = ++i) {
         callback = callbacks[index];
-        expect_to_be_function(callback || throw_fn_expected("callbacks[" + index + "]"));
+        if (!is_a_function(callback)) {
+          throw_fn_expected("callbacks[" + index + "]");
+        }
       }
       service_spy = spyOn(service, fn_name);
       assert_is_spy(service_spy);
-      deferred = q().defer();
-      deferred.resolve();
-      service_spy.and.returnValue(deferred.promise);
-      _spy = spyOn(deferred.promise, 'then');
+      promise = {
+        then: function() {}
+      };
+      service_spy.and.returnValue(promise);
+      _spy = spyOn(promise, 'then');
       assert_is_spy(_spy);
       _spy.and.stub();
       fn();
@@ -740,19 +833,32 @@ to_subscribe = function() {
 to_callback_success_with = function() {
   return {
     compare: function() {
-      var _spy, args, callback_fn_name, callback_obj, deferred, fn, fn_name, service, service_spy;
+      var _spy, args, callback_fn_name, callback_obj, fn, fn_name, promise, service, service_spy, success_callback;
       fn = arguments[0], service = arguments[1], fn_name = arguments[2], callback_obj = arguments[3], callback_fn_name = arguments[4], args = 6 <= arguments.length ? slice.call(arguments, 5) : [];
       validate_arguments_gt(arguments, 5, 'to_callback_success_with takes at least 5 arguments: target service to spy on, the function name, the callback object, the callback function name and at least one argument');
-      expect_to_be_function(fn || throw_fn_expected('fn'));
+      if (!is_a_function(fn)) {
+        throw_fn_expected('fn');
+      }
       service_spy = spyOn(service, fn_name);
       assert_is_spy(service_spy);
-      deferred = q().defer();
-      service_spy.and.returnValue(deferred.promise);
+      success_callback = void 0;
+      promise = {
+        then: function(_success_callback) {
+          return success_callback = _success_callback;
+        }
+      };
+      service_spy.and.returnValue(promise);
       _spy = spyOn(callback_obj, callback_fn_name);
       assert_is_spy(_spy);
       _spy.and.stub();
       fn();
-      deferred.resolve();
+      if (success_callback == null) {
+        throw Error("service's " + fn_name + "(...).then(callback) was never called, or was called with null/undefined `callback` value");
+      }
+      if (!is_a_function(success_callback)) {
+        throw_fn_expected('success_callback');
+      }
+      success_callback();
       return spy_have_been_called_with(_spy, args);
     }
   };
@@ -761,25 +867,38 @@ to_callback_success_with = function() {
 to_callback_error_with = function() {
   return {
     compare: function() {
-      var _spy, args, callback_fn_name, callback_obj, deferred, fn, fn_name, service, service_spy;
+      var _spy, args, callback_fn_name, callback_obj, error_callback, fn, fn_name, promise, service, service_spy;
       fn = arguments[0], service = arguments[1], fn_name = arguments[2], callback_obj = arguments[3], callback_fn_name = arguments[4], args = 6 <= arguments.length ? slice.call(arguments, 5) : [];
       validate_arguments_gt(arguments, 5, 'to_callback_error_with takes at least 5 arguments: target service to spy on, the function name, the callback object, the callback function name and at least one argument');
-      expect_to_be_function(fn || throw_fn_expected('fn'));
+      if (!is_a_function(fn)) {
+        throw_fn_expected('fn');
+      }
       service_spy = spyOn(service, fn_name);
       assert_is_spy(service_spy);
-      deferred = q().defer();
-      service_spy.and.returnValue(deferred.promise);
+      error_callback = void 0;
+      promise = {
+        then: function(_, _error_callback) {
+          return error_callback = _error_callback;
+        }
+      };
+      service_spy.and.returnValue(promise);
       _spy = spyOn(callback_obj, callback_fn_name);
       assert_is_spy(_spy);
       _spy.and.stub();
       fn();
-      deferred.reject();
+      if (error_callback == null) {
+        throw Error("service's " + fn_name + "(...).then(_, error_callback) was never called, or was called with null/undefined `error_callback` value");
+      }
+      if (!is_a_function(error_callback)) {
+        throw_fn_expected('error_callback');
+      }
+      error_callback();
       return spy_have_been_called_with(_spy, args);
     }
   };
 };
 
-jangular_controller_matchers = {
+module.exports = {
   to_call_service: to_call_service,
   toCallService: to_call_service,
   to_call_service_with: to_call_service_with,
@@ -796,16 +915,18 @@ jangular_controller_matchers = {
   toCallbackErrorWith: to_callback_error_with
 };
 
-module.exports = jangular_controller_matchers;
-
 },{"./jangular_common":1}]},{},[2]);
 
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
-var expect_to_be_function, throw_fn_expected, validate_arguments_count, validate_arguments_gt;
+var expect_to_be_function, is_a_function, throw_fn_expected, validate_arguments_count, validate_arguments_gt;
 
 expect_to_be_function = function(fn) {
   return expect(fn).toEqual(jasmine.any(Function));
+};
+
+is_a_function = function(obj) {
+  return typeof obj === 'function' || obj instanceof Function;
 };
 
 throw_fn_expected = function(fn_param_name) {
@@ -826,6 +947,7 @@ validate_arguments_gt = function(args, arg_count, msg) {
 
 module.exports = {
   expect_to_be_function: expect_to_be_function,
+  is_a_function: is_a_function,
   validate_arguments_count: validate_arguments_count,
   validate_arguments_gt: validate_arguments_gt,
   throw_fn_expected: throw_fn_expected
@@ -833,11 +955,13 @@ module.exports = {
 
 },{}],2:[function(require,module,exports){
 'use strict';
-var allow_get, allow_post, assert_unwrapped_data, common, err, expect_get, expect_post, expect_to_be_function, expect_to_be_promise, fail_get, fail_post, flush, http_backend, jangular_http_matchers, ok, pass, throw_fn_expected, to_get, to_get_and_unwrap, to_post, to_post_and_unwrap, to_unwrap_get, to_unwrap_post, validate_arguments_count;
+var allow_get, allow_post, assert_unwrapped_data, common, err, expect_get, expect_post, expect_to_be_function, expect_to_be_promise, fail_get, fail_post, flush, http_backend, is_a_function, ok, pass, throw_fn_expected, to_get, to_get_and_unwrap, to_post, to_post_and_unwrap, to_unwrap_get, to_unwrap_post, validate_arguments_count;
 
 common = require('./jangular_common');
 
 expect_to_be_function = common.expect_to_be_function;
+
+is_a_function = common.is_a_function;
 
 validate_arguments_count = common.validate_arguments_count;
 
@@ -925,7 +1049,9 @@ to_get = function() {
   return {
     compare: function(fn, uri) {
       validate_arguments_count(arguments, 2, 'to_get takes a single uri argument.');
-      expect_to_be_function(fn || throw_fn_expected('fn'));
+      if (!is_a_function(fn)) {
+        throw_fn_expected('fn');
+      }
       expect_get(uri);
       fn();
       flush();
@@ -939,7 +1065,9 @@ to_unwrap_get = function() {
     compare: function(fn) {
       var actual_data, expected_data, promise;
       validate_arguments_count(arguments, 1, 'to_unwrap_get takes no arguments.');
-      expect_to_be_function(fn || throw_fn_expected('fn'));
+      if (!is_a_function(fn)) {
+        throw_fn_expected('fn');
+      }
       expected_data = Math.random();
       allow_get(expected_data);
       promise = fn();
@@ -959,7 +1087,9 @@ to_get_and_unwrap = function() {
     compare: function(fn, uri) {
       var actual_data, expected_data, promise;
       validate_arguments_count(arguments, 2, 'to_get_and_unwrap takes a single uri argument.');
-      expect_to_be_function(fn || throw_fn_expected('fn'));
+      if (!is_a_function(fn)) {
+        throw_fn_expected('fn');
+      }
       expected_data = Math.random();
       expect_get(uri, expected_data);
       promise = fn();
@@ -978,7 +1108,9 @@ to_post = function() {
   return {
     compare: function(fn, uri, body) {
       validate_arguments_count(arguments, 3, 'to_post takes a uri and post body arguments.');
-      expect_to_be_function(fn || throw_fn_expected('fn'));
+      if (!is_a_function(fn)) {
+        throw_fn_expected('fn');
+      }
       expect_post(uri, body);
       fn();
       flush();
@@ -992,7 +1124,9 @@ to_unwrap_post = function() {
     compare: function(fn) {
       var actual_data, expected_data, promise;
       validate_arguments_count(arguments, 1, 'to_unwrap_post takes no arguments.');
-      expect_to_be_function(fn || throw_fn_expected('fn'));
+      if (!is_a_function(fn)) {
+        throw_fn_expected('fn');
+      }
       expected_data = Math.random();
       allow_post(expected_data);
       promise = fn();
@@ -1012,7 +1146,9 @@ to_post_and_unwrap = function() {
     compare: function(fn, uri, body) {
       var actual_data, expected_data, promise;
       validate_arguments_count(arguments, 3, 'to_post takes a uri and post body arguments.');
-      expect_to_be_function(fn || throw_fn_expected('fn'));
+      if (!is_a_function(fn)) {
+        throw_fn_expected('fn');
+      }
       expected_data = Math.random();
       expect_post(uri, body, expected_data);
       promise = fn();
@@ -1027,7 +1163,7 @@ to_post_and_unwrap = function() {
   };
 };
 
-jangular_http_matchers = {
+module.exports = {
   to_get: to_get,
   toGet: to_get,
   to_unwrap_get: to_unwrap_get,
@@ -1042,6 +1178,10 @@ jangular_http_matchers = {
   toPostAndUnwrap: to_post_and_unwrap
 };
 
-module.exports = jangular_http_matchers;
-
 },{"./jangular_common":1}]},{},[2]);
+
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+'use strict';
+
+
+},{}]},{},[1]);

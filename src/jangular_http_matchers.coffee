@@ -7,6 +7,7 @@
 common = require './jangular_common'
 
 expect_to_be_function = common.expect_to_be_function
+is_a_function = common.is_a_function
 validate_arguments_count = common.validate_arguments_count
 throw_fn_expected = common.throw_fn_expected
 
@@ -71,7 +72,7 @@ to_get = ->
   compare: (fn, uri) ->
 # validations
     validate_arguments_count arguments, 2, 'to_get takes a single uri argument.'
-    expect_to_be_function fn || throw_fn_expected 'fn'
+    throw_fn_expected 'fn' unless is_a_function fn
 
     # expect http call
     expect_get uri
@@ -88,7 +89,7 @@ to_unwrap_get = ->
   compare: (fn) ->
 # validations
     validate_arguments_count arguments, 1, 'to_unwrap_get takes no arguments.'
-    expect_to_be_function fn || throw_fn_expected 'fn'
+    throw_fn_expected 'fn' unless is_a_function fn
 
     # allow http call & reply a random number
     expected_data = Math.random()
@@ -110,7 +111,7 @@ to_get_and_unwrap = ->
   compare: (fn, uri) ->
 # validations
     validate_arguments_count arguments, 2, 'to_get_and_unwrap takes a single uri argument.'
-    expect_to_be_function fn || throw_fn_expected 'fn'
+    throw_fn_expected 'fn' unless is_a_function fn
 
     # expect http call & reply a random number
     expected_data = Math.random()
@@ -131,7 +132,7 @@ to_post = ->
   compare: (fn, uri, body) ->
 # validations
     validate_arguments_count arguments, 3, 'to_post takes a uri and post body arguments.'
-    expect_to_be_function fn || throw_fn_expected 'fn'
+    throw_fn_expected 'fn' unless is_a_function fn
 
     # expect http call
     expect_post uri, body
@@ -148,7 +149,7 @@ to_unwrap_post = ->
   compare: (fn) ->
 # validations
     validate_arguments_count arguments, 1, 'to_unwrap_post takes no arguments.'
-    expect_to_be_function fn || throw_fn_expected 'fn'
+    throw_fn_expected 'fn' unless is_a_function fn
 
     # allow http call & reply a random number
     expected_data = Math.random()
@@ -169,7 +170,7 @@ to_post_and_unwrap = ->
   compare: (fn, uri, body) ->
 # validations
     validate_arguments_count arguments, 3, 'to_post takes a uri and post body arguments.'
-    expect_to_be_function fn || throw_fn_expected 'fn'
+    throw_fn_expected 'fn' unless is_a_function fn
 
     # expect http call
     expected_data = Math.random()
@@ -186,7 +187,7 @@ to_post_and_unwrap = ->
 
     assert_unwrapped_data actual_data, expected_data
 
-jangular_http_matchers =
+module.exports =
   to_get: to_get
   toGet: to_get
   to_unwrap_get: to_unwrap_get
@@ -199,7 +200,5 @@ jangular_http_matchers =
   toUnwrapPost: to_unwrap_post
   to_post_and_unwrap: to_post_and_unwrap
   toPostAndUnwrap: to_post_and_unwrap
-
-module.exports = jangular_http_matchers
 
 

@@ -7,6 +7,7 @@
 common = require './jangular_common'
 
 expect_to_be_function = common.expect_to_be_function
+is_a_function = common.is_a_function
 validate_arguments_count = common.validate_arguments_count
 validate_arguments_gt = common.validate_arguments_gt
 throw_fn_expected = common.throw_fn_expected
@@ -51,7 +52,7 @@ to_call_service = ->
 
     # validations
     validate_arguments_count arguments, 3, 'to_call_service takes only 2 arguments: target service to spy on and the function name'
-    expect_to_be_function fn || throw_fn_expected 'fn'
+    throw_fn_expected 'fn' unless is_a_function fn
 
     # spy on service
     _spy = spyOn service, fn_name
@@ -71,7 +72,7 @@ to_call_service = ->
 to_call_service_with = ->
   compare: (fn, service, fn_name, args...) ->
     validate_arguments_gt arguments, 3, 'to_call_service_with takes 3 or more arguments: target service to spy on, the function name and the expected arguments'
-    expect_to_be_function fn || throw_fn_expected 'fn'
+    throw_fn_expected 'fn' unless is_a_function fn
 
     # spy on service
     _spy = spyOn service, fn_name
@@ -91,20 +92,18 @@ to_call_service_with = ->
 to_subscribe_success = ->
   compare: (fn, service, fn_name, callback) ->
     validate_arguments_count arguments, 4, 'to_subscribe_success takes 3 arguments: target service to spy on, the function name and the callback'
-    expect_to_be_function fn || throw_fn_expected 'fn'
-    expect_to_be_function callback || throw_fn_expected 'callback'
+    throw_fn_expected 'fn' unless is_a_function fn
+    throw_fn_expected 'callback' unless is_a_function callback
 
     # spy on service
     service_spy = spyOn service, fn_name
     assert_is_spy service_spy
 
-    # spy on service and return a solved promise
-    deferred = q().defer()
-    deferred.resolve()
-    service_spy.and.returnValue deferred.promise
-
-    # spy and stub on promise
-    _spy = spyOn deferred.promise, 'then'
+    # spy on service and return fake promise
+    promise =
+      then: ->
+    service_spy.and.returnValue promise
+    _spy = spyOn promise, 'then'
     assert_is_spy _spy
     _spy.and.stub()
 
@@ -117,20 +116,18 @@ to_subscribe_success = ->
 to_subscribe_error = ->
   compare: (fn, service, fn_name, callback) ->
     validate_arguments_count arguments, 4, 'to_subscribe_error takes 3 arguments: target service to spy on, the function name and the callback'
-    expect_to_be_function fn || throw_fn_expected 'fn'
-    expect_to_be_function callback || throw_fn_expected 'callback'
+    throw_fn_expected 'fn' unless is_a_function fn
+    throw_fn_expected 'callback' unless is_a_function callback
 
     # spy on service
     service_spy = spyOn service, fn_name
     assert_is_spy service_spy
 
-    # spy on service and return a solved promise
-    deferred = q().defer()
-    deferred.resolve()
-    service_spy.and.returnValue deferred.promise
-
-    # spy and stub on promise
-    _spy = spyOn deferred.promise, 'then'
+    # spy on service and return fake (rejected) promise
+    promise =
+      then: ->
+    service_spy.and.returnValue promise
+    _spy = spyOn promise, 'then'
     assert_is_spy _spy
     _spy.and.stub()
 
@@ -143,21 +140,19 @@ to_subscribe_error = ->
 to_subscribe = ->
   compare: (fn, service, fn_name, callbacks...) ->
     validate_arguments_gt arguments, 3, 'to_subscribe takes at least 3 arguments: target service to spy on, the function name and at least one callback'
-    expect_to_be_function fn || throw_fn_expected 'fn'
+    throw_fn_expected 'fn' unless is_a_function fn
     for callback, index in callbacks
-      expect_to_be_function callback || throw_fn_expected "callbacks[#{index}]"
+      throw_fn_expected "callbacks[#{index}]" unless is_a_function callback
 
     # spy on service
     service_spy = spyOn service, fn_name
     assert_is_spy service_spy
 
-    # spy on service and return a solved promise
-    deferred = q().defer()
-    deferred.resolve()
-    service_spy.and.returnValue deferred.promise
-
-    # spy and stub on promise
-    _spy = spyOn deferred.promise, 'then'
+    # spy on service and return fake (rejected) promise
+    promise =
+      then: ->
+    service_spy.and.returnValue promise
+    _spy = spyOn promise, 'then'
     assert_is_spy _spy
     _spy.and.stub()
 
@@ -170,17 +165,18 @@ to_subscribe = ->
 to_callback_success_with = ->
   compare: (fn, service, fn_name, callback_obj, callback_fn_name, args...) ->
     validate_arguments_gt arguments, 5, 'to_callback_success_with takes at least 5 arguments: target service to spy on, the function name, the callback object, the callback function name and at least one argument'
-    expect_to_be_function fn || throw_fn_expected 'fn'
+    throw_fn_expected 'fn' unless is_a_function fn
 
-    # spy on service
+    # spy on service and return fake promise
     service_spy = spyOn service, fn_name
     assert_is_spy service_spy
+    success_callback = undefined
+    promise =
+      then: (_success_callback) ->
+        success_callback = _success_callback
+    service_spy.and.returnValue promise
 
-    # spy on service and return a solved promise
-    deferred = q().defer()
-    service_spy.and.returnValue deferred.promise
-
-    # spy and stub on callback
+    # stub on callback
     _spy = spyOn callback_obj, callback_fn_name
     assert_is_spy _spy
     _spy.and.stub()
@@ -188,10 +184,11 @@ to_callback_success_with = ->
     # make the call
     fn()
 
-    # resolve promise
-    deferred.resolve()
-#    rootScope().$on '$locationChangeStart', (event) -> event.preventDefault()
-#    rootScope().$apply()
+    throw Error "service's #{fn_name}(...).then(callback) was never called, or was called with null/undefined `callback` value" unless success_callback?
+    throw_fn_expected 'success_callback' unless is_a_function success_callback
+
+    # success (promise resolved)
+    success_callback()
 
     # assert
     spy_have_been_called_with _spy, args
@@ -199,17 +196,20 @@ to_callback_success_with = ->
 to_callback_error_with = ->
   compare: (fn, service, fn_name, callback_obj, callback_fn_name, args...) ->
     validate_arguments_gt arguments, 5, 'to_callback_error_with takes at least 5 arguments: target service to spy on, the function name, the callback object, the callback function name and at least one argument'
-    expect_to_be_function fn || throw_fn_expected 'fn'
+    throw_fn_expected 'fn' unless is_a_function fn
 
-    # spy on service
+    # spy on service and return a fake promise
     service_spy = spyOn service, fn_name
     assert_is_spy service_spy
 
-    # spy on service and return a solved promise
-    deferred = q().defer()
-    service_spy.and.returnValue deferred.promise
+    # spy on service
+    error_callback = undefined
+    promise =
+      then: (_, _error_callback) ->
+        error_callback = _error_callback
+    service_spy.and.returnValue promise
 
-    # spy and stub on callback
+    # stub on callback
     _spy = spyOn callback_obj, callback_fn_name
     assert_is_spy _spy
     _spy.and.stub()
@@ -217,15 +217,16 @@ to_callback_error_with = ->
     # make the call
     fn()
 
-    # resolve promise
-    deferred.reject()
-#    rootScope().$on '$locationChangeStart', (event) -> event.preventDefault()
-#    rootScope().$apply()
+    throw Error "service's #{fn_name}(...).then(_, error_callback) was never called, or was called with null/undefined `error_callback` value" unless error_callback?
+    throw_fn_expected 'error_callback' unless is_a_function error_callback
+
+    # fail (reject promise)
+    error_callback()
 
     # assert
     spy_have_been_called_with _spy, args
 
-jangular_controller_matchers =
+module.exports =
   to_call_service: to_call_service
   toCallService: to_call_service
   to_call_service_with: to_call_service_with
@@ -240,6 +241,4 @@ jangular_controller_matchers =
   toCallbackSuccessWith: to_callback_success_with
   to_callback_error_with: to_callback_error_with
   toCallbackErrorWith: to_callback_error_with
-
-module.exports = jangular_controller_matchers
 
