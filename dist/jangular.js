@@ -41,7 +41,7 @@ module.exports = {
 
 },{}],3:[function(require,module,exports){
 'use strict';
-var assert_is_spy, common, expect_to_be_function, jangular_controller_matchers, q, rootScope, spy_have_been_called, spy_have_been_called_with, throw_fn_expected, to_call_service, to_call_service_with, to_callback_error_with, to_callback_success_with, to_subscribe_success, validate_arguments_count, validate_arguments_gt,
+var assert_is_spy, common, expect_to_be_function, jangular_controller_matchers, q, rootScope, spy_have_been_called, spy_have_been_called_with, throw_fn_expected, to_call_service, to_call_service_with, to_callback_error_with, to_callback_success_with, to_subscribe_error, to_subscribe_success, validate_arguments_count, validate_arguments_gt,
   slice = [].slice;
 
 common = require('./jangular_common');
@@ -172,6 +172,27 @@ to_subscribe_success = function() {
   };
 };
 
+to_subscribe_error = function() {
+  return {
+    compare: function(fn, service, fn_name, callback) {
+      var _spy, deferred, service_spy;
+      validate_arguments_count(arguments, 4, 'to_subscribe_error takes 3 arguments: target service to spy on, the function name and the callback');
+      expect_to_be_function(fn || throw_fn_expected('fn'));
+      expect_to_be_function(callback || throw_fn_expected('callback'));
+      service_spy = spyOn(service, fn_name);
+      assert_is_spy(service_spy);
+      deferred = q().defer();
+      deferred.resolve();
+      service_spy.and.returnValue(deferred.promise);
+      _spy = spyOn(deferred.promise, 'then');
+      assert_is_spy(_spy);
+      _spy.and.stub();
+      fn();
+      return spy_have_been_called_with(_spy, [jasmine.any(Function), callback]);
+    }
+  };
+};
+
 to_callback_success_with = function() {
   return {
     compare: function() {
@@ -221,6 +242,8 @@ jangular_controller_matchers = {
   toCallServiceWith: to_call_service_with,
   to_subscribe_success: to_subscribe_success,
   toSubscribeSuccess: to_subscribe_success,
+  to_subscribe_error: to_subscribe_error,
+  toSubscribeError: to_subscribe_error,
   to_callback_success_with: to_callback_success_with,
   toCallbackSuccessWith: to_callback_success_with,
   to_callback_error_with: to_callback_error_with,
@@ -510,7 +533,7 @@ module.exports = {
 
 },{}],2:[function(require,module,exports){
 'use strict';
-var assert_is_spy, common, expect_to_be_function, jangular_controller_matchers, q, rootScope, spy_have_been_called, spy_have_been_called_with, throw_fn_expected, to_call_service, to_call_service_with, to_callback_error_with, to_callback_success_with, to_subscribe_success, validate_arguments_count, validate_arguments_gt,
+var assert_is_spy, common, expect_to_be_function, jangular_controller_matchers, q, rootScope, spy_have_been_called, spy_have_been_called_with, throw_fn_expected, to_call_service, to_call_service_with, to_callback_error_with, to_callback_success_with, to_subscribe_error, to_subscribe_success, validate_arguments_count, validate_arguments_gt,
   slice = [].slice;
 
 common = require('./jangular_common');
@@ -641,6 +664,27 @@ to_subscribe_success = function() {
   };
 };
 
+to_subscribe_error = function() {
+  return {
+    compare: function(fn, service, fn_name, callback) {
+      var _spy, deferred, service_spy;
+      validate_arguments_count(arguments, 4, 'to_subscribe_error takes 3 arguments: target service to spy on, the function name and the callback');
+      expect_to_be_function(fn || throw_fn_expected('fn'));
+      expect_to_be_function(callback || throw_fn_expected('callback'));
+      service_spy = spyOn(service, fn_name);
+      assert_is_spy(service_spy);
+      deferred = q().defer();
+      deferred.resolve();
+      service_spy.and.returnValue(deferred.promise);
+      _spy = spyOn(deferred.promise, 'then');
+      assert_is_spy(_spy);
+      _spy.and.stub();
+      fn();
+      return spy_have_been_called_with(_spy, [jasmine.any(Function), callback]);
+    }
+  };
+};
+
 to_callback_success_with = function() {
   return {
     compare: function() {
@@ -690,6 +734,8 @@ jangular_controller_matchers = {
   toCallServiceWith: to_call_service_with,
   to_subscribe_success: to_subscribe_success,
   toSubscribeSuccess: to_subscribe_success,
+  to_subscribe_error: to_subscribe_error,
+  toSubscribeError: to_subscribe_error,
   to_callback_success_with: to_callback_success_with,
   toCallbackSuccessWith: to_callback_success_with,
   to_callback_error_with: to_callback_error_with,
