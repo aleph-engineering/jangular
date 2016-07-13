@@ -41,7 +41,7 @@ module.exports = {
 
 },{}],3:[function(require,module,exports){
 'use strict';
-var assert_is_spy, common, expect_to_be_function, jangular_controller_matchers, q, spy_have_been_called, spy_have_been_called_with, throw_fn_expected, to_call_service, to_call_service_with, to_subscribe_success, validate_arguments_count, validate_arguments_gt,
+var assert_is_spy, common, expect_to_be_function, jangular_controller_matchers, q, rootScope, spy_have_been_called, spy_have_been_called_with, throw_fn_expected, to_call_service, to_call_service_with, to_callback_success_with, to_subscribe_success, validate_arguments_count, validate_arguments_gt,
   slice = [].slice;
 
 common = require('./jangular_common');
@@ -67,6 +67,15 @@ q = function() {
     return _q = $q;
   });
   return _q;
+};
+
+rootScope = function() {
+  var _rootScope;
+  _rootScope = void 0;
+  inject(function($rootScope) {
+    return _rootScope = $rootScope;
+  });
+  return _rootScope;
 };
 
 spy_have_been_called = function(_spy) {
@@ -158,9 +167,28 @@ to_subscribe_success = function() {
       assert_is_spy(_spy);
       _spy.and.stub();
       fn();
-      return spy_have_been_called_with(_spy, [callback] || (function() {
-        throw new Error('aaaa');
-      })());
+      return spy_have_been_called_with(_spy, [callback]);
+    }
+  };
+};
+
+to_callback_success_with = function() {
+  return {
+    compare: function() {
+      var _spy, args, callback_fn_name, callback_obj, deferred, fn, fn_name, service, service_spy;
+      fn = arguments[0], service = arguments[1], fn_name = arguments[2], callback_obj = arguments[3], callback_fn_name = arguments[4], args = 6 <= arguments.length ? slice.call(arguments, 5) : [];
+      validate_arguments_gt(arguments, 5, 'to_callback_success_with takes at least 5 arguments: target service to spy on, the function name, the callback object, the callback function name and at least one argument');
+      expect_to_be_function(fn || throw_fn_expected('fn'));
+      service_spy = spyOn(service, fn_name);
+      assert_is_spy(service_spy);
+      deferred = q().defer();
+      service_spy.and.returnValue(deferred.promise);
+      _spy = spyOn(callback_obj, callback_fn_name);
+      assert_is_spy(_spy);
+      _spy.and.stub();
+      fn();
+      deferred.resolve();
+      return spy_have_been_called_with(_spy, args);
     }
   };
 };
@@ -171,7 +199,9 @@ jangular_controller_matchers = {
   to_call_service_with: to_call_service_with,
   toCallServiceWith: to_call_service_with,
   to_subscribe_success: to_subscribe_success,
-  toSubscribeSuccess: to_subscribe_success
+  toSubscribeSuccess: to_subscribe_success,
+  to_callback_success_with: to_callback_success_with,
+  toCallbackSuccessWith: to_callback_success_with
 };
 
 module.exports = jangular_controller_matchers;
@@ -457,7 +487,7 @@ module.exports = {
 
 },{}],2:[function(require,module,exports){
 'use strict';
-var assert_is_spy, common, expect_to_be_function, jangular_controller_matchers, q, spy_have_been_called, spy_have_been_called_with, throw_fn_expected, to_call_service, to_call_service_with, to_subscribe_success, validate_arguments_count, validate_arguments_gt,
+var assert_is_spy, common, expect_to_be_function, jangular_controller_matchers, q, rootScope, spy_have_been_called, spy_have_been_called_with, throw_fn_expected, to_call_service, to_call_service_with, to_callback_success_with, to_subscribe_success, validate_arguments_count, validate_arguments_gt,
   slice = [].slice;
 
 common = require('./jangular_common');
@@ -483,6 +513,15 @@ q = function() {
     return _q = $q;
   });
   return _q;
+};
+
+rootScope = function() {
+  var _rootScope;
+  _rootScope = void 0;
+  inject(function($rootScope) {
+    return _rootScope = $rootScope;
+  });
+  return _rootScope;
 };
 
 spy_have_been_called = function(_spy) {
@@ -574,9 +613,28 @@ to_subscribe_success = function() {
       assert_is_spy(_spy);
       _spy.and.stub();
       fn();
-      return spy_have_been_called_with(_spy, [callback] || (function() {
-        throw new Error('aaaa');
-      })());
+      return spy_have_been_called_with(_spy, [callback]);
+    }
+  };
+};
+
+to_callback_success_with = function() {
+  return {
+    compare: function() {
+      var _spy, args, callback_fn_name, callback_obj, deferred, fn, fn_name, service, service_spy;
+      fn = arguments[0], service = arguments[1], fn_name = arguments[2], callback_obj = arguments[3], callback_fn_name = arguments[4], args = 6 <= arguments.length ? slice.call(arguments, 5) : [];
+      validate_arguments_gt(arguments, 5, 'to_callback_success_with takes at least 5 arguments: target service to spy on, the function name, the callback object, the callback function name and at least one argument');
+      expect_to_be_function(fn || throw_fn_expected('fn'));
+      service_spy = spyOn(service, fn_name);
+      assert_is_spy(service_spy);
+      deferred = q().defer();
+      service_spy.and.returnValue(deferred.promise);
+      _spy = spyOn(callback_obj, callback_fn_name);
+      assert_is_spy(_spy);
+      _spy.and.stub();
+      fn();
+      deferred.resolve();
+      return spy_have_been_called_with(_spy, args);
     }
   };
 };
@@ -587,7 +645,9 @@ jangular_controller_matchers = {
   to_call_service_with: to_call_service_with,
   toCallServiceWith: to_call_service_with,
   to_subscribe_success: to_subscribe_success,
-  toSubscribeSuccess: to_subscribe_success
+  toSubscribeSuccess: to_subscribe_success,
+  to_callback_success_with: to_callback_success_with,
+  toCallbackSuccessWith: to_callback_success_with
 };
 
 module.exports = jangular_controller_matchers;

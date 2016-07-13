@@ -17,5 +17,10 @@ class SampleController
 
   do_get_success: ->
 
+  do_get_success_with: =>
+
+  do_callback: =>
+    @sampleHttpService.do_get().then => @do_get_success_with(1, 2, 3)
+
 angular.module('sample.module').controller 'SampleController', ['sampleHttpService', SampleController]
 

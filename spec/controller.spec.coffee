@@ -29,3 +29,7 @@ describe 'sample controller matchers', ->
   it 'subscribes to promise success', =>
     expect(@subject.do_subscribe).to_subscribe_success @service, 'do_get', @subject.do_get_success
 
+  # to_callback_success_with
+  it 'callbacks the function when promises success with given parameters', =>
+    expect(@subject.do_callback).to_callback_success_with @service, 'do_get', @subject, 'do_get_success_with', 1, 2, 3
+
