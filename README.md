@@ -257,3 +257,21 @@ Ensures that the controller operation subscribes to promise on success (completi
   do_get_success: ->
 ```
 
+### `to_subscribe_error()`
+Ensures that the controller operation subscribes to promise on failure (rejection) with the provided operation.
+
+#### spec
+
+``` Coffeescript
+  it 'subscribes to promise error', =>
+    expect(@subject.do_subscribe_to_error).to_subscribe_error @sampleHttpService, 'do_get', @subject.do_get_fails
+```
+
+#### impl
+``` Coffeescript
+  do_subscribe_to_error: =>
+    @sampleHttpService.do_get().then (->), @do_get_fails
+
+  do_get_fails: ->
+```
+
