@@ -10,7 +10,7 @@ describe 'sample http service matchers', ->
   # inject the http service (SUT)
   beforeEach inject (sampleHttpService) => @subject = sampleHttpService
 
-  # after every test assert for no pending expectation & request
+  # after every test assert for no pending expectations & requests
   afterEach inject ($httpBackend) ->
     $httpBackend.verifyNoOutstandingExpectation()
     $httpBackend.verifyNoOutstandingRequest()
