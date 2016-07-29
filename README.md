@@ -38,7 +38,9 @@ describe 'sample http service matchers', ->
     $httpBackend.verifyNoOutstandingExpectation()
     $httpBackend.verifyNoOutstandingRequest()
 
-  # (every test will be placed here)      
+  # (every test will be placed here)    
+  it 'example spec', =>
+    expect(true).toEqual true
 ```
 
 Every sample [AngularJS](https://angularjs.org/) HTTP service operation will be enclosed in the following Coffeescript `class`:
@@ -48,8 +50,8 @@ sampleHttpService = ($http) ->
   class SampleHttpService
   
     # (operations will be listed here)
-    example_op: ->
-        x = 1 + 2
+    example_operation: ->
+        $http.get '/some_uri'
 
   new SampleHttpService
 
