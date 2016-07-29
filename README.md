@@ -295,3 +295,23 @@ Ensures that the controller operation subscribes to promise on success (completi
   do_get_fails: ->
 ```
 
+### `to_callback_success_with()`
+Ensures that the controller operation callbacks the provided operation directly or indirectly when then promise success (completion). The difference between [to_subscribe_success()](#to_subscribe_success) and [to_subscribe()](#to_subscribe) with respect to [to_callback_success_with()](#to_callback_success_with) is the indirection level. [to_callback_success_with()](#to_callback_success_with) allows indirect calls, so is more flexible. The `with` suffix demands for arguments during the callback.   
+
+#### spec
+
+``` Coffeescript
+  it 'callbacks the function when promise success with given parameters', =>
+    expect(@subject.do_callback).to_callback_success_with @sampleHttpService, 'do_get', @subject, 'do_get_success_with', 1, 2, 3
+```
+
+#### impl
+Notice the indirection on the subscription using an anonymous function that calls the expected operation:
+
+``` Coffeescript
+  do_callback: =>
+    @sampleHttpService.do_get().then => @do_get_success_with(1, 2, 3)
+
+  do_get_success_with: =>
+```
+
