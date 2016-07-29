@@ -4,7 +4,14 @@
 
 Examples are written in Coffeescript.
 
+## List of matchers
+
+### Service
+
 [to_get()](#to_get)
+[to_unwrap_get()](#to_unwrap_get)
+
+### Controllers
 
 ## HTTP Service matchers
 Every sample [Jasmine](http://jasmine.github.io/) matcher for [AngularJS](https://angularjs.org/) HTTP service will be enclosed in the following `describe` code section:
@@ -64,6 +71,23 @@ Ensures that the service operation issues a GET to a given URI.
       $http.get '/data'
 ```
 
+<div id="to_unwrap_get"/>
+### to_unwrap_get()
+Ensures that the service operation unwraps the response body on success.
+
+#### spec
+
+``` Coffeescript
+  it 'GETs unwraps the response', =>
+    expect(@subject.do_get_and_unwrap).to_unwrap_get()
+```
+
+#### impl
+``` Coffeescript
+  it 'GETs a given URI and unwraps the response', =>
+    expect(@subject.do_get_and_unwrap).to_get_and_unwrap '/data'
+```
+
 ### the spec
 
 ``` Coffeescript
@@ -84,15 +108,6 @@ describe 'sample http service matchers', ->
   afterEach inject ($httpBackend) ->
     $httpBackend.verifyNoOutstandingExpectation()
     $httpBackend.verifyNoOutstandingRequest()
-
-  it 'GETs a given URI', =>
-    expect(@subject.do_get).to_get '/data'
-
-  it 'GETs unwraps the response', =>
-    expect(@subject.do_get_and_unwrap).to_unwrap_get()
-
-  it 'GETs a given URI and unwraps the response', =>
-    expect(@subject.do_get_and_unwrap).to_get_and_unwrap '/data'
 
   it 'POST a given URI', =>
     expect(@subject.do_post).to_post '/post', firstname: 'Olivia', lastname: 'Lago'
