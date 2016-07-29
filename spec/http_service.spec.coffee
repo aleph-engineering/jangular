@@ -23,7 +23,7 @@ describe 'sample http service matchers', ->
     expect(@subject.do_get).to_get '/data'
 
   it 'GETs unwraps the response', =>
-    expect(@subject.do_get_and_unwrap).to_unwrap_get()
+    expect(@subject.do_unwrap).to_unwrap_get()
 
   it 'GETs a given URI and unwraps the response', =>
     expect(@subject.do_get_and_unwrap).to_get_and_unwrap '/data'

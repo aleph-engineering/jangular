@@ -5,6 +5,9 @@ sampleHttpService = ($http) ->
     do_get: ->
       $http.get '/data'
 
+    do_unwrap: ->
+      $http.get('/any_path').then (reply) -> reply.data
+
     do_get_and_unwrap: ->
       $http.get('/data').then (reply) -> reply.data
 

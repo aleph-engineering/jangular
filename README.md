@@ -83,8 +83,8 @@ Ensures that the service operation unwraps the response body on success.
 
 #### impl
 ``` Coffeescript
-    do_get_and_unwrap: ->
-      $http.get('/data').then (reply) -> reply.data
+    do_unwrap: ->
+      $http.get('/any_path').then (reply) -> reply.data
 ```
 
 ### `to_get_and_unwrap()`
