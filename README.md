@@ -8,8 +8,8 @@ Examples are written in Coffeescript.
 
 ### Service
 
-[to_get()](#to_get)
-[to_unwrap_get()](#to_unwrap_get)
+* [to_get()](#to_get)
+* [to_unwrap_get()](#to_unwrap_get)
 
 ### Controllers
 
@@ -55,7 +55,7 @@ angular.module('sample.module').factory 'sampleHttpService', ['$http', sampleHtt
 ```
 
 <div id="to_get"/>
-### to_get()
+### `to_get()`
 Ensures that the service operation issues a GET to a given URI.
 
 #### spec
@@ -72,7 +72,7 @@ Ensures that the service operation issues a GET to a given URI.
 ```
 
 <div id="to_unwrap_get"/>
-### to_unwrap_get()
+### `to_unwrap_get()`
 Ensures that the service operation unwraps the response body on success.
 
 #### spec
