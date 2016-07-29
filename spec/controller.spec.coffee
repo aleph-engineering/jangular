@@ -1,6 +1,7 @@
 'use strict'
 
 describe 'sample controller matchers', ->
+
   # make the matchers available
   beforeEach -> 
     jasmine.addMatchers jangular_matchers

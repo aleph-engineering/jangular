@@ -15,6 +15,16 @@ Examples are written in Coffeescript.
 * [to_unwrap_post()](#to_unwrap_post)
 * [to_post_and_unwrap()](#to_post_and_unwrap)
 
+### Controller
+
+* [to_call_service()](#to_call_service)
+* [to_call_service_with()](#to_call_service_with)
+* [to_subscribe_success()](#to_subscribe_success)
+* [to_subscribe_error()](#to_subscribe_error)
+* [to_subscribe()](#to_subscribe)
+* [to_callback_success_with()](#to_callback_success_with)
+* [to_callback_error_with()](#to_callback_error_with)
+
 ### Controllers
 
 ## HTTP Service matchers
@@ -157,11 +167,11 @@ Ensures that the service operation issues a POST to a given URI and unwraps the 
 ```
 
 ## Controller matchers
-These matchers are not exclusively for [AngularJS](https://angularjs.org/) controllers, they may be used in other [AngularJS](https://angularjs.org/) services as well.
+These matchers are not exclusively for [AngularJS](https://angularjs.org/) controllers, they may be used in other [AngularJS](https://angularjs.org/) services as well. Every sample [Jasmine](http://jasmine.github.io/) matcher for [AngularJS](https://angularjs.org/) controller will be enclosed in the following `describe` code section:
 
-### the spec
 ``` Coffeescript
 describe 'sample controller matchers', ->
+  
   # make the matchers available
   beforeEach -> 
     jasmine.addMatchers jangular_matchers
@@ -174,85 +184,35 @@ describe 'sample controller matchers', ->
   beforeEach inject ($controller, sampleHttpService) =>
     @subject = $controller 'SampleController'
     @sampleHttpService = sampleHttpService
-
-  # to_call_service
-  it 'calls a service', =>
-    expect(@subject.do_service_call).to_call_service @sampleHttpService, 'do_get'
-
-  # to_call_service_with
-  it 'calls a service with parameters', =>
-    expect(=> @subject.do_service_call_with_params 1, 2, 3).to_call_service_with @sampleHttpService, 'do_get_with', 1, 2, 3
-
-  it 'calls a service with hash parameters', =>
-    expect(=> @subject.do_service_call_with_hash_params a: 1, b: 2, c: 3).to_call_service_with @sampleHttpService, 'do_get_with_hash', x: 1, y: 2, z: 3
-
-  # to_subscribe_success
-  it 'subscribes to promise success', =>
-    expect(@subject.do_subscribe).to_subscribe_success @sampleHttpService, 'do_get', @subject.do_get_success
-
-  # to_subscribe_error
-  it 'subscribes to promise error', =>
-    expect(@subject.do_subscribe_to_error).to_subscribe_error @sampleHttpService, 'do_get', @subject.do_get_fails
-
-  # to_subscribe
-  it 'subscribes to success & error', =>
-    expect(@subject.do_full_subscribe).to_subscribe @sampleHttpService, 'do_get', @subject.do_get_success, @subject.do_get_fails
-
-  # to_callback_success_with
-  it 'callbacks the function when promise success with given parameters', =>
-    expect(@subject.do_callback).to_callback_success_with @sampleHttpService, 'do_get', @subject, 'do_get_success_with', 1, 2, 3
-
-  # to_callback_error_with
-  it 'callbacks the function when promise fails with given parameters', =>
-    expect(@subject.do_failing_callback).to_callback_error_with @sampleHttpService, 'do_get', @subject, 'do_get_fails_with', 1, 2, 3
-
+    
+  # (example specs listed here)
+  it 'example spec', =>
+    expect(true).toEqual true
 ```
 
-### the implementation
+Every sample [AngularJS](https://angularjs.org/) controller operation will be enclosed in the following Coffeescript `class`:
+
 ``` Coffeescript
 class SampleController
   constructor: (@sampleHttpService) ->
 
+  # (sample operations listed here)
+  some_sample_operation: =>
+    console.log 'Hello I am an AngularJS controller!'
+```
+
+### `to_call_service()`
+Ensures that the controller operation calls the given service operation without arguments.
+
+#### spec
+
+``` Coffeescript
+  it 'calls a service', =>
+    expect(@subject.do_service_call).to_call_service @sampleHttpService, 'do_get'
+```
+
+#### impl
+``` Coffeescript
   do_service_call: =>
     @sampleHttpService.do_get()
-
-  do_service_call_with_params: (a, b, c) =>
-    @sampleHttpService.do_get_with a, b, c
-
-  do_service_call_with_hash_params: ({a, b, c}) =>
-    @sampleHttpService.do_get_with_hash x: a, y: b, z: c
-
-  do_subscribe: =>
-    @sampleHttpService.do_get().then @do_get_success
-
-  do_subscribe_to_error: =>
-    @sampleHttpService.do_get().then (->), @do_get_fails
-
-  do_full_subscribe: =>
-    @sampleHttpService.do_get().then @do_get_success, @do_get_fails
-
-  do_get_success: ->
-
-  do_get_fails: ->
-
-  do_get_success_with: =>
-
-  do_get_fails_with: =>
-
-  do_callback: =>
-    @sampleHttpService.do_get().then => @do_get_success_with(1, 2, 3)
-
-  do_failing_callback: =>
-    @sampleHttpService.do_get().then (->), => @do_get_fails_with 1, 2, 3
-
-```
-then you need to append these operations to the service:
-
-```Coffeescript
-sampleHttpService = ($http) ->
-  class SampleHttpService
-    ...
-    do_get_with: (a, b, c) ->
-    do_get_with_hash: ({x, y, z}) ->
-    ...
 ```
