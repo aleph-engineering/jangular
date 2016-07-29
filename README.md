@@ -10,6 +10,7 @@ Examples are written in Coffeescript.
 
 * [to_get()](#to_get)
 * [to_unwrap_get()](#to_unwrap_get)
+* [to_get_and_unwrap()](#to_get_and_unwrap)
 
 ### Controllers
 
@@ -82,8 +83,24 @@ Ensures that the service operation unwraps the response body on success.
 
 #### impl
 ``` Coffeescript
+    do_get_and_unwrap: ->
+      $http.get('/data').then (reply) -> reply.data
+```
+
+### `to_get_and_unwrap()`
+Ensures that the service operation issues a GET to a given URI and unwraps the response body on success.
+
+#### spec
+
+``` Coffeescript
   it 'GETs a given URI and unwraps the response', =>
     expect(@subject.do_get_and_unwrap).to_get_and_unwrap '/data'
+```
+
+#### impl
+``` Coffeescript
+    do_get_and_unwrap: ->
+      $http.get('/data').then (reply) -> reply.data
 ```
 
 ### the spec
