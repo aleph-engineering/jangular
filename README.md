@@ -12,6 +12,8 @@ Examples are written in Coffeescript.
 * [to_unwrap_get()](#to_unwrap_get)
 * [to_get_and_unwrap()](#to_get_and_unwrap)
 * [to_post()](#to_post)
+* [to_unwrap_post()](#to_unwrap_post)
+* [to_post_and_unwrap()](#to_post_and_unwrap)
 
 ### Controllers
 
@@ -120,6 +122,38 @@ Ensures that the service operation issues a POST to a given URI.
 ``` Coffeescript
     do_post: ->
       $http.post '/post', firstname: 'Olivia', lastname: 'Lago'
+```
+
+### `to_unwrap_post()`
+Ensures that the service operation unwraps the response body on success.
+
+#### spec
+
+``` Coffeescript
+  it 'POST unwraps the response', =>
+    expect(@subject.do_post_and_unwrap).to_unwrap_post()
+```
+
+#### impl
+``` Coffeescript
+    do_post_and_unwrap: ->
+      $http.post('/post', firstname: 'Olivia', lastname: 'Lago').then (reply) -> reply.data
+```
+
+### `to_post_and_unwrap()`
+Ensures that the service operation issues a POST to a given URI and unwraps the response body on success.
+
+#### spec
+
+``` Coffeescript
+  it 'POST a given URI and unwraps the response', =>
+    expect(@subject.do_post_and_unwrap).to_post_and_unwrap '/post', firstname: 'Olivia', lastname: 'Lago'
+```
+
+#### impl
+``` Coffeescript
+    do_post_and_unwrap: ->
+      $http.post('/post', firstname: 'Olivia', lastname: 'Lago').then (reply) -> reply.data
 ```
 
 ### the spec
