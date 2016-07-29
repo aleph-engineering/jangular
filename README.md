@@ -4,6 +4,12 @@
 
 Examples are written in Coffeescript.
 
+## Usage
+
+``` Bash
+$ npm install jangular-matchers
+```
+
 ## List of matchers
 
 ### Service
