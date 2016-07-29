@@ -1,6 +1,7 @@
 'use strict'
 
 describe 'sample http service matchers', ->
+
   # make the matchers available
   beforeEach ->
     jasmine.addMatchers jangular_matchers

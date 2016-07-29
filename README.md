@@ -5,6 +5,61 @@
 Examples are written in Coffeescript.
 
 ## HTTP Service matchers
+Every sample [Jasmine](http://jasmine.github.io/) matcher for [AngularJS](https://angularjs.org/) HTTP service will be enclosed in the following `describe` code section:
+
+``` Coffeescript
+describe 'sample http service matchers', ->
+  
+  # make the matchers available
+  beforeEach ->
+    jasmine.addMatchers jangular_matchers
+
+  # initialize module
+  beforeEach ->
+    module 'sample.module'
+
+  # inject the http service (SUT)
+  beforeEach inject (sampleHttpService) =>
+    @subject = sampleHttpService
+
+  # after every test assert for no pending expectations & requests
+  afterEach inject ($httpBackend) ->
+    $httpBackend.verifyNoOutstandingExpectation()
+    $httpBackend.verifyNoOutstandingRequest()
+
+  # (every test will be placed here)      
+```
+
+Every sample [AngularJS](https://angularjs.org/) HTTP service operation will be enclosed in the following Coffeescript `class`:
+
+``` Coffeescript
+sampleHttpService = ($http) ->
+  class SampleHttpService
+  
+    # (operations will be listed here)
+    example_op: ->
+        x = 1 + 2
+
+  new SampleHttpService
+
+angular.module('sample.module').factory 'sampleHttpService', ['$http', sampleHttpService]
+```
+
+### to_get()
+Ensures that the service operation issues a GET to a given URI.
+
+#### spec
+
+``` Coffeescript
+  it 'GETs a given URI', =>
+    expect(@subject.do_get).to_get '/data'
+```
+
+#### impl
+``` Coffeescript
+    do_get: ->
+      $http.get '/data'
+```
 
 ### the spec
 
