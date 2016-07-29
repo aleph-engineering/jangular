@@ -4,6 +4,8 @@
 
 Examples are written in Coffeescript.
 
+[to_get()](#to_get)
+
 ## HTTP Service matchers
 Every sample [Jasmine](http://jasmine.github.io/) matcher for [AngularJS](https://angularjs.org/) HTTP service will be enclosed in the following `describe` code section:
 
@@ -45,6 +47,7 @@ sampleHttpService = ($http) ->
 angular.module('sample.module').factory 'sampleHttpService', ['$http', sampleHttpService]
 ```
 
+<div id="to_get"/>
 ### to_get()
 Ensures that the service operation issues a GET to a given URI.
 
