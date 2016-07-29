@@ -54,7 +54,6 @@ sampleHttpService = ($http) ->
 angular.module('sample.module').factory 'sampleHttpService', ['$http', sampleHttpService]
 ```
 
-<div id="to_get"/>
 ### `to_get()`
 Ensures that the service operation issues a GET to a given URI.
 
@@ -71,7 +70,6 @@ Ensures that the service operation issues a GET to a given URI.
       $http.get '/data'
 ```
 
-<div id="to_unwrap_get"/>
 ### `to_unwrap_get()`
 Ensures that the service operation unwraps the response body on success.
 
