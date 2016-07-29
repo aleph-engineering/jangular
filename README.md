@@ -11,6 +11,7 @@ Examples are written in Coffeescript.
 * [to_get()](#to_get)
 * [to_unwrap_get()](#to_unwrap_get)
 * [to_get_and_unwrap()](#to_get_and_unwrap)
+* [to_post()](#to_post)
 
 ### Controllers
 
@@ -101,6 +102,22 @@ Ensures that the service operation issues a GET to a given URI and unwraps the r
 ``` Coffeescript
     do_get_and_unwrap: ->
       $http.get('/data').then (reply) -> reply.data
+```
+
+### `to_post()`
+Ensures that the service operation issues a POST to a given URI.
+
+#### spec
+
+``` Coffeescript
+  it 'POSTs a given URI', =>
+    expect(@subject.do_post).to_post '/post', firstname: 'Olivia', lastname: 'Lago'
+```
+
+#### impl
+``` Coffeescript
+    do_post: ->
+      $http.post '/post', firstname: 'Olivia', lastname: 'Lago'
 ```
 
 ### the spec

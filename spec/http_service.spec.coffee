@@ -22,13 +22,13 @@ describe 'sample http service matchers', ->
   it 'GETs a given URI', =>
     expect(@subject.do_get).to_get '/data'
 
-  it 'GETs unwraps the response', =>
+  it 'GET unwraps the response', =>
     expect(@subject.do_unwrap).to_unwrap_get()
 
   it 'GETs a given URI and unwraps the response', =>
     expect(@subject.do_get_and_unwrap).to_get_and_unwrap '/data'
 
-  it 'POST a given URI', =>
+  it 'POSTs a given URI', =>
     expect(@subject.do_post).to_post '/post', firstname: 'Olivia', lastname: 'Lago'
 
   it 'POST unwraps the response', =>
