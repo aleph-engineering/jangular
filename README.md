@@ -238,3 +238,22 @@ Ensures that the controller operation calls the given service operation with the
   do_service_call_with_hash_params: ({a, b, c}) =>
     @sampleHttpService.do_get_with_hash x: a, y: b, z: c
 ```
+
+### `to_subscribe_success()`
+Ensures that the controller operation subscribes to promise on success (completion) with the provided operation.
+
+#### spec
+
+``` Coffeescript
+  it 'subscribes to promise success', =>
+    expect(@subject.do_subscribe).to_subscribe_success @sampleHttpService, 'do_get', @subject.do_get_success
+```
+
+#### impl
+``` Coffeescript
+  do_subscribe: =>
+    @sampleHttpService.do_get().then @do_get_success
+
+  do_get_success: ->
+```
+
