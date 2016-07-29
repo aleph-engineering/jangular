@@ -216,3 +216,25 @@ Ensures that the controller operation calls the given service operation without 
   do_service_call: =>
     @sampleHttpService.do_get()
 ```
+
+### `to_call_service_with()`
+Ensures that the controller operation calls the given service operation with the provided arguments.
+
+#### spec
+
+``` Coffeescript
+  it 'calls a service with parameters', =>
+    expect(=> @subject.do_service_call_with_params 1, 2, 3).to_call_service_with @sampleHttpService, 'do_get_with', 1, 2, 3
+
+  it 'calls a service with hash parameters', =>
+    expect(=> @subject.do_service_call_with_hash_params a: 1, b: 2, c: 3).to_call_service_with @sampleHttpService, 'do_get_with_hash', x: 1, y: 2, z: 3
+```
+
+#### impl
+``` Coffeescript
+  do_service_call_with_params: (a, b, c) =>
+    @sampleHttpService.do_get_with a, b, c
+
+  do_service_call_with_hash_params: ({a, b, c}) =>
+    @sampleHttpService.do_get_with_hash x: a, y: b, z: c
+```
