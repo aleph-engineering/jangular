@@ -2,13 +2,13 @@
 'use strict';
 var jangular_matchers;
 
-jangular_matchers = angular.merge({}, require('./jangular_controller_matchers.coffee'), require('./jangular_http_matchers.coffee'));
+jangular_matchers = angular.merge({}, require('./jangular_controller_matchers.coffee'), require('./jangular_http_matchers.coffee'), require('./jangular_state_matchers.coffee'));
 
 window.jangular_matchers = jangular_matchers;
 
 module.exports = jangular_matchers;
 
-},{"./jangular_controller_matchers.coffee":3,"./jangular_http_matchers.coffee":4}],2:[function(require,module,exports){
+},{"./jangular_controller_matchers.coffee":3,"./jangular_http_matchers.coffee":4,"./jangular_state_matchers.coffee":5}],2:[function(require,module,exports){
 'use strict';
 var expect_to_be_function, is_a_function, throw_fn_expected, validate_arguments_count, validate_arguments_gt;
 
@@ -552,6 +552,39 @@ module.exports = {
   toUnwrapPost: to_unwrap_post,
   to_post_and_unwrap: to_post_and_unwrap,
   toPostAndUnwrap: to_post_and_unwrap
+};
+
+},{"./jangular_common":2}],5:[function(require,module,exports){
+'use strict';
+var common, state, to_be_an_state;
+
+common = require('./jangular_common');
+
+state = function() {
+  var _state;
+  _state = void 0;
+  inject(function($state) {
+    return _state = $state;
+  });
+  return _state;
+};
+
+to_be_an_state = function() {
+  return {
+    compare: function(actual) {
+      var pass, result;
+      pass = ((actual != null ? actual.name : void 0) != null) || (state().get(actual) != null);
+      result = {
+        pass: pass,
+        message: "Expected state `" + actual + "` to exists, but it is not defined. Ensure that you properly initialize the state using `$stateProvider.state('state_name', {...})` and don't forget to include ui.router as module dependency: `angular.module('my_module', ['ui.router'])`"
+      };
+      return result;
+    }
+  };
+};
+
+module.exports = {
+  to_be_an_state: to_be_an_state
 };
 
 },{"./jangular_common":2}]},{},[1]);
@@ -1185,3 +1218,74 @@ module.exports = {
 
 
 },{}]},{},[1]);
+
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+'use strict';
+var expect_to_be_function, is_a_function, throw_fn_expected, validate_arguments_count, validate_arguments_gt;
+
+expect_to_be_function = function(fn) {
+  return expect(fn).toEqual(jasmine.any(Function));
+};
+
+is_a_function = function(obj) {
+  return typeof obj === 'function' || obj instanceof Function;
+};
+
+throw_fn_expected = function(fn_param_name) {
+  throw new Error(fn_param_name + " parameter was expected to be a function");
+};
+
+validate_arguments_count = function(args, arg_count, msg) {
+  if (args.length !== arg_count) {
+    throw new Error(msg);
+  }
+};
+
+validate_arguments_gt = function(args, arg_count, msg) {
+  if (!(args.length > arg_count)) {
+    throw new Error(msg);
+  }
+};
+
+module.exports = {
+  expect_to_be_function: expect_to_be_function,
+  is_a_function: is_a_function,
+  validate_arguments_count: validate_arguments_count,
+  validate_arguments_gt: validate_arguments_gt,
+  throw_fn_expected: throw_fn_expected
+};
+
+},{}],2:[function(require,module,exports){
+'use strict';
+var common, state, to_be_an_state;
+
+common = require('./jangular_common');
+
+state = function() {
+  var _state;
+  _state = void 0;
+  inject(function($state) {
+    return _state = $state;
+  });
+  return _state;
+};
+
+to_be_an_state = function() {
+  return {
+    compare: function(actual) {
+      var pass, result;
+      pass = ((actual != null ? actual.name : void 0) != null) || (state().get(actual) != null);
+      result = {
+        pass: pass,
+        message: "Expected state `" + actual + "` to exists, but it is not defined. Ensure that you properly initialize the state using `$stateProvider.state('state_name', {...})` and don't forget to include ui.router as module dependency: `angular.module('my_module', ['ui.router'])`"
+      };
+      return result;
+    }
+  };
+};
+
+module.exports = {
+  to_be_an_state: to_be_an_state
+};
+
+},{"./jangular_common":1}]},{},[2]);

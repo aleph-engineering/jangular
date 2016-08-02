@@ -1,3 +1,3 @@
 'use strict'
 
-angular.module 'sample.module', []
+angular.module 'sample.module', ['ui.router']

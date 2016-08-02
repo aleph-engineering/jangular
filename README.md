@@ -354,3 +354,54 @@ Notice the indirection on the subscription using an anonymous function that call
 
   do_get_fails_with: =>
 ```
+
+## UI Router State matchers
+These matchers are designed for [AngularJS](https://angularjs.org/) when it is combined with [UI-Router](https://angular-ui.github.io/ui-router/). Every sample [Jasmine](http://jasmine.github.io/) matcher for [UI-Router](https://angular-ui.github.io/ui-router/) state will be enclosed in the following `describe` code section:
+
+``` Coffeescript
+describe 'sample ui.router state matchers', ->
+
+  # make the matchers available
+  beforeEach ->
+    jasmine.addMatchers jangular_matchers
+
+  # initialize module
+  beforeEach ->
+    module 'sample.module'
+
+  # (example specs listed here)
+  it 'example spec', =>
+    expect(true).toEqual true
+```
+
+Every [UI-Router](https://angular-ui.github.io/ui-router/) state definition will be enclosed in the following `config` function:
+
+``` Coffeescript
+config = ($stateProvider) ->
+  # here state configuration for the module takes places, for instance:
+  $stateProvider.state 'some_state', {}
+
+
+angular.module('sample.module').config config
+```
+
+### `to_be_an_state()`
+Ensures that actual subject is an [UI-Router](https://angular-ui.github.io/ui-router/) state object or alternatively an state name.
+
+#### spec
+
+``` Coffeescript
+  describe 'stateA', =>
+
+    # inject ui.router $state helper and get the state object
+    beforeEach inject ($state) =>
+      @subject = $state.get 'stateA'
+
+    it 'is an state, using object variant', => expect(@subject).to_be_an_state()
+    it 'is an state, using string variant', => expect('stateA').to_be_an_state()
+```
+
+#### impl
+``` Coffeescript
+  $stateProvider.state 'stateA', {}
+```

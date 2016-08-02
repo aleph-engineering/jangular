@@ -10,11 +10,14 @@ module.exports = function (config) {
             'dist/jangular.js',
 
             'spec/samples/module.coffee',
+
             'spec/samples/http_service.coffee',
             'spec/samples/controller.coffee',
+            'spec/samples/state.coffee',
 
             'spec/http_service.spec.coffee',
             'spec/controller.spec.coffee',
+            'spec/state.spec.coffee',
         ],
 
         autoWatch: true,
@@ -44,12 +47,15 @@ module.exports = function (config) {
 
             // samples
             'spec/samples/module.coffee': ['coffee', 'coverage'],
+
             'spec/samples/http_service.coffee': ['coffee', 'coverage'],
             'spec/samples/controller.coffee': ['coffee', 'coverage'],
+            'spec/samples/state.coffee': ['coffee', 'coverage'],
 
             // specs
             'spec/http_service.spec.coffee': ['coffee', 'coverage'],
-            'spec/controller.spec.coffee': ['coffee', 'coverage']
+            'spec/controller.spec.coffee': ['coffee', 'coverage'],
+            'spec/state.spec.coffee': ['coffee', 'coverage']
         },
         coffeelint: {
             onStart: true,
