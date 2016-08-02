@@ -405,3 +405,24 @@ Ensures that actual subject is an [UI-Router](https://angular-ui.github.io/ui-ro
 ``` Coffeescript
   $stateProvider.state 'stateA', {}
 ```
+
+### `to_be_abstract()`
+Ensures that actual subject is an abstract [UI-Router](https://angular-ui.github.io/ui-router/) state. It can be use in both variants: object and string with state name.
+
+#### spec
+
+``` Coffeescript
+  describe 'stateB', =>
+
+    beforeEach inject ($state) =>
+      @subject = $state.get 'stateB'
+
+    it 'is an abstract, using object variant', => expect(@subject).to_be_abstract()
+    it 'is an abstract, using string variant', => expect('stateB').to_be_abstract()
+```
+
+#### impl
+``` Coffeescript
+  $stateProvider.state 'stateB',
+    abstract: yes
+```

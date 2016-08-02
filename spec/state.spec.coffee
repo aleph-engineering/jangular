@@ -19,4 +19,12 @@ describe 'sample ui.router state matchers', ->
     it 'is an state, using object variant', => expect(@subject).to_be_an_state()
     it 'is an state, using string variant', => expect('stateA').to_be_an_state()
 
+  describe 'stateB', =>
+
+    beforeEach inject ($state) =>
+      @subject = $state.get 'stateB'
+
+    it 'is an abstract, using object variant', => expect(@subject).to_be_abstract()
+    it 'is an abstract, using string variant', => expect('stateB').to_be_abstract()
+
 

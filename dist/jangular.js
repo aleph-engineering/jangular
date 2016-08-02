@@ -556,9 +556,11 @@ module.exports = {
 
 },{"./jangular_common":2}],5:[function(require,module,exports){
 'use strict';
-var common, state, to_be_an_state;
+var common, get_state, is_an_state, is_state_result, state, to_be_abstract, to_be_an_state, validate_arguments_count;
 
 common = require('./jangular_common');
+
+validate_arguments_count = common.validate_arguments_count;
 
 state = function() {
   var _state;
@@ -569,22 +571,54 @@ state = function() {
   return _state;
 };
 
+is_an_state = function(actual) {
+  return ((actual != null ? actual.name : void 0) != null) || (state().get(actual) != null);
+};
+
+get_state = function(actual) {
+  if ((actual != null ? actual.name : void 0) != null) {
+    return actual;
+  }
+  return state().get(actual);
+};
+
+is_state_result = function(pass, actual) {
+  return {
+    pass: pass,
+    message: "Expected state `" + actual + "` to exists, but it is not defined. Ensure that you properly initialize the state using `$stateProvider.state('state_name', {...})` and don't forget to include ui.router as module dependency: `angular.module('my_module', ['ui.router'])`"
+  };
+};
+
 to_be_an_state = function() {
   return {
     compare: function(actual) {
-      var pass, result;
-      pass = ((actual != null ? actual.name : void 0) != null) || (state().get(actual) != null);
-      result = {
-        pass: pass,
-        message: "Expected state `" + actual + "` to exists, but it is not defined. Ensure that you properly initialize the state using `$stateProvider.state('state_name', {...})` and don't forget to include ui.router as module dependency: `angular.module('my_module', ['ui.router'])`"
+      validate_arguments_count(arguments, 1, 'to_be_an_state does not take arguments');
+      return is_state_result(is_an_state(actual), actual);
+    }
+  };
+};
+
+to_be_abstract = function() {
+  return {
+    compare: function(actual) {
+      var pass, st;
+      validate_arguments_count(arguments, 1, 'to_be_abstract does not take arguments');
+      pass = is_an_state(actual);
+      if (!pass) {
+        return is_state_result(pass, actual);
+      }
+      st = get_state(actual);
+      return {
+        pass: st.abstract != null,
+        message: "Expected state `" + st.name + "` seems to NOT be abstract. Ensure that you properly initialize the state with `abstract` flag using `$stateProvider.state('state_name', {abstract: true})`"
       };
-      return result;
     }
   };
 };
 
 module.exports = {
-  to_be_an_state: to_be_an_state
+  to_be_an_state: to_be_an_state,
+  to_be_abstract: to_be_abstract
 };
 
 },{"./jangular_common":2}]},{},[1]);
@@ -1257,9 +1291,11 @@ module.exports = {
 
 },{}],2:[function(require,module,exports){
 'use strict';
-var common, state, to_be_an_state;
+var common, get_state, is_an_state, is_state_result, state, to_be_abstract, to_be_an_state, validate_arguments_count;
 
 common = require('./jangular_common');
+
+validate_arguments_count = common.validate_arguments_count;
 
 state = function() {
   var _state;
@@ -1270,22 +1306,54 @@ state = function() {
   return _state;
 };
 
+is_an_state = function(actual) {
+  return ((actual != null ? actual.name : void 0) != null) || (state().get(actual) != null);
+};
+
+get_state = function(actual) {
+  if ((actual != null ? actual.name : void 0) != null) {
+    return actual;
+  }
+  return state().get(actual);
+};
+
+is_state_result = function(pass, actual) {
+  return {
+    pass: pass,
+    message: "Expected state `" + actual + "` to exists, but it is not defined. Ensure that you properly initialize the state using `$stateProvider.state('state_name', {...})` and don't forget to include ui.router as module dependency: `angular.module('my_module', ['ui.router'])`"
+  };
+};
+
 to_be_an_state = function() {
   return {
     compare: function(actual) {
-      var pass, result;
-      pass = ((actual != null ? actual.name : void 0) != null) || (state().get(actual) != null);
-      result = {
-        pass: pass,
-        message: "Expected state `" + actual + "` to exists, but it is not defined. Ensure that you properly initialize the state using `$stateProvider.state('state_name', {...})` and don't forget to include ui.router as module dependency: `angular.module('my_module', ['ui.router'])`"
+      validate_arguments_count(arguments, 1, 'to_be_an_state does not take arguments');
+      return is_state_result(is_an_state(actual), actual);
+    }
+  };
+};
+
+to_be_abstract = function() {
+  return {
+    compare: function(actual) {
+      var pass, st;
+      validate_arguments_count(arguments, 1, 'to_be_abstract does not take arguments');
+      pass = is_an_state(actual);
+      if (!pass) {
+        return is_state_result(pass, actual);
+      }
+      st = get_state(actual);
+      return {
+        pass: st.abstract != null,
+        message: "Expected state `" + st.name + "` seems to NOT be abstract. Ensure that you properly initialize the state with `abstract` flag using `$stateProvider.state('state_name', {abstract: true})`"
       };
-      return result;
     }
   };
 };
 
 module.exports = {
-  to_be_an_state: to_be_an_state
+  to_be_an_state: to_be_an_state,
+  to_be_abstract: to_be_abstract
 };
 
 },{"./jangular_common":1}]},{},[2]);
