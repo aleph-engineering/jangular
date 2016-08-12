@@ -426,3 +426,23 @@ Ensures that actual subject is an abstract [UI-Router](https://angular-ui.github
   $stateProvider.state 'stateB',
     abstract: yes
 ```
+
+### `to_have_url()`
+Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state has an expected URL. It can be use in both variants: object and string with state name.
+
+#### spec
+
+``` Coffeescript
+  describe 'stateC', =>
+    beforeEach inject ($state) =>
+      @subject = $state.get 'stateC'
+
+    it 'has an URL, using object variant', => expect(@subject).to_have_url '/some_url'
+    it 'has an URL, using string variant', => expect('stateC').to_have_url '/some_url'
+```
+
+#### impl
+``` Coffeescript
+  $stateProvider.state 'stateC',
+    url: '/some_url'
+```
