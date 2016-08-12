@@ -6,4 +6,7 @@ config = ($stateProvider) ->
   $stateProvider.state 'stateB',
     abstract: yes
 
+  $stateProvider.state 'stateC',
+    url: '/some_url'
+
 angular.module('sample.module').config config

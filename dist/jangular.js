@@ -556,7 +556,7 @@ module.exports = {
 
 },{"./jangular_common":2}],5:[function(require,module,exports){
 'use strict';
-var common, get_state, is_an_state, is_state_result, state, to_be_abstract, to_be_an_state, validate_arguments_count;
+var common, get_state, is_an_state, is_state_result, state, to_be_abstract, to_be_an_state, to_have_url, validate_arguments_count;
 
 common = require('./jangular_common');
 
@@ -616,9 +616,34 @@ to_be_abstract = function() {
   };
 };
 
+to_have_url = function() {
+  return {
+    compare: function(actual, expected_url) {
+      var pass, st;
+      validate_arguments_count(arguments, 2, 'to_have_url takes only expected_url argument');
+      if (expected_url == null) {
+        throw new Error("the expected url: " + expected_url + " seems to null or undefined");
+      }
+      pass = is_an_state(actual);
+      if (!pass) {
+        return is_state_result(pass, actual);
+      }
+      st = get_state(actual);
+      return {
+        pass: (st != null ? st.url : void 0) === expected_url,
+        message: "Expected state `" + st.name + "` seems to NOT have the url '" + expected_url + "'. Ensure that you properly initialize the state with `url` property `$stateProvider.state('state_name', {url: '" + expected_url + "'})`"
+      };
+    }
+  };
+};
+
 module.exports = {
   to_be_an_state: to_be_an_state,
-  to_be_abstract: to_be_abstract
+  toBeAnState: to_be_an_state,
+  to_be_abstract: to_be_abstract,
+  toBeAbstract: to_be_abstract,
+  to_have_url: to_have_url,
+  toHaveUrl: to_have_url
 };
 
 },{"./jangular_common":2}]},{},[1]);
@@ -1291,7 +1316,7 @@ module.exports = {
 
 },{}],2:[function(require,module,exports){
 'use strict';
-var common, get_state, is_an_state, is_state_result, state, to_be_abstract, to_be_an_state, validate_arguments_count;
+var common, get_state, is_an_state, is_state_result, state, to_be_abstract, to_be_an_state, to_have_url, validate_arguments_count;
 
 common = require('./jangular_common');
 
@@ -1351,9 +1376,34 @@ to_be_abstract = function() {
   };
 };
 
+to_have_url = function() {
+  return {
+    compare: function(actual, expected_url) {
+      var pass, st;
+      validate_arguments_count(arguments, 2, 'to_have_url takes only expected_url argument');
+      if (expected_url == null) {
+        throw new Error("the expected url: " + expected_url + " seems to null or undefined");
+      }
+      pass = is_an_state(actual);
+      if (!pass) {
+        return is_state_result(pass, actual);
+      }
+      st = get_state(actual);
+      return {
+        pass: (st != null ? st.url : void 0) === expected_url,
+        message: "Expected state `" + st.name + "` seems to NOT have the url '" + expected_url + "'. Ensure that you properly initialize the state with `url` property `$stateProvider.state('state_name', {url: '" + expected_url + "'})`"
+      };
+    }
+  };
+};
+
 module.exports = {
   to_be_an_state: to_be_an_state,
-  to_be_abstract: to_be_abstract
+  toBeAnState: to_be_an_state,
+  to_be_abstract: to_be_abstract,
+  toBeAbstract: to_be_abstract,
+  to_have_url: to_have_url,
+  toHaveUrl: to_have_url
 };
 
 },{"./jangular_common":1}]},{},[2]);
