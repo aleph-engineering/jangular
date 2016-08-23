@@ -7,6 +7,10 @@
 common = require './jangular_common'
 
 validate_arguments_count = common.validate_arguments_count
+assert_is_spy = common.assert_is_spy
+q = common.q
+spy_have_been_called = common.spy_have_been_called
+spy_have_been_called_with = common.spy_have_been_called_with
 
 ###########
 # helpers #
@@ -27,6 +31,11 @@ get_state = (actual) ->
 is_state_result = (pass, actual) ->
   pass: pass
   message: "Expected state `#{actual}` to exists, but it is not defined. Ensure that you properly initialize the state using `$stateProvider.state('state_name', {...})` and don't forget to include ui.router as module dependency: `angular.module('my_module', ['ui.router'])`"
+
+injector = ->
+  _injector = undefined
+  inject ($injector) -> _injector = $injector
+  _injector
 
 ############
 # matchers #
@@ -125,6 +134,36 @@ to_have_template_url = ->
     pass: st?.templateUrl is expected_template_url
     message: "Expected state `#{st.name}` seems to NOT have the template URL '#{expected_template_url}'. Ensure that you properly initialize the state with `template` property `$stateProvider.state('state_name', {templateUrl: '#{expected_template_url}'})`"
 
+to_resolve_by_calling_service = ->
+  compare: (promise, service, fn_name) ->
+    validate_arguments_count arguments, 3, 'to_resolve_by_calling_service takes only 2 arguments: target service and the function name to spy on'
+
+    throw new Error 'Actual promise seems to be null or undefined, please define the promise using the syntax `resolve: { my_promise: [..., my_promise_resolution_fn] }`' unless promise?
+
+    #TODO: validate that the supplied object is UI-Router promise definition at least
+
+    _spy = spyOn service, fn_name
+    assert_is_spy _spy
+
+    # spy on service and return an expected value to assert with
+    deferred = q().defer()
+    expected = deferred.promise
+    _spy.and.returnValue expected
+
+    # make the call
+    actual = injector().invoke promise
+
+    # assert the returned value
+    # TODO: improve this assertion
+    expect(actual).toBe expected
+
+    # resolve the promise
+    deferred.resolve()
+
+    # assert
+    # TODO: improve this assertion
+    spy_have_been_called _spy
+
 module.exports =
   to_be_an_state: to_be_an_state
   toBeAnState: to_be_an_state
@@ -142,3 +181,5 @@ module.exports =
   toHaveTemplate: to_have_template
   to_have_template_url: to_have_template_url
   toHaveTemplateUrl: to_have_template_url
+  to_resolve_by_calling_service: to_resolve_by_calling_service
+  toResolveByCallingService: to_resolve_by_calling_service

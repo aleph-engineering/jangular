@@ -11,41 +11,15 @@ is_a_function = common.is_a_function
 validate_arguments_count = common.validate_arguments_count
 validate_arguments_gt = common.validate_arguments_gt
 throw_fn_expected = common.throw_fn_expected
-
-assert_is_spy = (_spy) ->
-  throw new Error "Expected a spy, but got #{jasmine.pp _spy}." unless jasmine.isSpy _spy
-
-q = ->
-  _q = undefined
-  inject ($q) -> _q = $q
-  _q
+assert_is_spy = common.assert_is_spy
+q = common.q
+spy_have_been_called = common.spy_have_been_called
+spy_have_been_called_with = common.spy_have_been_called_with
 
 rootScope = ->
   _rootScope = undefined
   inject ($rootScope) -> _rootScope = $rootScope
   _rootScope
-
-spy_have_been_called = (_spy) ->
-  pass = _spy.calls.any()
-  result =
-    pass: pass
-    message: pass ? "Expected spy #{_spy.and.identity()} not to have been called.": "Expected spy #{_spy.and.identity()}  to have been called.'"
-
-spy_have_been_called_with = (_spy, args) ->
-  result =
-    pass: false
-  pass = _spy.calls.any()
-  unless pass
-    result.message = ->
-      "Expected spy #{_spy.and.identity()} to have been called with #{jasmine.pp(args)} but it was never called."
-  else
-    if jasmine.matchersUtil.contains _spy.calls.allArgs(), args, jasmine.customEqualityTesters
-      result.pass = true
-      result.message = ->
-        "Expected spy #{_spy.and.identity()} not to have been called with #{jasmine.pp(args)} but it was."
-    else
-      result.message = -> "Expected spy #{_spy.and.identity()} to have been called with #{jasmine.pp(args)} but actual calls were #{jasmine.pp(_spy.calls.allArgs()).replace(/^\[ | \]$/g, '')}."
-  result
 
 to_call_service = ->
   compare: (fn, service, fn_name) ->

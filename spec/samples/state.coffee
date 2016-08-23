@@ -17,4 +17,8 @@ config = ($stateProvider) ->
   $stateProvider.state 'stateE',
     templateUrl: '/templates/footer.html'
 
+  $stateProvider.state 'stateF',
+    resolve:
+      user_profile: ['sampleHttpService', (sampleHttpService) -> sampleHttpService.do_get()]
+
 angular.module('sample.module').config config

@@ -532,3 +532,24 @@ Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state has an e
   $stateProvider.state 'stateE',
     templateUrl: '/templates/footer.html'
 ```
+
+### `to_resolve_by_calling_service()`
+Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state resolves a given promise before entering. 
+
+#### spec
+
+``` Coffeescript
+  describe 'stateF', =>
+    beforeEach inject ($state, @sampleHttpService) =>
+      @subject = $state.get 'stateF'
+
+    it 'resolves the promise by calling service without arguments', =>
+      expect(@subject.resolve.user_profile).to_resolve_by_calling_service @sampleHttpService, 'do_get'
+```
+
+#### impl
+``` Coffeescript
+  $stateProvider.state 'stateF',
+    resolve:
+      user_profile: ['sampleHttpService', (sampleHttpService) -> sampleHttpService.do_get()]
+```

@@ -55,3 +55,10 @@ describe 'sample ui.router state matchers', ->
 
     it 'has a template URL, using object variant', => expect(@subject).to_have_template_url '/templates/footer.html'
     it 'has a template URL, using string variant', => expect('stateE').to_have_template_url '/templates/footer.html'
+
+  describe 'stateF', =>
+    beforeEach inject ($state, @sampleHttpService) =>
+      @subject = $state.get 'stateF'
+
+    it 'resolves the promise by calling service without arguments', =>
+      expect(@subject.resolve.user_profile).to_resolve_by_calling_service @sampleHttpService, 'do_get'

@@ -10,7 +10,7 @@ module.exports = jangular_matchers;
 
 },{"./jangular_controller_matchers.coffee":3,"./jangular_http_matchers.coffee":4,"./jangular_state_matchers.coffee":5}],2:[function(require,module,exports){
 'use strict';
-var expect_to_be_function, is_a_function, throw_fn_expected, validate_arguments_count, validate_arguments_gt;
+var assert_is_spy, expect_to_be_function, is_a_function, q, spy_have_been_called, spy_have_been_called_with, throw_fn_expected, validate_arguments_count, validate_arguments_gt;
 
 expect_to_be_function = function(fn) {
   return expect(fn).toEqual(jasmine.any(Function));
@@ -36,31 +36,6 @@ validate_arguments_gt = function(args, arg_count, msg) {
   }
 };
 
-module.exports = {
-  expect_to_be_function: expect_to_be_function,
-  is_a_function: is_a_function,
-  validate_arguments_count: validate_arguments_count,
-  validate_arguments_gt: validate_arguments_gt,
-  throw_fn_expected: throw_fn_expected
-};
-
-},{}],3:[function(require,module,exports){
-'use strict';
-var assert_is_spy, common, expect_to_be_function, is_a_function, q, rootScope, spy_have_been_called, spy_have_been_called_with, throw_fn_expected, to_call_service, to_call_service_with, to_callback_error_with, to_callback_success_with, to_subscribe, to_subscribe_error, to_subscribe_success, validate_arguments_count, validate_arguments_gt,
-  slice = [].slice;
-
-common = require('./jangular_common');
-
-expect_to_be_function = common.expect_to_be_function;
-
-is_a_function = common.is_a_function;
-
-validate_arguments_count = common.validate_arguments_count;
-
-validate_arguments_gt = common.validate_arguments_gt;
-
-throw_fn_expected = common.throw_fn_expected;
-
 assert_is_spy = function(_spy) {
   if (!jasmine.isSpy(_spy)) {
     throw new Error("Expected a spy, but got " + (jasmine.pp(_spy)) + ".");
@@ -76,24 +51,15 @@ q = function() {
   return _q;
 };
 
-rootScope = function() {
-  var _rootScope;
-  _rootScope = void 0;
-  inject(function($rootScope) {
-    return _rootScope = $rootScope;
-  });
-  return _rootScope;
-};
-
 spy_have_been_called = function(_spy) {
-  var obj, pass, result;
+  var obj1, pass, result;
   pass = _spy.calls.any();
   return result = {
     pass: pass,
     message: pass != null ? pass : (
-      obj = {},
-      obj["Expected spy " + (_spy.and.identity()) + " not to have been called."] = "Expected spy " + (_spy.and.identity()) + "  to have been called.'",
-      obj
+      obj1 = {},
+      obj1["Expected spy " + (_spy.and.identity()) + " not to have been called."] = "Expected spy " + (_spy.and.identity()) + "  to have been called.'",
+      obj1
     )
   };
 };
@@ -121,6 +87,52 @@ spy_have_been_called_with = function(_spy, args) {
     }
   }
   return result;
+};
+
+module.exports = {
+  expect_to_be_function: expect_to_be_function,
+  is_a_function: is_a_function,
+  validate_arguments_count: validate_arguments_count,
+  validate_arguments_gt: validate_arguments_gt,
+  throw_fn_expected: throw_fn_expected,
+  assert_is_spy: assert_is_spy,
+  q: q,
+  spy_have_been_called: spy_have_been_called,
+  spy_have_been_called_with: spy_have_been_called_with
+};
+
+},{}],3:[function(require,module,exports){
+'use strict';
+var assert_is_spy, common, expect_to_be_function, is_a_function, q, rootScope, spy_have_been_called, spy_have_been_called_with, throw_fn_expected, to_call_service, to_call_service_with, to_callback_error_with, to_callback_success_with, to_subscribe, to_subscribe_error, to_subscribe_success, validate_arguments_count, validate_arguments_gt,
+  slice = [].slice;
+
+common = require('./jangular_common');
+
+expect_to_be_function = common.expect_to_be_function;
+
+is_a_function = common.is_a_function;
+
+validate_arguments_count = common.validate_arguments_count;
+
+validate_arguments_gt = common.validate_arguments_gt;
+
+throw_fn_expected = common.throw_fn_expected;
+
+assert_is_spy = common.assert_is_spy;
+
+q = common.q;
+
+spy_have_been_called = common.spy_have_been_called;
+
+spy_have_been_called_with = common.spy_have_been_called_with;
+
+rootScope = function() {
+  var _rootScope;
+  _rootScope = void 0;
+  inject(function($rootScope) {
+    return _rootScope = $rootScope;
+  });
+  return _rootScope;
 };
 
 to_call_service = function() {
@@ -556,11 +568,19 @@ module.exports = {
 
 },{"./jangular_common":2}],5:[function(require,module,exports){
 'use strict';
-var common, get_state, is_an_state, is_state_result, state, to_be_abstract, to_be_an_state, to_have_controller, to_have_controller_alias, to_have_template, to_have_template_url, to_have_url, validate_arguments_count;
+var assert_is_spy, common, get_state, injector, is_an_state, is_state_result, q, spy_have_been_called, spy_have_been_called_with, state, to_be_abstract, to_be_an_state, to_have_controller, to_have_controller_alias, to_have_template, to_have_template_url, to_have_url, to_resolve_by_calling_service, validate_arguments_count;
 
 common = require('./jangular_common');
 
 validate_arguments_count = common.validate_arguments_count;
+
+assert_is_spy = common.assert_is_spy;
+
+q = common.q;
+
+spy_have_been_called = common.spy_have_been_called;
+
+spy_have_been_called_with = common.spy_have_been_called_with;
 
 state = function() {
   var _state;
@@ -587,6 +607,15 @@ is_state_result = function(pass, actual) {
     pass: pass,
     message: "Expected state `" + actual + "` to exists, but it is not defined. Ensure that you properly initialize the state using `$stateProvider.state('state_name', {...})` and don't forget to include ui.router as module dependency: `angular.module('my_module', ['ui.router'])`"
   };
+};
+
+injector = function() {
+  var _injector;
+  _injector = void 0;
+  inject(function($injector) {
+    return _injector = $injector;
+  });
+  return _injector;
 };
 
 to_be_an_state = function() {
@@ -721,6 +750,27 @@ to_have_template_url = function() {
   };
 };
 
+to_resolve_by_calling_service = function() {
+  return {
+    compare: function(promise, service, fn_name) {
+      var _spy, actual, deferred, expected;
+      validate_arguments_count(arguments, 3, 'to_resolve_by_calling_service takes only 2 arguments: target service and the function name to spy on');
+      if (promise == null) {
+        throw new Error('Actual promise seems to be null or undefined, please define the promise using the syntax `resolve: { my_promise: [..., my_promise_resolution_fn] }`');
+      }
+      _spy = spyOn(service, fn_name);
+      assert_is_spy(_spy);
+      deferred = q().defer();
+      expected = deferred.promise;
+      _spy.and.returnValue(expected);
+      actual = injector().invoke(promise);
+      expect(actual).toBe(expected);
+      deferred.resolve();
+      return spy_have_been_called(_spy);
+    }
+  };
+};
+
 module.exports = {
   to_be_an_state: to_be_an_state,
   toBeAnState: to_be_an_state,
@@ -737,14 +787,16 @@ module.exports = {
   to_have_template: to_have_template,
   toHaveTemplate: to_have_template,
   to_have_template_url: to_have_template_url,
-  toHaveTemplateUrl: to_have_template_url
+  toHaveTemplateUrl: to_have_template_url,
+  to_resolve_by_calling_service: to_resolve_by_calling_service,
+  toResolveByCallingService: to_resolve_by_calling_service
 };
 
 },{"./jangular_common":2}]},{},[1]);
 
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
-var expect_to_be_function, is_a_function, throw_fn_expected, validate_arguments_count, validate_arguments_gt;
+var assert_is_spy, expect_to_be_function, is_a_function, q, spy_have_been_called, spy_have_been_called_with, throw_fn_expected, validate_arguments_count, validate_arguments_gt;
 
 expect_to_be_function = function(fn) {
   return expect(fn).toEqual(jasmine.any(Function));
@@ -769,69 +821,6 @@ validate_arguments_gt = function(args, arg_count, msg) {
     throw new Error(msg);
   }
 };
-
-module.exports = {
-  expect_to_be_function: expect_to_be_function,
-  is_a_function: is_a_function,
-  validate_arguments_count: validate_arguments_count,
-  validate_arguments_gt: validate_arguments_gt,
-  throw_fn_expected: throw_fn_expected
-};
-
-},{}]},{},[1]);
-
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-'use strict';
-var expect_to_be_function, is_a_function, throw_fn_expected, validate_arguments_count, validate_arguments_gt;
-
-expect_to_be_function = function(fn) {
-  return expect(fn).toEqual(jasmine.any(Function));
-};
-
-is_a_function = function(obj) {
-  return typeof obj === 'function' || obj instanceof Function;
-};
-
-throw_fn_expected = function(fn_param_name) {
-  throw new Error(fn_param_name + " parameter was expected to be a function");
-};
-
-validate_arguments_count = function(args, arg_count, msg) {
-  if (args.length !== arg_count) {
-    throw new Error(msg);
-  }
-};
-
-validate_arguments_gt = function(args, arg_count, msg) {
-  if (!(args.length > arg_count)) {
-    throw new Error(msg);
-  }
-};
-
-module.exports = {
-  expect_to_be_function: expect_to_be_function,
-  is_a_function: is_a_function,
-  validate_arguments_count: validate_arguments_count,
-  validate_arguments_gt: validate_arguments_gt,
-  throw_fn_expected: throw_fn_expected
-};
-
-},{}],2:[function(require,module,exports){
-'use strict';
-var assert_is_spy, common, expect_to_be_function, is_a_function, q, rootScope, spy_have_been_called, spy_have_been_called_with, throw_fn_expected, to_call_service, to_call_service_with, to_callback_error_with, to_callback_success_with, to_subscribe, to_subscribe_error, to_subscribe_success, validate_arguments_count, validate_arguments_gt,
-  slice = [].slice;
-
-common = require('./jangular_common');
-
-expect_to_be_function = common.expect_to_be_function;
-
-is_a_function = common.is_a_function;
-
-validate_arguments_count = common.validate_arguments_count;
-
-validate_arguments_gt = common.validate_arguments_gt;
-
-throw_fn_expected = common.throw_fn_expected;
 
 assert_is_spy = function(_spy) {
   if (!jasmine.isSpy(_spy)) {
@@ -848,24 +837,15 @@ q = function() {
   return _q;
 };
 
-rootScope = function() {
-  var _rootScope;
-  _rootScope = void 0;
-  inject(function($rootScope) {
-    return _rootScope = $rootScope;
-  });
-  return _rootScope;
-};
-
 spy_have_been_called = function(_spy) {
-  var obj, pass, result;
+  var obj1, pass, result;
   pass = _spy.calls.any();
   return result = {
     pass: pass,
     message: pass != null ? pass : (
-      obj = {},
-      obj["Expected spy " + (_spy.and.identity()) + " not to have been called."] = "Expected spy " + (_spy.and.identity()) + "  to have been called.'",
-      obj
+      obj1 = {},
+      obj1["Expected spy " + (_spy.and.identity()) + " not to have been called."] = "Expected spy " + (_spy.and.identity()) + "  to have been called.'",
+      obj1
     )
   };
 };
@@ -893,6 +873,147 @@ spy_have_been_called_with = function(_spy, args) {
     }
   }
   return result;
+};
+
+module.exports = {
+  expect_to_be_function: expect_to_be_function,
+  is_a_function: is_a_function,
+  validate_arguments_count: validate_arguments_count,
+  validate_arguments_gt: validate_arguments_gt,
+  throw_fn_expected: throw_fn_expected,
+  assert_is_spy: assert_is_spy,
+  q: q,
+  spy_have_been_called: spy_have_been_called,
+  spy_have_been_called_with: spy_have_been_called_with
+};
+
+},{}]},{},[1]);
+
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+'use strict';
+var assert_is_spy, expect_to_be_function, is_a_function, q, spy_have_been_called, spy_have_been_called_with, throw_fn_expected, validate_arguments_count, validate_arguments_gt;
+
+expect_to_be_function = function(fn) {
+  return expect(fn).toEqual(jasmine.any(Function));
+};
+
+is_a_function = function(obj) {
+  return typeof obj === 'function' || obj instanceof Function;
+};
+
+throw_fn_expected = function(fn_param_name) {
+  throw new Error(fn_param_name + " parameter was expected to be a function");
+};
+
+validate_arguments_count = function(args, arg_count, msg) {
+  if (args.length !== arg_count) {
+    throw new Error(msg);
+  }
+};
+
+validate_arguments_gt = function(args, arg_count, msg) {
+  if (!(args.length > arg_count)) {
+    throw new Error(msg);
+  }
+};
+
+assert_is_spy = function(_spy) {
+  if (!jasmine.isSpy(_spy)) {
+    throw new Error("Expected a spy, but got " + (jasmine.pp(_spy)) + ".");
+  }
+};
+
+q = function() {
+  var _q;
+  _q = void 0;
+  inject(function($q) {
+    return _q = $q;
+  });
+  return _q;
+};
+
+spy_have_been_called = function(_spy) {
+  var obj1, pass, result;
+  pass = _spy.calls.any();
+  return result = {
+    pass: pass,
+    message: pass != null ? pass : (
+      obj1 = {},
+      obj1["Expected spy " + (_spy.and.identity()) + " not to have been called."] = "Expected spy " + (_spy.and.identity()) + "  to have been called.'",
+      obj1
+    )
+  };
+};
+
+spy_have_been_called_with = function(_spy, args) {
+  var pass, result;
+  result = {
+    pass: false
+  };
+  pass = _spy.calls.any();
+  if (!pass) {
+    result.message = function() {
+      return "Expected spy " + (_spy.and.identity()) + " to have been called with " + (jasmine.pp(args)) + " but it was never called.";
+    };
+  } else {
+    if (jasmine.matchersUtil.contains(_spy.calls.allArgs(), args, jasmine.customEqualityTesters)) {
+      result.pass = true;
+      result.message = function() {
+        return "Expected spy " + (_spy.and.identity()) + " not to have been called with " + (jasmine.pp(args)) + " but it was.";
+      };
+    } else {
+      result.message = function() {
+        return "Expected spy " + (_spy.and.identity()) + " to have been called with " + (jasmine.pp(args)) + " but actual calls were " + (jasmine.pp(_spy.calls.allArgs()).replace(/^\[ | \]$/g, '')) + ".";
+      };
+    }
+  }
+  return result;
+};
+
+module.exports = {
+  expect_to_be_function: expect_to_be_function,
+  is_a_function: is_a_function,
+  validate_arguments_count: validate_arguments_count,
+  validate_arguments_gt: validate_arguments_gt,
+  throw_fn_expected: throw_fn_expected,
+  assert_is_spy: assert_is_spy,
+  q: q,
+  spy_have_been_called: spy_have_been_called,
+  spy_have_been_called_with: spy_have_been_called_with
+};
+
+},{}],2:[function(require,module,exports){
+'use strict';
+var assert_is_spy, common, expect_to_be_function, is_a_function, q, rootScope, spy_have_been_called, spy_have_been_called_with, throw_fn_expected, to_call_service, to_call_service_with, to_callback_error_with, to_callback_success_with, to_subscribe, to_subscribe_error, to_subscribe_success, validate_arguments_count, validate_arguments_gt,
+  slice = [].slice;
+
+common = require('./jangular_common');
+
+expect_to_be_function = common.expect_to_be_function;
+
+is_a_function = common.is_a_function;
+
+validate_arguments_count = common.validate_arguments_count;
+
+validate_arguments_gt = common.validate_arguments_gt;
+
+throw_fn_expected = common.throw_fn_expected;
+
+assert_is_spy = common.assert_is_spy;
+
+q = common.q;
+
+spy_have_been_called = common.spy_have_been_called;
+
+spy_have_been_called_with = common.spy_have_been_called_with;
+
+rootScope = function() {
+  var _rootScope;
+  _rootScope = void 0;
+  inject(function($rootScope) {
+    return _rootScope = $rootScope;
+  });
+  return _rootScope;
 };
 
 to_call_service = function() {
@@ -1105,7 +1226,7 @@ module.exports = {
 
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
-var expect_to_be_function, is_a_function, throw_fn_expected, validate_arguments_count, validate_arguments_gt;
+var assert_is_spy, expect_to_be_function, is_a_function, q, spy_have_been_called, spy_have_been_called_with, throw_fn_expected, validate_arguments_count, validate_arguments_gt;
 
 expect_to_be_function = function(fn) {
   return expect(fn).toEqual(jasmine.any(Function));
@@ -1131,12 +1252,69 @@ validate_arguments_gt = function(args, arg_count, msg) {
   }
 };
 
+assert_is_spy = function(_spy) {
+  if (!jasmine.isSpy(_spy)) {
+    throw new Error("Expected a spy, but got " + (jasmine.pp(_spy)) + ".");
+  }
+};
+
+q = function() {
+  var _q;
+  _q = void 0;
+  inject(function($q) {
+    return _q = $q;
+  });
+  return _q;
+};
+
+spy_have_been_called = function(_spy) {
+  var obj1, pass, result;
+  pass = _spy.calls.any();
+  return result = {
+    pass: pass,
+    message: pass != null ? pass : (
+      obj1 = {},
+      obj1["Expected spy " + (_spy.and.identity()) + " not to have been called."] = "Expected spy " + (_spy.and.identity()) + "  to have been called.'",
+      obj1
+    )
+  };
+};
+
+spy_have_been_called_with = function(_spy, args) {
+  var pass, result;
+  result = {
+    pass: false
+  };
+  pass = _spy.calls.any();
+  if (!pass) {
+    result.message = function() {
+      return "Expected spy " + (_spy.and.identity()) + " to have been called with " + (jasmine.pp(args)) + " but it was never called.";
+    };
+  } else {
+    if (jasmine.matchersUtil.contains(_spy.calls.allArgs(), args, jasmine.customEqualityTesters)) {
+      result.pass = true;
+      result.message = function() {
+        return "Expected spy " + (_spy.and.identity()) + " not to have been called with " + (jasmine.pp(args)) + " but it was.";
+      };
+    } else {
+      result.message = function() {
+        return "Expected spy " + (_spy.and.identity()) + " to have been called with " + (jasmine.pp(args)) + " but actual calls were " + (jasmine.pp(_spy.calls.allArgs()).replace(/^\[ | \]$/g, '')) + ".";
+      };
+    }
+  }
+  return result;
+};
+
 module.exports = {
   expect_to_be_function: expect_to_be_function,
   is_a_function: is_a_function,
   validate_arguments_count: validate_arguments_count,
   validate_arguments_gt: validate_arguments_gt,
-  throw_fn_expected: throw_fn_expected
+  throw_fn_expected: throw_fn_expected,
+  assert_is_spy: assert_is_spy,
+  q: q,
+  spy_have_been_called: spy_have_been_called,
+  spy_have_been_called_with: spy_have_been_called_with
 };
 
 },{}],2:[function(require,module,exports){
@@ -1374,7 +1552,7 @@ module.exports = {
 
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
-var expect_to_be_function, is_a_function, throw_fn_expected, validate_arguments_count, validate_arguments_gt;
+var assert_is_spy, expect_to_be_function, is_a_function, q, spy_have_been_called, spy_have_been_called_with, throw_fn_expected, validate_arguments_count, validate_arguments_gt;
 
 expect_to_be_function = function(fn) {
   return expect(fn).toEqual(jasmine.any(Function));
@@ -1400,21 +1578,86 @@ validate_arguments_gt = function(args, arg_count, msg) {
   }
 };
 
+assert_is_spy = function(_spy) {
+  if (!jasmine.isSpy(_spy)) {
+    throw new Error("Expected a spy, but got " + (jasmine.pp(_spy)) + ".");
+  }
+};
+
+q = function() {
+  var _q;
+  _q = void 0;
+  inject(function($q) {
+    return _q = $q;
+  });
+  return _q;
+};
+
+spy_have_been_called = function(_spy) {
+  var obj1, pass, result;
+  pass = _spy.calls.any();
+  return result = {
+    pass: pass,
+    message: pass != null ? pass : (
+      obj1 = {},
+      obj1["Expected spy " + (_spy.and.identity()) + " not to have been called."] = "Expected spy " + (_spy.and.identity()) + "  to have been called.'",
+      obj1
+    )
+  };
+};
+
+spy_have_been_called_with = function(_spy, args) {
+  var pass, result;
+  result = {
+    pass: false
+  };
+  pass = _spy.calls.any();
+  if (!pass) {
+    result.message = function() {
+      return "Expected spy " + (_spy.and.identity()) + " to have been called with " + (jasmine.pp(args)) + " but it was never called.";
+    };
+  } else {
+    if (jasmine.matchersUtil.contains(_spy.calls.allArgs(), args, jasmine.customEqualityTesters)) {
+      result.pass = true;
+      result.message = function() {
+        return "Expected spy " + (_spy.and.identity()) + " not to have been called with " + (jasmine.pp(args)) + " but it was.";
+      };
+    } else {
+      result.message = function() {
+        return "Expected spy " + (_spy.and.identity()) + " to have been called with " + (jasmine.pp(args)) + " but actual calls were " + (jasmine.pp(_spy.calls.allArgs()).replace(/^\[ | \]$/g, '')) + ".";
+      };
+    }
+  }
+  return result;
+};
+
 module.exports = {
   expect_to_be_function: expect_to_be_function,
   is_a_function: is_a_function,
   validate_arguments_count: validate_arguments_count,
   validate_arguments_gt: validate_arguments_gt,
-  throw_fn_expected: throw_fn_expected
+  throw_fn_expected: throw_fn_expected,
+  assert_is_spy: assert_is_spy,
+  q: q,
+  spy_have_been_called: spy_have_been_called,
+  spy_have_been_called_with: spy_have_been_called_with
 };
 
 },{}],2:[function(require,module,exports){
 'use strict';
-var common, get_state, is_an_state, is_state_result, state, to_be_abstract, to_be_an_state, to_have_controller, to_have_controller_alias, to_have_template, to_have_template_url, to_have_url, validate_arguments_count;
+var assert_is_spy, common, get_state, injector, is_an_state, is_state_result, q, spy_have_been_called, spy_have_been_called_with, state, to_be_abstract, to_be_an_state, to_have_controller, to_have_controller_alias, to_have_template, to_have_template_url, to_have_url, to_resolve_by_calling_service, validate_arguments_count;
 
 common = require('./jangular_common');
 
 validate_arguments_count = common.validate_arguments_count;
+
+assert_is_spy = common.assert_is_spy;
+
+q = common.q;
+
+spy_have_been_called = common.spy_have_been_called;
+
+spy_have_been_called_with = common.spy_have_been_called_with;
 
 state = function() {
   var _state;
@@ -1441,6 +1684,15 @@ is_state_result = function(pass, actual) {
     pass: pass,
     message: "Expected state `" + actual + "` to exists, but it is not defined. Ensure that you properly initialize the state using `$stateProvider.state('state_name', {...})` and don't forget to include ui.router as module dependency: `angular.module('my_module', ['ui.router'])`"
   };
+};
+
+injector = function() {
+  var _injector;
+  _injector = void 0;
+  inject(function($injector) {
+    return _injector = $injector;
+  });
+  return _injector;
 };
 
 to_be_an_state = function() {
@@ -1575,6 +1827,27 @@ to_have_template_url = function() {
   };
 };
 
+to_resolve_by_calling_service = function() {
+  return {
+    compare: function(promise, service, fn_name) {
+      var _spy, actual, deferred, expected;
+      validate_arguments_count(arguments, 3, 'to_resolve_by_calling_service takes only 2 arguments: target service and the function name to spy on');
+      if (promise == null) {
+        throw new Error('Actual promise seems to be null or undefined, please define the promise using the syntax `resolve: { my_promise: [..., my_promise_resolution_fn] }`');
+      }
+      _spy = spyOn(service, fn_name);
+      assert_is_spy(_spy);
+      deferred = q().defer();
+      expected = deferred.promise;
+      _spy.and.returnValue(expected);
+      actual = injector().invoke(promise);
+      expect(actual).toBe(expected);
+      deferred.resolve();
+      return spy_have_been_called(_spy);
+    }
+  };
+};
+
 module.exports = {
   to_be_an_state: to_be_an_state,
   toBeAnState: to_be_an_state,
@@ -1591,7 +1864,9 @@ module.exports = {
   to_have_template: to_have_template,
   toHaveTemplate: to_have_template,
   to_have_template_url: to_have_template_url,
-  toHaveTemplateUrl: to_have_template_url
+  toHaveTemplateUrl: to_have_template_url,
+  to_resolve_by_calling_service: to_resolve_by_calling_service,
+  toResolveByCallingService: to_resolve_by_calling_service
 };
 
 },{"./jangular_common":1}]},{},[2]);
