@@ -534,7 +534,7 @@ Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state has an e
 ```
 
 ### `to_resolve_by_calling_service()`
-Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state resolves a given promise before entering. 
+Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state resolves a given promise before entering. The expected promise resolution should take place by issuing an service call without arguments.
 
 #### spec
 
@@ -552,4 +552,25 @@ Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state resolves
   $stateProvider.state 'stateF',
     resolve:
       user_profile: ['sampleHttpService', (sampleHttpService) -> sampleHttpService.do_get()]
+```
+
+### `to_resolve_by_calling_service_with()`
+Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state resolves a given promise before entering. The expected promise resolution should take place by issuing an service call with the given arguments.
+
+#### spec
+
+``` Coffeescript
+  describe 'stateG', =>
+    beforeEach inject ($state, @sampleHttpService) =>
+      @subject = $state.get 'stateG'
+
+    it 'resolves the promise by calling service with arguments', =>
+      expect(@subject.resolve.user_history).to_resolve_by_calling_service_with @sampleHttpService, 'do_get_with', 1, 'a', true
+```
+
+#### impl
+``` Coffeescript
+  $stateProvider.state 'stateG',
+    resolve:
+      user_history: ['sampleHttpService', (sampleHttpService) -> sampleHttpService.do_get_with 1, 'a', true]
 ```

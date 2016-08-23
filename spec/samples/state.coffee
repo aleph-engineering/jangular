@@ -21,4 +21,8 @@ config = ($stateProvider) ->
     resolve:
       user_profile: ['sampleHttpService', (sampleHttpService) -> sampleHttpService.do_get()]
 
+  $stateProvider.state 'stateG',
+    resolve:
+      user_history: ['sampleHttpService', (sampleHttpService) -> sampleHttpService.do_get_with 1, 'a', true]
+
 angular.module('sample.module').config config

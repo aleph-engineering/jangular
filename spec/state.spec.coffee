@@ -62,3 +62,10 @@ describe 'sample ui.router state matchers', ->
 
     it 'resolves the promise by calling service without arguments', =>
       expect(@subject.resolve.user_profile).to_resolve_by_calling_service @sampleHttpService, 'do_get'
+
+  describe 'stateG', =>
+    beforeEach inject ($state, @sampleHttpService) =>
+      @subject = $state.get 'stateG'
+
+    it 'resolves the promise by calling service with arguments', =>
+      expect(@subject.resolve.user_history).to_resolve_by_calling_service_with @sampleHttpService, 'do_get_with', 1, 'a', true

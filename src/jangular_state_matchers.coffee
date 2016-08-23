@@ -7,6 +7,7 @@
 common = require './jangular_common'
 
 validate_arguments_count = common.validate_arguments_count
+validate_arguments_gt = common.validate_arguments_gt
 assert_is_spy = common.assert_is_spy
 q = common.q
 spy_have_been_called = common.spy_have_been_called
@@ -164,6 +165,36 @@ to_resolve_by_calling_service = ->
     # TODO: improve this assertion
     spy_have_been_called _spy
 
+to_resolve_by_calling_service_with = ->
+  compare: (promise, service, fn_name, args...) ->
+    validate_arguments_gt args, 0, 'to_resolve_by_calling_service_with takes 3 or more arguments: target service, the function name to spy on and the expected arguments'
+
+    throw new Error 'Actual promise seems to be null or undefined, please define the promise using the syntax `resolve: { my_promise: [..., my_promise_resolution_fn] }`' unless promise?
+
+    #TODO: validate that the supplied object is UI-Router promise definition at least
+
+    _spy = spyOn service, fn_name
+    assert_is_spy _spy
+
+    # spy on service and return an expected value to assert with
+    deferred = q().defer()
+    expected = deferred.promise
+    _spy.and.returnValue expected
+
+    # make the call
+    actual = injector().invoke promise
+
+    # assert the returned value
+    # TODO: improve this assertion
+    expect(actual).toBe expected
+
+    # resolve the promise
+    deferred.resolve()
+
+    # assert
+    # TODO: improve this assertion
+    spy_have_been_called_with _spy, args
+
 module.exports =
   to_be_an_state: to_be_an_state
   toBeAnState: to_be_an_state
@@ -183,3 +214,5 @@ module.exports =
   toHaveTemplateUrl: to_have_template_url
   to_resolve_by_calling_service: to_resolve_by_calling_service
   toResolveByCallingService: to_resolve_by_calling_service
+  to_resolve_by_calling_service_with: to_resolve_by_calling_service_with
+  toResolveByCallingServiceWith: to_resolve_by_calling_service_with
