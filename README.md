@@ -467,3 +467,28 @@ Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state has an e
     url: '/some_url'
     controller: 'SomeUserController'
 ```
+
+### `to_have_controller_alias()`
+Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state has an expected controller alias. It can be use in both variants: object and string with state name.
+
+#### spec
+
+``` Coffeescript
+  describe 'stateC', =>
+    beforeEach inject ($state) =>
+      @subject = $state.get 'stateC'
+
+    it 'has controller alias, using object variant', => expect(@subject).to_have_controller_alias 'suc'
+    it 'has controller alias, using string variant', => expect('stateC').to_have_controller_alias 'suc'
+    it 'has controller alias, using object variant', => expect(@subject).to_have_controller_as 'suc'
+    it 'has controller alias, using string variant', => expect('stateC').to_have_controller_as 'suc'
+   
+```
+
+#### impl
+``` Coffeescript
+  $stateProvider.state 'stateC',
+    url: '/some_url'
+    controller: 'SomeUserController'
+    controllerAs: 'suc'
+```

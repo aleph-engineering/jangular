@@ -556,7 +556,7 @@ module.exports = {
 
 },{"./jangular_common":2}],5:[function(require,module,exports){
 'use strict';
-var common, get_state, is_an_state, is_state_result, state, to_be_abstract, to_be_an_state, to_have_controller, to_have_url, validate_arguments_count;
+var common, get_state, is_an_state, is_state_result, state, to_be_abstract, to_be_an_state, to_have_controller, to_have_controller_alias, to_have_url, validate_arguments_count;
 
 common = require('./jangular_common');
 
@@ -641,9 +641,9 @@ to_have_controller = function() {
   return {
     compare: function(actual, expected_controller) {
       var pass, st;
-      validate_arguments_count(arguments, 2, 'to_have_url takes only expected_controller argument');
+      validate_arguments_count(arguments, 2, 'to_have_controller takes only expected_controller argument');
       if (expected_controller == null) {
-        throw new Error("the expected controller: " + expected_controller + " seems to null or undefined");
+        throw new Error("the expected_controller: " + expected_controller + " seems to null or undefined");
       }
       pass = is_an_state(actual);
       if (!pass) {
@@ -658,6 +658,27 @@ to_have_controller = function() {
   };
 };
 
+to_have_controller_alias = function() {
+  return {
+    compare: function(actual, expected_controller_alias) {
+      var pass, st;
+      validate_arguments_count(arguments, 2, 'to_have_controller_alias takes only expected_controller_alias argument');
+      if (expected_controller_alias == null) {
+        throw new Error("the expected_controller_alias: " + expected_controller_alias + " seems to null or undefined");
+      }
+      pass = is_an_state(actual);
+      if (!pass) {
+        return is_state_result(pass, actual);
+      }
+      st = get_state(actual);
+      return {
+        pass: (st != null ? st.controllerAs : void 0) === expected_controller_alias,
+        message: "Expected state `" + st.name + "` seems to NOT have the controller alias '" + expected_controller_alias + "'. Ensure that you properly initialize the state with `controllerAs` property `$stateProvider.state('state_name', {controllerAs: '" + expected_controller_alias + "'})`"
+      };
+    }
+  };
+};
+
 module.exports = {
   to_be_an_state: to_be_an_state,
   toBeAnState: to_be_an_state,
@@ -666,7 +687,11 @@ module.exports = {
   to_have_url: to_have_url,
   toHaveUrl: to_have_url,
   to_have_controller: to_have_controller,
-  toHaveController: to_have_controller
+  toHaveController: to_have_controller,
+  to_have_controller_alias: to_have_controller_alias,
+  toHaveControllerAlias: to_have_controller_alias,
+  to_have_controller_as: to_have_controller_alias,
+  toHaveControllerAs: to_have_controller_alias
 };
 
 },{"./jangular_common":2}]},{},[1]);
@@ -1339,7 +1364,7 @@ module.exports = {
 
 },{}],2:[function(require,module,exports){
 'use strict';
-var common, get_state, is_an_state, is_state_result, state, to_be_abstract, to_be_an_state, to_have_controller, to_have_url, validate_arguments_count;
+var common, get_state, is_an_state, is_state_result, state, to_be_abstract, to_be_an_state, to_have_controller, to_have_controller_alias, to_have_url, validate_arguments_count;
 
 common = require('./jangular_common');
 
@@ -1424,9 +1449,9 @@ to_have_controller = function() {
   return {
     compare: function(actual, expected_controller) {
       var pass, st;
-      validate_arguments_count(arguments, 2, 'to_have_url takes only expected_controller argument');
+      validate_arguments_count(arguments, 2, 'to_have_controller takes only expected_controller argument');
       if (expected_controller == null) {
-        throw new Error("the expected controller: " + expected_controller + " seems to null or undefined");
+        throw new Error("the expected_controller: " + expected_controller + " seems to null or undefined");
       }
       pass = is_an_state(actual);
       if (!pass) {
@@ -1441,6 +1466,27 @@ to_have_controller = function() {
   };
 };
 
+to_have_controller_alias = function() {
+  return {
+    compare: function(actual, expected_controller_alias) {
+      var pass, st;
+      validate_arguments_count(arguments, 2, 'to_have_controller_alias takes only expected_controller_alias argument');
+      if (expected_controller_alias == null) {
+        throw new Error("the expected_controller_alias: " + expected_controller_alias + " seems to null or undefined");
+      }
+      pass = is_an_state(actual);
+      if (!pass) {
+        return is_state_result(pass, actual);
+      }
+      st = get_state(actual);
+      return {
+        pass: (st != null ? st.controllerAs : void 0) === expected_controller_alias,
+        message: "Expected state `" + st.name + "` seems to NOT have the controller alias '" + expected_controller_alias + "'. Ensure that you properly initialize the state with `controllerAs` property `$stateProvider.state('state_name', {controllerAs: '" + expected_controller_alias + "'})`"
+      };
+    }
+  };
+};
+
 module.exports = {
   to_be_an_state: to_be_an_state,
   toBeAnState: to_be_an_state,
@@ -1449,7 +1495,11 @@ module.exports = {
   to_have_url: to_have_url,
   toHaveUrl: to_have_url,
   to_have_controller: to_have_controller,
-  toHaveController: to_have_controller
+  toHaveController: to_have_controller,
+  to_have_controller_alias: to_have_controller_alias,
+  toHaveControllerAlias: to_have_controller_alias,
+  to_have_controller_as: to_have_controller_alias,
+  toHaveControllerAs: to_have_controller_alias
 };
 
 },{"./jangular_common":1}]},{},[2]);

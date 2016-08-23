@@ -36,3 +36,8 @@ describe 'sample ui.router state matchers', ->
 
     it 'has controller, using object variant', => expect(@subject).to_have_controller 'SomeUserController'
     it 'has controller, using string variant', => expect('stateC').to_have_controller 'SomeUserController'
+
+    it 'has controller alias, using object variant', => expect(@subject).to_have_controller_alias 'suc'
+    it 'has controller alias, using string variant', => expect('stateC').to_have_controller_alias 'suc'
+    it 'has controller alias, using object variant', => expect(@subject).to_have_controller_as 'suc'
+    it 'has controller alias, using string variant', => expect('stateC').to_have_controller_as 'suc'
