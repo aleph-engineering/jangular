@@ -27,6 +27,8 @@
     "jasmine-matchers-loader": "^0.1.0"
   },
   "devDependencies": {
+    "angular": "^1.5.8",
+    "angular-mocks": "^1.5.8",
     "angular-ui-router": "^0.3.1",
     "fs": "0.0.2",
     "gulp": "^3.9.1",
