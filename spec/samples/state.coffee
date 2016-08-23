@@ -11,4 +11,7 @@ config = ($stateProvider) ->
     controller: 'SomeUserController'
     controllerAs: 'suc'
 
+  $stateProvider.state 'stateD',
+    template: '<div id="some_template"></div>'
+
 angular.module('sample.module').config config

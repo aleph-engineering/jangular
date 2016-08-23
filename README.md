@@ -492,3 +492,23 @@ Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state has an e
     controller: 'SomeUserController'
     controllerAs: 'suc'
 ```
+
+### `to_have_template()`
+Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state has an expected template. It can be use in both variants: object and string with state name.
+
+#### spec
+
+``` Coffeescript
+  describe 'stateD', =>
+    beforeEach inject ($state) =>
+      @subject = $state.get 'stateD'
+
+    it 'has a template, using object variant', => expect(@subject).to_have_template '<div id="some_template"></div>'
+    it 'has a template, using string variant', => expect('stateD').to_have_template '<div id="some_template"></div>'
+```
+
+#### impl
+``` Coffeescript
+  $stateProvider.state 'stateD',
+    template: '<div id="some_template"></div>'
+```

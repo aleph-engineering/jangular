@@ -556,7 +556,7 @@ module.exports = {
 
 },{"./jangular_common":2}],5:[function(require,module,exports){
 'use strict';
-var common, get_state, is_an_state, is_state_result, state, to_be_abstract, to_be_an_state, to_have_controller, to_have_controller_alias, to_have_url, validate_arguments_count;
+var common, get_state, is_an_state, is_state_result, state, to_be_abstract, to_be_an_state, to_have_controller, to_have_controller_alias, to_have_template, to_have_url, validate_arguments_count;
 
 common = require('./jangular_common');
 
@@ -679,6 +679,27 @@ to_have_controller_alias = function() {
   };
 };
 
+to_have_template = function() {
+  return {
+    compare: function(actual, expected_template) {
+      var pass, st;
+      validate_arguments_count(arguments, 2, 'to_have_template takes only expected_template argument');
+      if (expected_template == null) {
+        throw new Error("the expected_template: " + expected_template + " seems to null or undefined");
+      }
+      pass = is_an_state(actual);
+      if (!pass) {
+        return is_state_result(pass, actual);
+      }
+      st = get_state(actual);
+      return {
+        pass: (st != null ? st.template : void 0) === expected_template,
+        message: "Expected state `" + st.name + "` seems to NOT have the template '" + expected_template + "'. Ensure that you properly initialize the state with `template` property `$stateProvider.state('state_name', {template: '" + expected_template + "'})`"
+      };
+    }
+  };
+};
+
 module.exports = {
   to_be_an_state: to_be_an_state,
   toBeAnState: to_be_an_state,
@@ -691,7 +712,9 @@ module.exports = {
   to_have_controller_alias: to_have_controller_alias,
   toHaveControllerAlias: to_have_controller_alias,
   to_have_controller_as: to_have_controller_alias,
-  toHaveControllerAs: to_have_controller_alias
+  toHaveControllerAs: to_have_controller_alias,
+  to_have_template: to_have_template,
+  toHaveTemplate: to_have_template
 };
 
 },{"./jangular_common":2}]},{},[1]);
@@ -1364,7 +1387,7 @@ module.exports = {
 
 },{}],2:[function(require,module,exports){
 'use strict';
-var common, get_state, is_an_state, is_state_result, state, to_be_abstract, to_be_an_state, to_have_controller, to_have_controller_alias, to_have_url, validate_arguments_count;
+var common, get_state, is_an_state, is_state_result, state, to_be_abstract, to_be_an_state, to_have_controller, to_have_controller_alias, to_have_template, to_have_url, validate_arguments_count;
 
 common = require('./jangular_common');
 
@@ -1487,6 +1510,27 @@ to_have_controller_alias = function() {
   };
 };
 
+to_have_template = function() {
+  return {
+    compare: function(actual, expected_template) {
+      var pass, st;
+      validate_arguments_count(arguments, 2, 'to_have_template takes only expected_template argument');
+      if (expected_template == null) {
+        throw new Error("the expected_template: " + expected_template + " seems to null or undefined");
+      }
+      pass = is_an_state(actual);
+      if (!pass) {
+        return is_state_result(pass, actual);
+      }
+      st = get_state(actual);
+      return {
+        pass: (st != null ? st.template : void 0) === expected_template,
+        message: "Expected state `" + st.name + "` seems to NOT have the template '" + expected_template + "'. Ensure that you properly initialize the state with `template` property `$stateProvider.state('state_name', {template: '" + expected_template + "'})`"
+      };
+    }
+  };
+};
+
 module.exports = {
   to_be_an_state: to_be_an_state,
   toBeAnState: to_be_an_state,
@@ -1499,7 +1543,9 @@ module.exports = {
   to_have_controller_alias: to_have_controller_alias,
   toHaveControllerAlias: to_have_controller_alias,
   to_have_controller_as: to_have_controller_alias,
-  toHaveControllerAs: to_have_controller_alias
+  toHaveControllerAs: to_have_controller_alias,
+  to_have_template: to_have_template,
+  toHaveTemplate: to_have_template
 };
 
 },{"./jangular_common":1}]},{},[2]);

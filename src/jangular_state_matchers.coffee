@@ -95,6 +95,21 @@ to_have_controller_alias = ->
     pass: st?.controllerAs is expected_controller_alias
     message: "Expected state `#{st.name}` seems to NOT have the controller alias '#{expected_controller_alias}'. Ensure that you properly initialize the state with `controllerAs` property `$stateProvider.state('state_name', {controllerAs: '#{expected_controller_alias}'})`"
 
+to_have_template = ->
+  compare: (actual, expected_template) ->
+    validate_arguments_count arguments, 2, 'to_have_template takes only expected_template argument'
+
+    throw new Error "the expected_template: #{expected_template} seems to null or undefined" unless expected_template?
+
+    # check if it is an state
+    pass = is_an_state actual
+    return is_state_result pass, actual unless pass
+
+    st = get_state actual
+
+    pass: st?.template is expected_template
+    message: "Expected state `#{st.name}` seems to NOT have the template '#{expected_template}'. Ensure that you properly initialize the state with `template` property `$stateProvider.state('state_name', {template: '#{expected_template}'})`"
+
 module.exports =
   to_be_an_state: to_be_an_state
   toBeAnState: to_be_an_state
@@ -108,4 +123,5 @@ module.exports =
   toHaveControllerAlias: to_have_controller_alias
   to_have_controller_as: to_have_controller_alias
   toHaveControllerAs: to_have_controller_alias
-
+  to_have_template: to_have_template
+  toHaveTemplate: to_have_template
