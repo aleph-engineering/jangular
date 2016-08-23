@@ -512,3 +512,23 @@ Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state has an e
   $stateProvider.state 'stateD',
     template: '<div id="some_template"></div>'
 ```
+
+### `to_have_template_url()`
+Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state has an expected template URL. It can be use in both variants: object and string with state name.
+
+#### spec
+
+``` Coffeescript
+  describe 'stateE', =>
+    beforeEach inject ($state) =>
+      @subject = $state.get 'stateE'
+
+    it 'has a template URL, using object variant', => expect(@subject).to_have_template_url '/templates/footer.html'
+    it 'has a template URL, using string variant', => expect('stateE').to_have_template_url '/templates/footer.html'
+```
+
+#### impl
+``` Coffeescript
+  $stateProvider.state 'stateE',
+    templateUrl: '/templates/footer.html'
+```

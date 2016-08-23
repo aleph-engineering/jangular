@@ -48,3 +48,10 @@ describe 'sample ui.router state matchers', ->
 
     it 'has a template, using object variant', => expect(@subject).to_have_template '<div id="some_template"></div>'
     it 'has a template, using string variant', => expect('stateD').to_have_template '<div id="some_template"></div>'
+
+  describe 'stateE', =>
+    beforeEach inject ($state) =>
+      @subject = $state.get 'stateE'
+
+    it 'has a template URL, using object variant', => expect(@subject).to_have_template_url '/templates/footer.html'
+    it 'has a template URL, using string variant', => expect('stateE').to_have_template_url '/templates/footer.html'

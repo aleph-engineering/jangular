@@ -110,6 +110,21 @@ to_have_template = ->
     pass: st?.template is expected_template
     message: "Expected state `#{st.name}` seems to NOT have the template '#{expected_template}'. Ensure that you properly initialize the state with `template` property `$stateProvider.state('state_name', {template: '#{expected_template}'})`"
 
+to_have_template_url = ->
+  compare: (actual, expected_template_url) ->
+    validate_arguments_count arguments, 2, 'to_have_template_url takes only expected_template_url argument'
+
+    throw new Error "the expected_template_url: #{expected_template_url} seems to null or undefined" unless expected_template_url?
+
+    # check if it is an state
+    pass = is_an_state actual
+    return is_state_result pass, actual unless pass
+
+    st = get_state actual
+
+    pass: st?.templateUrl is expected_template_url
+    message: "Expected state `#{st.name}` seems to NOT have the template URL '#{expected_template_url}'. Ensure that you properly initialize the state with `template` property `$stateProvider.state('state_name', {templateUrl: '#{expected_template_url}'})`"
+
 module.exports =
   to_be_an_state: to_be_an_state
   toBeAnState: to_be_an_state
@@ -125,3 +140,5 @@ module.exports =
   toHaveControllerAs: to_have_controller_alias
   to_have_template: to_have_template
   toHaveTemplate: to_have_template
+  to_have_template_url: to_have_template_url
+  toHaveTemplateUrl: to_have_template_url

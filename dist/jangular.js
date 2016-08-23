@@ -556,7 +556,7 @@ module.exports = {
 
 },{"./jangular_common":2}],5:[function(require,module,exports){
 'use strict';
-var common, get_state, is_an_state, is_state_result, state, to_be_abstract, to_be_an_state, to_have_controller, to_have_controller_alias, to_have_template, to_have_url, validate_arguments_count;
+var common, get_state, is_an_state, is_state_result, state, to_be_abstract, to_be_an_state, to_have_controller, to_have_controller_alias, to_have_template, to_have_template_url, to_have_url, validate_arguments_count;
 
 common = require('./jangular_common');
 
@@ -700,6 +700,27 @@ to_have_template = function() {
   };
 };
 
+to_have_template_url = function() {
+  return {
+    compare: function(actual, expected_template_url) {
+      var pass, st;
+      validate_arguments_count(arguments, 2, 'to_have_template_url takes only expected_template_url argument');
+      if (expected_template_url == null) {
+        throw new Error("the expected_template_url: " + expected_template_url + " seems to null or undefined");
+      }
+      pass = is_an_state(actual);
+      if (!pass) {
+        return is_state_result(pass, actual);
+      }
+      st = get_state(actual);
+      return {
+        pass: (st != null ? st.templateUrl : void 0) === expected_template_url,
+        message: "Expected state `" + st.name + "` seems to NOT have the template URL '" + expected_template_url + "'. Ensure that you properly initialize the state with `template` property `$stateProvider.state('state_name', {templateUrl: '" + expected_template_url + "'})`"
+      };
+    }
+  };
+};
+
 module.exports = {
   to_be_an_state: to_be_an_state,
   toBeAnState: to_be_an_state,
@@ -714,7 +735,9 @@ module.exports = {
   to_have_controller_as: to_have_controller_alias,
   toHaveControllerAs: to_have_controller_alias,
   to_have_template: to_have_template,
-  toHaveTemplate: to_have_template
+  toHaveTemplate: to_have_template,
+  to_have_template_url: to_have_template_url,
+  toHaveTemplateUrl: to_have_template_url
 };
 
 },{"./jangular_common":2}]},{},[1]);
@@ -1387,7 +1410,7 @@ module.exports = {
 
 },{}],2:[function(require,module,exports){
 'use strict';
-var common, get_state, is_an_state, is_state_result, state, to_be_abstract, to_be_an_state, to_have_controller, to_have_controller_alias, to_have_template, to_have_url, validate_arguments_count;
+var common, get_state, is_an_state, is_state_result, state, to_be_abstract, to_be_an_state, to_have_controller, to_have_controller_alias, to_have_template, to_have_template_url, to_have_url, validate_arguments_count;
 
 common = require('./jangular_common');
 
@@ -1531,6 +1554,27 @@ to_have_template = function() {
   };
 };
 
+to_have_template_url = function() {
+  return {
+    compare: function(actual, expected_template_url) {
+      var pass, st;
+      validate_arguments_count(arguments, 2, 'to_have_template_url takes only expected_template_url argument');
+      if (expected_template_url == null) {
+        throw new Error("the expected_template_url: " + expected_template_url + " seems to null or undefined");
+      }
+      pass = is_an_state(actual);
+      if (!pass) {
+        return is_state_result(pass, actual);
+      }
+      st = get_state(actual);
+      return {
+        pass: (st != null ? st.templateUrl : void 0) === expected_template_url,
+        message: "Expected state `" + st.name + "` seems to NOT have the template URL '" + expected_template_url + "'. Ensure that you properly initialize the state with `template` property `$stateProvider.state('state_name', {templateUrl: '" + expected_template_url + "'})`"
+      };
+    }
+  };
+};
+
 module.exports = {
   to_be_an_state: to_be_an_state,
   toBeAnState: to_be_an_state,
@@ -1545,7 +1589,9 @@ module.exports = {
   to_have_controller_as: to_have_controller_alias,
   toHaveControllerAs: to_have_controller_alias,
   to_have_template: to_have_template,
-  toHaveTemplate: to_have_template
+  toHaveTemplate: to_have_template,
+  to_have_template_url: to_have_template_url,
+  toHaveTemplateUrl: to_have_template_url
 };
 
 },{"./jangular_common":1}]},{},[2]);
