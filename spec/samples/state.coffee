@@ -8,5 +8,6 @@ config = ($stateProvider) ->
 
   $stateProvider.state 'stateC',
     url: '/some_url'
+    controller: 'SomeUserController'
 
 angular.module('sample.module').config config

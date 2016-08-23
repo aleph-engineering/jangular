@@ -34,3 +34,5 @@ describe 'sample ui.router state matchers', ->
     it 'has an URL, using object variant', => expect(@subject).to_have_url '/some_url'
     it 'has an URL, using string variant', => expect('stateC').to_have_url '/some_url'
 
+    it 'has controller, using object variant', => expect(@subject).to_have_controller 'SomeUserController'
+    it 'has controller, using string variant', => expect('stateC').to_have_controller 'SomeUserController'

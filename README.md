@@ -446,3 +446,24 @@ Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state has an e
   $stateProvider.state 'stateC',
     url: '/some_url'
 ```
+
+### `to_have_controller()`
+Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state has an expected controller. It can be use in both variants: object and string with state name.
+
+#### spec
+
+``` Coffeescript
+  describe 'stateC', =>
+    beforeEach inject ($state) =>
+      @subject = $state.get 'stateC'
+
+    it 'has controller, using object variant', => expect(@subject).to_have_controller 'SomeUserController'
+    it 'has controller, using string variant', => expect('stateC').to_have_controller 'SomeUserController'
+```
+
+#### impl
+``` Coffeescript
+  $stateProvider.state 'stateC',
+    url: '/some_url'
+    controller: 'SomeUserController'
+```

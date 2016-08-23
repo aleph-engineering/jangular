@@ -65,6 +65,21 @@ to_have_url = ->
     pass: st?.url is expected_url
     message: "Expected state `#{st.name}` seems to NOT have the url '#{expected_url}'. Ensure that you properly initialize the state with `url` property `$stateProvider.state('state_name', {url: '#{expected_url}'})`"
 
+to_have_controller = ->
+  compare: (actual, expected_controller) ->
+    validate_arguments_count arguments, 2, 'to_have_url takes only expected_controller argument'
+
+    throw new Error "the expected controller: #{expected_controller} seems to null or undefined" unless expected_controller?
+
+    # check if it is an state
+    pass = is_an_state actual
+    return is_state_result pass, actual unless pass
+
+    st = get_state actual
+
+    pass: st?.controller is expected_controller
+    message: "Expected state `#{st.name}` seems to NOT have the controller '#{expected_controller}'. Ensure that you properly initialize the state with `controller` property `$stateProvider.state('state_name', {controller: '#{expected_controller}'})`"
+
 module.exports =
   to_be_an_state: to_be_an_state
   toBeAnState: to_be_an_state
@@ -72,3 +87,5 @@ module.exports =
   toBeAbstract: to_be_abstract
   to_have_url: to_have_url
   toHaveUrl: to_have_url
+  to_have_controller: to_have_controller
+  toHaveController: to_have_controller
