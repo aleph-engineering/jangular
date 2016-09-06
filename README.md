@@ -33,8 +33,6 @@ $ npm install jangular-matchers
 
 ### State
 
-T0BeD0n3
-
 * [to_be_an_state()](#to_be_an_state)
 * [to_be_abstract()](#to_be_abstract)
 * [to_have_url()](#to_have_url)
@@ -44,7 +42,7 @@ T0BeD0n3
 * [to_have_template_url()](#to_have_template_url)
 * [to_resolve_by_calling_service()](#to_resolve_by_calling_service)
 * [to_resolve_by_calling_service_with()](#to_resolve_by_calling_service_with)
-* [to_have_view()](#to_have_view)
+* [to_have_view()](#to_have_view) *TODO*
 
 ## HTTP Service matchers
 Every sample [Jasmine](http://jasmine.github.io/) matcher for [AngularJS](https://angularjs.org/) HTTP service will be enclosed in the following `describe` code section:
