@@ -7,17 +7,21 @@ module.exports = function (config) {
             'node_modules/angular-ui-router/release/angular-ui-router.js',
             'node_modules/angular-mocks/angular-mocks.js',
 
+            // jangular itself
             'dist/jangular.js',
 
-            'spec/samples/module.coffee',
-
-            'spec/samples/http_service.coffee',
-            'spec/samples/controller.coffee',
-            'spec/samples/state.coffee',
-
-            'spec/http_service.spec.coffee',
-            'spec/controller.spec.coffee',
-            'spec/state.spec.coffee',
+            {
+                pattern: 'coffee/*.coffee'
+            },
+            {
+                pattern: 'js/*.js'
+            },
+            {
+                pattern: 'spec_coffee/*.coffee'
+            },
+            {
+                pattern: 'spec_js/*.js'
+            },
         ],
 
         autoWatch: true,
@@ -42,20 +46,14 @@ module.exports = function (config) {
         reporters: ['progress', 'coverage'],
 
         preprocessors: {
-            // code
+            // jangular itself after coffee
             'dist/jangular.js': ['coverage'],
 
-            // samples
-            'spec/samples/module.coffee': ['coffee', 'coverage'],
+            'coffee/*.coffee': ['coffee', 'coverage'],
+            'js/*.js': ['coverage'],
 
-            'spec/samples/http_service.coffee': ['coffee', 'coverage'],
-            'spec/samples/controller.coffee': ['coffee', 'coverage'],
-            'spec/samples/state.coffee': ['coffee', 'coverage'],
-
-            // specs
-            'spec/http_service.spec.coffee': ['coffee', 'coverage'],
-            'spec/controller.spec.coffee': ['coffee', 'coverage'],
-            'spec/state.spec.coffee': ['coffee', 'coverage']
+            'spec_coffee/*.coffee': ['coffee', 'coverage'],
+            'spec_js/*.js': ['coverage']
         },
         coffeelint: {
             onStart: true,

@@ -2,7 +2,7 @@
 
 [Jasmine](http://jasmine.github.io/) matchers for [AngularJS](https://angularjs.org/) and [UI-Router](https://angular-ui.github.io/ui-router/)
 
-Examples are written in Coffeescript.
+Examples are written in **Javascript** and **Coffeescript**.
 
 ## Usage
 
@@ -14,7 +14,7 @@ $ npm install jangular-matchers
 
 ### Service
 
-* [to_get()](#to_get)
+* [toGet()](#toget)
 * [to_unwrap_get()](#to_unwrap_get)
 * [to_get_and_unwrap()](#to_get_and_unwrap)
 * [to_post()](#to_post)
@@ -47,6 +47,37 @@ $ npm install jangular-matchers
 ## HTTP Service matchers
 Every sample [Jasmine](http://jasmine.github.io/) matcher for [AngularJS](https://angularjs.org/) HTTP service will be enclosed in the following `describe` code section:
 
+### Javascript
+``` Javascript
+    describe('sample http service', function () {
+
+        var subject;
+
+        beforeEach(function () {
+            // make the matchers available
+            jasmine.addMatchers(jangular_matchers);
+
+            // initialize module
+            module('sample.js.module');
+        });
+
+        beforeEach(inject(function (sampleHttpService) {
+            subject = sampleHttpService;
+        }));
+
+        afterEach(inject(function ($httpBackend) {
+            $httpBackend.verifyNoOutstandingExpectation();
+            $httpBackend.verifyNoOutstandingRequest();
+        }));
+
+        it('GETs the given URI', function(){
+            expect(subject.doGet).toGet('/data');
+        });
+
+    });
+```
+
+### Coffeescript
 ``` Coffeescript
 describe 'sample http service matchers', ->
   
@@ -72,7 +103,22 @@ describe 'sample http service matchers', ->
     expect(true).toEqual true
 ```
 
-Every sample [AngularJS](https://angularjs.org/) HTTP service operation will be enclosed in the following Coffeescript `class`:
+Every sample [AngularJS](https://angularjs.org/) HTTP service operation will be enclosed in the following code block:
+
+### Javascript
+``` Javascript
+    function sampleHttpService($http) {
+        return {
+            someFunction: function() {
+                $http.get('/some_url');
+            }
+        };
+    };
+
+    angular.module('sample.js.module').factory('sampleHttpService', ['$http', sampleHttpService]);
+```
+
+### Coffeescript
 
 ``` Coffeescript
 sampleHttpService = ($http) ->
@@ -87,17 +133,34 @@ sampleHttpService = ($http) ->
 angular.module('sample.module').factory 'sampleHttpService', ['$http', sampleHttpService]
 ```
 
-### `to_get()`
+### `toGet()`
 Ensures that the service operation issues a GET to a given URI.
 
-#### spec
+#### Javascript
+##### spec
+
+``` Javascript
+        it('GETs the given URI', function(){
+            expect(subject.doGet).toGet('/data');
+        });
+```
+
+##### impl
+``` Javascript
+            doGet: function() {
+                $http.get('/data');
+            }
+```
+
+#### Coffescript
+##### spec
 
 ``` Coffeescript
   it 'GETs a given URI', =>
     expect(@subject.do_get).to_get '/data'
 ```
 
-#### impl
+##### impl
 ``` Coffeescript
     do_get: ->
       $http.get '/data'
