@@ -22,6 +22,11 @@
                     firstname: 'Olivia',
                     lastname: 'Lago'
                 });
+            },
+            doPostAndUnwrap: function() {
+                return $http.post('/post', {}).then(function(response) {
+                    return response.data;
+                });
             }
         };
     };

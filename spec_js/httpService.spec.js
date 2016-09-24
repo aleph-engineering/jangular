@@ -41,5 +41,9 @@
             });
         });
 
+        it('POST unwraps the response', function(){
+           expect(subject.doPostAndUnwrap).toUnwrapPost();
+        });
+
     });
 })();
