@@ -16,6 +16,12 @@
                 return $http.get('/data').then(function(response){
                     return response.data;
                 });
+            },
+            doPost: function() {
+                $http.post('/post', {
+                    firstname: 'Olivia',
+                    lastname: 'Lago'
+                });
             }
         };
     };

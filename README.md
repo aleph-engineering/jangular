@@ -17,7 +17,7 @@ $ npm install jangular-matchers
 * [toGet()](#toget)
 * [toUnwrapGet()](#tounwrapget)
 * [toGetAndUnwrap()](#togetandunwrap)
-* [to_post()](#to_post)
+* [toPost()](#topost)
 * [to_unwrap_post()](#to_unwrap_post)
 * [to_post_and_unwrap()](#to_post_and_unwrap)
 
@@ -238,17 +238,37 @@ Ensures that the service operation issues a GET to a given URI and unwraps the r
       $http.get('/data').then (reply) -> reply.data
 ```
 
-### `to_post()`
+### `toPost()`
 Ensures that the service operation issues a POST to a given URI.
 
-#### spec
+#### Javascript
+##### spec
+```Javascript
+        it('POSTs a given URI', function() {
+            expect(subject.doPost).toPost('/post', {
+                firstname: 'Olivia',
+                lastname: 'Lago'
+            });
+        });
+```
+##### impl
+```Javascript
+            doPost: function() {
+                $http.post('/post', {
+                    firstname: 'Olivia',
+                    lastname: 'Lago'
+                });
+            }
+```
+#### Coffeescript
+##### spec
 
 ``` Coffeescript
   it 'POSTs a given URI', =>
     expect(@subject.do_post).to_post '/post', firstname: 'Olivia', lastname: 'Lago'
 ```
 
-#### impl
+##### impl
 ``` Coffeescript
     do_post: ->
       $http.post '/post', firstname: 'Olivia', lastname: 'Lago'
