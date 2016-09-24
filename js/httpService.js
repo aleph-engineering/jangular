@@ -1,30 +1,34 @@
-(function(){
+(function () {
 
     'use strict';
 
     function sampleHttpService($http) {
         return {
-            doGet: function() {
+            doGet: function () {
                 $http.get('/data');
             },
-            doUnwrap: function() {
-                return $http.get('/any_path').then(function(response) {
+            doUnwrap: function () {
+                return $http.get('/any_path').then(function (response) {
                     return response.data;
                 });
             },
-            doGetAndUnwrap: function() {
-                return $http.get('/data').then(function(response){
+            doGetAndUnwrap: function () {
+                return $http.get('/data').then(function (response) {
                     return response.data;
                 });
             },
-            doPost: function() {
+            doPost: function () {
                 $http.post('/post', {
                     firstname: 'Olivia',
                     lastname: 'Lago'
                 });
             },
-            doPostAndUnwrap: function() {
-                return $http.post('/post', {}).then(function(response) {
+            doPostAndUnwrap: function () {
+                var payload = {
+                    firstname: 'Olivia',
+                    lastname: 'Lago'
+                };
+                return $http.post('/post', payload).then(function (response) {
                     return response.data;
                 });
             }

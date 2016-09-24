@@ -45,5 +45,12 @@
            expect(subject.doPostAndUnwrap).toUnwrapPost();
         });
 
+        it('POST a given URI and unwraps the response', function() {
+            expect(subject.doPostAndUnwrap).toPostAndUnwrap('/post', {
+                firstname: 'Olivia',
+                lastname: 'Lago'
+            });
+        });
+
     });
 })();

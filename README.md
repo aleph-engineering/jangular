@@ -19,7 +19,7 @@ $ npm install jangular-matchers
 * [toGetAndUnwrap()](#togetandunwrap)
 * [toPost()](#topost)
 * [toUnwrapPost()](#tounwrappost)
-* [to_post_and_unwrap()](#to_post_and_unwrap)
+* [toPostAndUnwrap()](#topostandunwrap)
 
 ### Controller
 
@@ -310,17 +310,44 @@ Ensures that the service operation unwraps the response body on success. Expects
       $http.post('/post', firstname: 'Olivia', lastname: 'Lago').then (reply) -> reply.data
 ```
 
-### `to_post_and_unwrap()`
+### `toPostAndUnwrap()`
 Ensures that the service operation issues a POST to a given URI and unwraps the response body on success. Expects the service operation under test to return the `POST` promise as well.
 
-#### spec
+#### Javascript
+
+##### spec
+```Javascript
+        it('POST a given URI and unwraps the response', function() {
+            expect(subject.doPostAndUnwrap).toPostAndUnwrap('/post', {
+                firstname: 'Olivia',
+                lastname: 'Lago'
+            });
+        });
+```
+
+##### impl
+```Javascript
+            doPostAndUnwrap: function () {
+                var payload = {
+                    firstname: 'Olivia',
+                    lastname: 'Lago'
+                };
+                return $http.post('/post', payload).then(function (response) {
+                    return response.data;
+                });
+            }
+```
+
+#### Coffeescript
+
+##### spec
 
 ``` Coffeescript
   it 'POST a given URI and unwraps the response', =>
     expect(@subject.do_post_and_unwrap).to_post_and_unwrap '/post', firstname: 'Olivia', lastname: 'Lago'
 ```
 
-#### impl
+##### impl
 ``` Coffeescript
     do_post_and_unwrap: ->
       $http.post('/post', firstname: 'Olivia', lastname: 'Lago').then (reply) -> reply.data
