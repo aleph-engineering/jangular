@@ -14,6 +14,7 @@ throw_fn_expected = common.throw_fn_expected
 ok = 200
 err = 500
 
+# TODO: requires improvement!
 expect_to_be_promise = (obj) ->
   expect(obj).toBeDefined()
   expect_to_be_function obj.then

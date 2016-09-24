@@ -6,6 +6,11 @@
         return {
             doGet: function() {
                 $http.get('/data');
+            },
+            doUnwrap: function() {
+                return $http.get('/any_path').then(function(response) {
+                    return response.data;
+                });
             }
         };
     };

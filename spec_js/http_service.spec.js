@@ -26,5 +26,9 @@
             expect(subject.doGet).toGet('/data');
         });
 
+        it('GET unwraps the response', function() {
+            expect(subject.doUnwrap).toUnwrapGet();
+        });
+
     });
 })();
