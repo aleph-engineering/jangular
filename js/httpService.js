@@ -11,6 +11,11 @@
                 return $http.get('/any_path').then(function(response) {
                     return response.data;
                 });
+            },
+            doGetAndUnwrap: function() {
+                return $http.get('/data').then(function(response){
+                    return response.data;
+                });
             }
         };
     };

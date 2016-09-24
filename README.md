@@ -16,7 +16,7 @@ $ npm install jangular-matchers
 
 * [toGet()](#toget)
 * [toUnwrapGet()](#tounwrapget)
-* [to_get_and_unwrap()](#to_get_and_unwrap)
+* [toGetAndUnwrap()](#togetandunwrap)
 * [to_post()](#to_post)
 * [to_unwrap_post()](#to_unwrap_post)
 * [to_post_and_unwrap()](#to_post_and_unwrap)
@@ -167,7 +167,7 @@ Ensures that the service operation issues a GET to a given URI.
 ```
 
 ### `toUnwrapGet()`
-Ensures that the service operation unwraps the response body on success.
+Ensures that the service operation unwraps the response body on success. Expects the service operation under test to return the `GET` promise as well.  
 
 #### Javascript
 
@@ -201,17 +201,38 @@ Ensures that the service operation unwraps the response body on success.
       $http.get('/any_path').then (reply) -> reply.data
 ```
 
-### `to_get_and_unwrap()`
-Ensures that the service operation issues a GET to a given URI and unwraps the response body on success.
+### `toGetAndUnwrap()`
+Ensures that the service operation issues a GET to a given URI and unwraps the response body on success. Expects the service operation under test to return the `GET` promise as well. 
 
-#### spec
+#### Javascript
 
+##### spec
+```Javascript
+        it('GETs a given URI and unwraps the response', function(){
+            expect(subject.doGetAndUnwrap).toGetAndUnwrap('/data');
+        });
+
+```
+
+##### impl
+```Javascript
+            doGetAndUnwrap: function() {
+                return $http.get('/data').then(function(response){
+                    return response.data;
+                });
+            }
+
+```
+
+#### Coffeescript
+
+##### spec
 ``` Coffeescript
   it 'GETs a given URI and unwraps the response', =>
     expect(@subject.do_get_and_unwrap).to_get_and_unwrap '/data'
 ```
 
-#### impl
+##### impl
 ``` Coffeescript
     do_get_and_unwrap: ->
       $http.get('/data').then (reply) -> reply.data

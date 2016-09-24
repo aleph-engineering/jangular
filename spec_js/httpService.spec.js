@@ -30,5 +30,9 @@
             expect(subject.doUnwrap).toUnwrapGet();
         });
 
+        it('GETs a given URI and unwraps the response', function(){
+            expect(subject.doGetAndUnwrap).toGetAndUnwrap('/data');
+        });
+
     });
 })();
