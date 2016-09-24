@@ -8,7 +8,7 @@ describe 'sample http service matchers', ->
 
   # initialize module
   beforeEach ->
-    module 'sample.module'
+    module 'sample.coffee.module'
 
   # inject the http service (SUT)
   beforeEach inject (sampleHttpService) =>

@@ -25,4 +25,4 @@ config = ($stateProvider) ->
     resolve:
       user_history: ['sampleHttpService', (sampleHttpService) -> sampleHttpService.do_get_with 1, 'a', true]
 
-angular.module('sample.module').config config
+angular.module('sample.coffee.module').config config

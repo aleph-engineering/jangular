@@ -8,7 +8,7 @@ describe 'sample controller matchers', ->
 
   # initialize module
   beforeEach -> 
-    module 'sample.module'
+    module 'sample.coffee.module'
 
   # create controller and inject dependencies
   beforeEach inject ($controller, sampleHttpService) =>

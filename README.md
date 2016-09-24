@@ -87,7 +87,7 @@ describe 'sample http service matchers', ->
 
   # initialize module
   beforeEach ->
-    module 'sample.module'
+    module 'sample.coffee.module'
 
   # inject the http service (SUT)
   beforeEach inject (sampleHttpService) =>
@@ -130,7 +130,7 @@ sampleHttpService = ($http) ->
 
   new SampleHttpService
 
-angular.module('sample.module').factory 'sampleHttpService', ['$http', sampleHttpService]
+angular.module('sample.coffee.module').factory 'sampleHttpService', ['$http', sampleHttpService]
 ```
 
 ### `toGet()`
@@ -258,7 +258,7 @@ describe 'sample controller matchers', ->
 
   # initialize module
   beforeEach -> 
-    module 'sample.module'
+    module 'sample.coffee.module'
 
   # create controller and inject dependencies
   beforeEach inject ($controller, sampleHttpService) =>
@@ -428,7 +428,7 @@ describe 'sample ui.router state matchers', ->
 
   # initialize module
   beforeEach ->
-    module 'sample.module'
+    module 'sample.coffee.module'
 
   # (example specs listed here)
   it 'example spec', =>
@@ -443,7 +443,7 @@ config = ($stateProvider) ->
   $stateProvider.state 'some_state', {}
 
 
-angular.module('sample.module').config config
+angular.module('sample.coffee.module').config config
 ```
 
 ### `to_be_an_state()`

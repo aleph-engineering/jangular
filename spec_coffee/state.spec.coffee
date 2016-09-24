@@ -8,7 +8,7 @@ describe 'sample ui.router state matchers', ->
 
   # initialize module
   beforeEach ->
-    module 'sample.module'
+    module 'sample.coffee.module'
 
   describe 'stateA', =>
 

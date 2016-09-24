@@ -35,5 +35,5 @@ class SampleController
   do_failing_callback: =>
     @sampleHttpService.do_get().then (->), => @do_get_fails_with 1, 2, 3
 
-angular.module('sample.module').controller 'SampleController', ['sampleHttpService', SampleController]
+angular.module('sample.coffee.module').controller 'SampleController', ['sampleHttpService', SampleController]
 

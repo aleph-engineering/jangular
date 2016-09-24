@@ -22,4 +22,4 @@ sampleHttpService = ($http) ->
 
   new SampleHttpService
 
-angular.module('sample.module').factory 'sampleHttpService', ['$http', sampleHttpService]
+angular.module('sample.coffee.module').factory 'sampleHttpService', ['$http', sampleHttpService]
