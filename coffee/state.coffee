@@ -16,6 +16,9 @@ config = ($stateProvider) ->
 
   $stateProvider.state 'stateE',
     templateUrl: '/templates/footer.html'
+    views:
+      nested_view:
+        templateUrl: '/templates/views/nested.html'
 
   $stateProvider.state 'stateF',
     resolve:
@@ -24,5 +27,11 @@ config = ($stateProvider) ->
   $stateProvider.state 'stateG',
     resolve:
       user_history: ['sampleHttpService', (sampleHttpService) -> sampleHttpService.do_get_with 1, 'a', true]
+
+  $stateProvider.state 'stateX',
+    templateUrl: '/xurl'
+    views:
+      my_view:
+        templateUrl: '/view_url'
 
 angular.module('sample.coffee.module').config config

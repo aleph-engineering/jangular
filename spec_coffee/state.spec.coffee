@@ -56,6 +56,24 @@ describe 'sample ui.router state matchers', ->
     it 'has a template URL, using object variant', => expect(@subject).to_have_template_url '/templates/footer.html'
     it 'has a template URL, using string variant', => expect('stateE').to_have_template_url '/templates/footer.html'
 
+    describe 'some nested view', =>
+      beforeEach inject ($state) =>
+        @subject = $state.get('stateE').views['nested_view']
+
+      it 'view has a template URL', =>
+        expect(@subject).to_have_template_url '/templates/views/nested.html'
+
+  describe 'stateX', =>
+    beforeEach inject ($state) =>
+      @subject = $state.get('stateX')
+
+    it 'as a template URL, using object variant', =>
+      expect(@subject).to_have_template_url '/xurl'
+
+    describe 'a nested view', =>
+      it 'view has a template URL', inject ($state) =>
+        expect($state.get('stateX').views['my_view']).to_have_template_url '/view_url'
+
   describe 'stateF', =>
     beforeEach inject ($state, @sampleHttpService) =>
       @subject = $state.get 'stateF'

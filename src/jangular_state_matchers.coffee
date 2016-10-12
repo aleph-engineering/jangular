@@ -22,16 +22,26 @@ state = ->
   inject ($state) -> _state = $state
   _state
 
+is_not_an_state = (actual) ->
+  !actual?
+
 is_an_state = (actual) ->
   actual?.name? || state().get(actual)?
 
 get_state = (actual) ->
   return actual if actual?.name?
-  state().get(actual)
+  try
+    st = state().get actual
+    return st if st?
+    return actual if actual?
+    return {}
+  catch
+    return actual if actual?
+    return {}
 
 is_state_result = (pass, actual) ->
   pass: pass
-  message: "Expected state `#{actual}` to exists, but it is not defined. Ensure that you properly initialize the state using `$stateProvider.state('state_name', {...})` and don't forget to include ui.router as module dependency: `angular.module('my_module', ['ui.router'])`"
+  message: "Expected state/view `#{actual}` to exists, but it is not defined. Ensure that you properly initialize the state using `$stateProvider.state('state_name', {...})` and don't forget to include ui.router as module dependency: `angular.module('my_module', ['ui.router'])`"
 
 injector = ->
   _injector = undefined
@@ -81,14 +91,14 @@ to_have_controller = ->
 
     throw new Error "the expected_controller: #{expected_controller} seems to null or undefined" unless expected_controller?
 
-    # check if it is an state
-    pass = is_an_state actual
-    return is_state_result pass, actual unless pass
+    # check if it is NOT an state
+    return is_state_result no, actual if is_not_an_state(actual)
 
     st = get_state actual
 
+    display_name = if st?.name? then st.name else JSON.stringify st
     pass: st?.controller is expected_controller
-    message: "Expected state `#{st.name}` seems to NOT have the controller '#{expected_controller}'. Ensure that you properly initialize the state with `controller` property `$stateProvider.state('state_name', {controller: '#{expected_controller}'})`"
+    message: "Expected state `#{display_name}` seems to NOT have the controller '#{expected_controller}'. Ensure that you properly initialize the state with `controller` property `$stateProvider.state('state_name', {controller: '#{expected_controller}'})`"
 
 to_have_controller_alias = ->
   compare: (actual, expected_controller_alias) ->
@@ -96,14 +106,14 @@ to_have_controller_alias = ->
 
     throw new Error "the expected_controller_alias: #{expected_controller_alias} seems to null or undefined" unless expected_controller_alias?
 
-    # check if it is an state
-    pass = is_an_state actual
-    return is_state_result pass, actual unless pass
+    # check if it is NOT an state
+    return is_state_result no, actual if is_not_an_state(actual)
 
     st = get_state actual
 
+    display_name = if st?.name? then st.name else JSON.stringify st
     pass: st?.controllerAs is expected_controller_alias
-    message: "Expected state `#{st.name}` seems to NOT have the controller alias '#{expected_controller_alias}'. Ensure that you properly initialize the state with `controllerAs` property `$stateProvider.state('state_name', {controllerAs: '#{expected_controller_alias}'})`"
+    message: "Expected state `#{display_name}` seems to NOT have the controller alias '#{expected_controller_alias}'. Ensure that you properly initialize the state with `controllerAs` property `$stateProvider.state('state_name', {controllerAs: '#{expected_controller_alias}'})`"
 
 to_have_template = ->
   compare: (actual, expected_template) ->
@@ -111,14 +121,14 @@ to_have_template = ->
 
     throw new Error "the expected_template: #{expected_template} seems to null or undefined" unless expected_template?
 
-    # check if it is an state
-    pass = is_an_state actual
-    return is_state_result pass, actual unless pass
+    # check if it is NOT an state
+    return is_state_result no, actual if is_not_an_state(actual)
 
     st = get_state actual
 
+    display_name = if st?.name? then st.name else JSON.stringify st
     pass: st?.template is expected_template
-    message: "Expected state `#{st.name}` seems to NOT have the template '#{expected_template}'. Ensure that you properly initialize the state with `template` property `$stateProvider.state('state_name', {template: '#{expected_template}'})`"
+    message: "Expected state `#{display_name}` seems to NOT have the template '#{expected_template}'. Ensure that you properly initialize the state with `template` property `$stateProvider.state('state_name', {template: '#{expected_template}'})`"
 
 to_have_template_url = ->
   compare: (actual, expected_template_url) ->
@@ -126,14 +136,14 @@ to_have_template_url = ->
 
     throw new Error "the expected_template_url: #{expected_template_url} seems to null or undefined" unless expected_template_url?
 
-    # check if it is an state
-    pass = is_an_state actual
-    return is_state_result pass, actual unless pass
+    # check if it is NOT an state
+    return is_state_result no, actual if is_not_an_state(actual)
 
     st = get_state actual
 
+    display_name = if st?.name? then st.name else JSON.stringify st
     pass: st?.templateUrl is expected_template_url
-    message: "Expected state `#{st.name}` seems to NOT have the template URL '#{expected_template_url}'. Ensure that you properly initialize the state with `template` property `$stateProvider.state('state_name', {templateUrl: '#{expected_template_url}'})`"
+    message: "Expected state/view `#{display_name}` seems to NOT have the template URL '#{expected_template_url}'. Ensure that you properly initialize the state with `template` property `$stateProvider.state('state_name', {templateUrl: '#{expected_template_url}'})` or alternatively you defined a view"
 
 to_resolve_by_calling_service = ->
   compare: (promise, service, fn_name) ->

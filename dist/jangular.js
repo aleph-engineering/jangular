@@ -568,7 +568,7 @@ module.exports = {
 
 },{"./jangular_common":2}],5:[function(require,module,exports){
 'use strict';
-var assert_is_spy, common, get_state, injector, is_an_state, is_state_result, q, spy_have_been_called, spy_have_been_called_with, state, to_be_abstract, to_be_an_state, to_have_controller, to_have_controller_alias, to_have_template, to_have_template_url, to_have_url, to_resolve_by_calling_service, to_resolve_by_calling_service_with, validate_arguments_count, validate_arguments_gt,
+var assert_is_spy, common, get_state, injector, is_an_state, is_not_an_state, is_state_result, q, spy_have_been_called, spy_have_been_called_with, state, to_be_abstract, to_be_an_state, to_have_controller, to_have_controller_alias, to_have_template, to_have_template_url, to_have_url, to_resolve_by_calling_service, to_resolve_by_calling_service_with, validate_arguments_count, validate_arguments_gt,
   slice = [].slice;
 
 common = require('./jangular_common');
@@ -594,21 +594,40 @@ state = function() {
   return _state;
 };
 
+is_not_an_state = function(actual) {
+  return actual == null;
+};
+
 is_an_state = function(actual) {
   return ((actual != null ? actual.name : void 0) != null) || (state().get(actual) != null);
 };
 
 get_state = function(actual) {
+  var error, st;
   if ((actual != null ? actual.name : void 0) != null) {
     return actual;
   }
-  return state().get(actual);
+  try {
+    st = state().get(actual);
+    if (st != null) {
+      return st;
+    }
+    if (actual != null) {
+      return actual;
+    }
+    return {};
+  } catch (error) {
+    if (actual != null) {
+      return actual;
+    }
+    return {};
+  }
 };
 
 is_state_result = function(pass, actual) {
   return {
     pass: pass,
-    message: "Expected state `" + actual + "` to exists, but it is not defined. Ensure that you properly initialize the state using `$stateProvider.state('state_name', {...})` and don't forget to include ui.router as module dependency: `angular.module('my_module', ['ui.router'])`"
+    message: "Expected state/view `" + actual + "` to exists, but it is not defined. Ensure that you properly initialize the state using `$stateProvider.state('state_name', {...})` and don't forget to include ui.router as module dependency: `angular.module('my_module', ['ui.router'])`"
   };
 };
 
@@ -672,19 +691,19 @@ to_have_url = function() {
 to_have_controller = function() {
   return {
     compare: function(actual, expected_controller) {
-      var pass, st;
+      var display_name, st;
       validate_arguments_count(arguments, 2, 'to_have_controller takes only expected_controller argument');
       if (expected_controller == null) {
         throw new Error("the expected_controller: " + expected_controller + " seems to null or undefined");
       }
-      pass = is_an_state(actual);
-      if (!pass) {
-        return is_state_result(pass, actual);
+      if (is_not_an_state(actual)) {
+        return is_state_result(false, actual);
       }
       st = get_state(actual);
+      display_name = (st != null ? st.name : void 0) != null ? st.name : JSON.stringify(st);
       return {
         pass: (st != null ? st.controller : void 0) === expected_controller,
-        message: "Expected state `" + st.name + "` seems to NOT have the controller '" + expected_controller + "'. Ensure that you properly initialize the state with `controller` property `$stateProvider.state('state_name', {controller: '" + expected_controller + "'})`"
+        message: "Expected state `" + display_name + "` seems to NOT have the controller '" + expected_controller + "'. Ensure that you properly initialize the state with `controller` property `$stateProvider.state('state_name', {controller: '" + expected_controller + "'})`"
       };
     }
   };
@@ -693,19 +712,19 @@ to_have_controller = function() {
 to_have_controller_alias = function() {
   return {
     compare: function(actual, expected_controller_alias) {
-      var pass, st;
+      var display_name, st;
       validate_arguments_count(arguments, 2, 'to_have_controller_alias takes only expected_controller_alias argument');
       if (expected_controller_alias == null) {
         throw new Error("the expected_controller_alias: " + expected_controller_alias + " seems to null or undefined");
       }
-      pass = is_an_state(actual);
-      if (!pass) {
-        return is_state_result(pass, actual);
+      if (is_not_an_state(actual)) {
+        return is_state_result(false, actual);
       }
       st = get_state(actual);
+      display_name = (st != null ? st.name : void 0) != null ? st.name : JSON.stringify(st);
       return {
         pass: (st != null ? st.controllerAs : void 0) === expected_controller_alias,
-        message: "Expected state `" + st.name + "` seems to NOT have the controller alias '" + expected_controller_alias + "'. Ensure that you properly initialize the state with `controllerAs` property `$stateProvider.state('state_name', {controllerAs: '" + expected_controller_alias + "'})`"
+        message: "Expected state `" + display_name + "` seems to NOT have the controller alias '" + expected_controller_alias + "'. Ensure that you properly initialize the state with `controllerAs` property `$stateProvider.state('state_name', {controllerAs: '" + expected_controller_alias + "'})`"
       };
     }
   };
@@ -714,19 +733,19 @@ to_have_controller_alias = function() {
 to_have_template = function() {
   return {
     compare: function(actual, expected_template) {
-      var pass, st;
+      var display_name, st;
       validate_arguments_count(arguments, 2, 'to_have_template takes only expected_template argument');
       if (expected_template == null) {
         throw new Error("the expected_template: " + expected_template + " seems to null or undefined");
       }
-      pass = is_an_state(actual);
-      if (!pass) {
-        return is_state_result(pass, actual);
+      if (is_not_an_state(actual)) {
+        return is_state_result(false, actual);
       }
       st = get_state(actual);
+      display_name = (st != null ? st.name : void 0) != null ? st.name : JSON.stringify(st);
       return {
         pass: (st != null ? st.template : void 0) === expected_template,
-        message: "Expected state `" + st.name + "` seems to NOT have the template '" + expected_template + "'. Ensure that you properly initialize the state with `template` property `$stateProvider.state('state_name', {template: '" + expected_template + "'})`"
+        message: "Expected state `" + display_name + "` seems to NOT have the template '" + expected_template + "'. Ensure that you properly initialize the state with `template` property `$stateProvider.state('state_name', {template: '" + expected_template + "'})`"
       };
     }
   };
@@ -735,19 +754,19 @@ to_have_template = function() {
 to_have_template_url = function() {
   return {
     compare: function(actual, expected_template_url) {
-      var pass, st;
+      var display_name, st;
       validate_arguments_count(arguments, 2, 'to_have_template_url takes only expected_template_url argument');
       if (expected_template_url == null) {
         throw new Error("the expected_template_url: " + expected_template_url + " seems to null or undefined");
       }
-      pass = is_an_state(actual);
-      if (!pass) {
-        return is_state_result(pass, actual);
+      if (is_not_an_state(actual)) {
+        return is_state_result(false, actual);
       }
       st = get_state(actual);
+      display_name = (st != null ? st.name : void 0) != null ? st.name : JSON.stringify(st);
       return {
         pass: (st != null ? st.templateUrl : void 0) === expected_template_url,
-        message: "Expected state `" + st.name + "` seems to NOT have the template URL '" + expected_template_url + "'. Ensure that you properly initialize the state with `template` property `$stateProvider.state('state_name', {templateUrl: '" + expected_template_url + "'})`"
+        message: "Expected state/view `" + display_name + "` seems to NOT have the template URL '" + expected_template_url + "'. Ensure that you properly initialize the state with `template` property `$stateProvider.state('state_name', {templateUrl: '" + expected_template_url + "'})` or alternatively you defined a view"
       };
     }
   };
@@ -1672,7 +1691,7 @@ module.exports = {
 
 },{}],2:[function(require,module,exports){
 'use strict';
-var assert_is_spy, common, get_state, injector, is_an_state, is_state_result, q, spy_have_been_called, spy_have_been_called_with, state, to_be_abstract, to_be_an_state, to_have_controller, to_have_controller_alias, to_have_template, to_have_template_url, to_have_url, to_resolve_by_calling_service, to_resolve_by_calling_service_with, validate_arguments_count, validate_arguments_gt,
+var assert_is_spy, common, get_state, injector, is_an_state, is_not_an_state, is_state_result, q, spy_have_been_called, spy_have_been_called_with, state, to_be_abstract, to_be_an_state, to_have_controller, to_have_controller_alias, to_have_template, to_have_template_url, to_have_url, to_resolve_by_calling_service, to_resolve_by_calling_service_with, validate_arguments_count, validate_arguments_gt,
   slice = [].slice;
 
 common = require('./jangular_common');
@@ -1698,21 +1717,40 @@ state = function() {
   return _state;
 };
 
+is_not_an_state = function(actual) {
+  return actual == null;
+};
+
 is_an_state = function(actual) {
   return ((actual != null ? actual.name : void 0) != null) || (state().get(actual) != null);
 };
 
 get_state = function(actual) {
+  var error, st;
   if ((actual != null ? actual.name : void 0) != null) {
     return actual;
   }
-  return state().get(actual);
+  try {
+    st = state().get(actual);
+    if (st != null) {
+      return st;
+    }
+    if (actual != null) {
+      return actual;
+    }
+    return {};
+  } catch (error) {
+    if (actual != null) {
+      return actual;
+    }
+    return {};
+  }
 };
 
 is_state_result = function(pass, actual) {
   return {
     pass: pass,
-    message: "Expected state `" + actual + "` to exists, but it is not defined. Ensure that you properly initialize the state using `$stateProvider.state('state_name', {...})` and don't forget to include ui.router as module dependency: `angular.module('my_module', ['ui.router'])`"
+    message: "Expected state/view `" + actual + "` to exists, but it is not defined. Ensure that you properly initialize the state using `$stateProvider.state('state_name', {...})` and don't forget to include ui.router as module dependency: `angular.module('my_module', ['ui.router'])`"
   };
 };
 
@@ -1776,19 +1814,19 @@ to_have_url = function() {
 to_have_controller = function() {
   return {
     compare: function(actual, expected_controller) {
-      var pass, st;
+      var display_name, st;
       validate_arguments_count(arguments, 2, 'to_have_controller takes only expected_controller argument');
       if (expected_controller == null) {
         throw new Error("the expected_controller: " + expected_controller + " seems to null or undefined");
       }
-      pass = is_an_state(actual);
-      if (!pass) {
-        return is_state_result(pass, actual);
+      if (is_not_an_state(actual)) {
+        return is_state_result(false, actual);
       }
       st = get_state(actual);
+      display_name = (st != null ? st.name : void 0) != null ? st.name : JSON.stringify(st);
       return {
         pass: (st != null ? st.controller : void 0) === expected_controller,
-        message: "Expected state `" + st.name + "` seems to NOT have the controller '" + expected_controller + "'. Ensure that you properly initialize the state with `controller` property `$stateProvider.state('state_name', {controller: '" + expected_controller + "'})`"
+        message: "Expected state `" + display_name + "` seems to NOT have the controller '" + expected_controller + "'. Ensure that you properly initialize the state with `controller` property `$stateProvider.state('state_name', {controller: '" + expected_controller + "'})`"
       };
     }
   };
@@ -1797,19 +1835,19 @@ to_have_controller = function() {
 to_have_controller_alias = function() {
   return {
     compare: function(actual, expected_controller_alias) {
-      var pass, st;
+      var display_name, st;
       validate_arguments_count(arguments, 2, 'to_have_controller_alias takes only expected_controller_alias argument');
       if (expected_controller_alias == null) {
         throw new Error("the expected_controller_alias: " + expected_controller_alias + " seems to null or undefined");
       }
-      pass = is_an_state(actual);
-      if (!pass) {
-        return is_state_result(pass, actual);
+      if (is_not_an_state(actual)) {
+        return is_state_result(false, actual);
       }
       st = get_state(actual);
+      display_name = (st != null ? st.name : void 0) != null ? st.name : JSON.stringify(st);
       return {
         pass: (st != null ? st.controllerAs : void 0) === expected_controller_alias,
-        message: "Expected state `" + st.name + "` seems to NOT have the controller alias '" + expected_controller_alias + "'. Ensure that you properly initialize the state with `controllerAs` property `$stateProvider.state('state_name', {controllerAs: '" + expected_controller_alias + "'})`"
+        message: "Expected state `" + display_name + "` seems to NOT have the controller alias '" + expected_controller_alias + "'. Ensure that you properly initialize the state with `controllerAs` property `$stateProvider.state('state_name', {controllerAs: '" + expected_controller_alias + "'})`"
       };
     }
   };
@@ -1818,19 +1856,19 @@ to_have_controller_alias = function() {
 to_have_template = function() {
   return {
     compare: function(actual, expected_template) {
-      var pass, st;
+      var display_name, st;
       validate_arguments_count(arguments, 2, 'to_have_template takes only expected_template argument');
       if (expected_template == null) {
         throw new Error("the expected_template: " + expected_template + " seems to null or undefined");
       }
-      pass = is_an_state(actual);
-      if (!pass) {
-        return is_state_result(pass, actual);
+      if (is_not_an_state(actual)) {
+        return is_state_result(false, actual);
       }
       st = get_state(actual);
+      display_name = (st != null ? st.name : void 0) != null ? st.name : JSON.stringify(st);
       return {
         pass: (st != null ? st.template : void 0) === expected_template,
-        message: "Expected state `" + st.name + "` seems to NOT have the template '" + expected_template + "'. Ensure that you properly initialize the state with `template` property `$stateProvider.state('state_name', {template: '" + expected_template + "'})`"
+        message: "Expected state `" + display_name + "` seems to NOT have the template '" + expected_template + "'. Ensure that you properly initialize the state with `template` property `$stateProvider.state('state_name', {template: '" + expected_template + "'})`"
       };
     }
   };
@@ -1839,19 +1877,19 @@ to_have_template = function() {
 to_have_template_url = function() {
   return {
     compare: function(actual, expected_template_url) {
-      var pass, st;
+      var display_name, st;
       validate_arguments_count(arguments, 2, 'to_have_template_url takes only expected_template_url argument');
       if (expected_template_url == null) {
         throw new Error("the expected_template_url: " + expected_template_url + " seems to null or undefined");
       }
-      pass = is_an_state(actual);
-      if (!pass) {
-        return is_state_result(pass, actual);
+      if (is_not_an_state(actual)) {
+        return is_state_result(false, actual);
       }
       st = get_state(actual);
+      display_name = (st != null ? st.name : void 0) != null ? st.name : JSON.stringify(st);
       return {
         pass: (st != null ? st.templateUrl : void 0) === expected_template_url,
-        message: "Expected state `" + st.name + "` seems to NOT have the template URL '" + expected_template_url + "'. Ensure that you properly initialize the state with `template` property `$stateProvider.state('state_name', {templateUrl: '" + expected_template_url + "'})`"
+        message: "Expected state/view `" + display_name + "` seems to NOT have the template URL '" + expected_template_url + "'. Ensure that you properly initialize the state with `template` property `$stateProvider.state('state_name', {templateUrl: '" + expected_template_url + "'})` or alternatively you defined a view"
       };
     }
   };
