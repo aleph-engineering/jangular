@@ -2,13 +2,13 @@
 'use strict';
 var jangular_matchers;
 
-jangular_matchers = angular.merge({}, require('./jangular_controller_matchers.coffee'), require('./jangular_http_matchers.coffee'), require('./jangular_state_matchers.coffee'));
+jangular_matchers = angular.merge({}, require('./jangular_controller_matchers.coffee'), require('./jangular_http_matchers.coffee'), require('./jangular_module_matchers.coffee'), require('./jangular_state_matchers.coffee'));
 
 window.jangular_matchers = jangular_matchers;
 
 module.exports = jangular_matchers;
 
-},{"./jangular_controller_matchers.coffee":3,"./jangular_http_matchers.coffee":4,"./jangular_state_matchers.coffee":5}],2:[function(require,module,exports){
+},{"./jangular_controller_matchers.coffee":3,"./jangular_http_matchers.coffee":4,"./jangular_module_matchers.coffee":5,"./jangular_state_matchers.coffee":6}],2:[function(require,module,exports){
 'use strict';
 var assert_is_spy, expect_to_be_function, is_a_function, q, spy_have_been_called, spy_have_been_called_with, throw_fn_expected, validate_arguments_count, validate_arguments_gt;
 
@@ -589,6 +589,18 @@ module.exports = {
 };
 
 },{"./jangular_common":2}],5:[function(require,module,exports){
+'use strict';
+window.prevent_default = (function(_this) {
+  return function($rootScope) {
+    return $rootScope.$on('$locationChangeStart', function(event) {
+      return event.preventDefault();
+    });
+  };
+})(this);
+
+module.exports = {};
+
+},{}],6:[function(require,module,exports){
 'use strict';
 var assert_is_spy, common, get_state, injector, is_an_state, is_not_an_state, is_state_result, q, spy_have_been_called, spy_have_been_called_with, state, to_be_abstract, to_be_an_state, to_have_controller, to_have_controller_alias, to_have_template, to_have_template_url, to_have_url, to_resolve_by_calling_service, to_resolve_by_calling_service_with, validate_arguments_count, validate_arguments_gt,
   slice = [].slice;
@@ -1636,7 +1648,15 @@ module.exports = {
 
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
+window.prevent_default = (function(_this) {
+  return function($rootScope) {
+    return $rootScope.$on('$locationChangeStart', function(event) {
+      return event.preventDefault();
+    });
+  };
+})(this);
 
+module.exports = {};
 
 },{}]},{},[1]);
 
