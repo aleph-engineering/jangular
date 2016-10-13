@@ -1,6 +1,6 @@
 {
   "name": "jangular-matchers",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Jasmine matchers for AngularJS framework",
   "main": "index.js",
   "scripts": {
