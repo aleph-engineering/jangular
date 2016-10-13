@@ -26,36 +26,6 @@ http_backend = ->
   inject ($httpBackend) -> _http_backend = $httpBackend
   _http_backend
 
-expect_get = (uri, response) ->
-  if response?
-    http_backend().expectGET(uri).respond ok, response
-  else
-    http_backend().expectGET(uri).respond ok
-
-allow_get = (response) ->
-  if response?
-    http_backend().expectGET().respond ok, response
-  else
-    http_backend().expectGET().respond ok
-
-fail_get = ->
-  http_backend().expectGET().respond err
-
-expect_post = (uri, body, response) ->
-  if response?
-    http_backend().expectPOST(uri, body).respond ok, response
-  else
-    http_backend().expectPOST(uri, body).respond ok
-
-allow_post = (response) ->
-  if response?
-    http_backend().expectPOST().respond ok, response
-  else
-    http_backend().expectPOST().respond ok
-
-fail_post = ->
-  http_backend().expectPOST().respond err
-
 flush = ->
   http_backend().flush()
 
@@ -64,6 +34,51 @@ assert_unwrapped_data = (actual_data, expected_data) ->
     pass: actual_data is expected_data
     message: ->
       "Expected response data `#{actual_data}` to equal to `#{expected_data}`. Seems that response was not properly unwrapped."
+
+################
+# http helpers #
+################
+
+expect_get = (uri, response) ->
+  get = http_backend().expectGET uri
+  if response?
+    get.respond ok, response
+  else
+    get.respond ok
+
+allow_get = (response) ->
+  get = http_backend().expectGET()
+  if response?
+    get.respond ok, response
+  else
+    get.respond ok
+
+fail_get = ->
+  http_backend().expectGET().respond err
+
+expect_post = (uri, body, response) ->
+  post = http_backend().expectPOST uri, body
+  if response?
+    post.respond ok, response
+  else
+    post.respond ok
+
+allow_post = (response) ->
+  post = http_backend().expectPOST()
+  if response?
+    post.respond ok, response
+  else
+    post.respond ok
+
+fail_post = ->
+  http_backend().expectPOST().respond err
+
+[window.expect_get, window.expectGet] = [expect_get, expect_get]
+[window.allow_get, window.allowGet] = [allow_get, allow_get]
+[window.fail_get, window.failGet] = [fail_get, fail_get]
+[window.expect_post, window.expectPost] = [expect_post, expect_post]
+[window.allow_post, window.allowPost] = [allow_post, allow_post]
+[window.fail_post, window.failPost] = [fail_post, fail_post]
 
 ############
 # matchers #

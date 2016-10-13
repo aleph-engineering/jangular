@@ -343,7 +343,7 @@ module.exports = {
 
 },{"./jangular_common":2}],4:[function(require,module,exports){
 'use strict';
-var allow_get, allow_post, assert_unwrapped_data, common, err, expect_get, expect_post, expect_to_be_function, expect_to_be_promise, fail_get, fail_post, flush, http_backend, is_a_function, ok, pass, throw_fn_expected, to_get, to_get_and_unwrap, to_post, to_post_and_unwrap, to_unwrap_get, to_unwrap_post, validate_arguments_count;
+var allow_get, allow_post, assert_unwrapped_data, common, err, expect_get, expect_post, expect_to_be_function, expect_to_be_promise, fail_get, fail_post, flush, http_backend, is_a_function, ok, pass, ref, ref1, ref2, ref3, ref4, ref5, throw_fn_expected, to_get, to_get_and_unwrap, to_post, to_post_and_unwrap, to_unwrap_get, to_unwrap_post, validate_arguments_count;
 
 common = require('./jangular_common');
 
@@ -379,46 +379,6 @@ http_backend = function() {
   return _http_backend;
 };
 
-expect_get = function(uri, response) {
-  if (response != null) {
-    return http_backend().expectGET(uri).respond(ok, response);
-  } else {
-    return http_backend().expectGET(uri).respond(ok);
-  }
-};
-
-allow_get = function(response) {
-  if (response != null) {
-    return http_backend().expectGET().respond(ok, response);
-  } else {
-    return http_backend().expectGET().respond(ok);
-  }
-};
-
-fail_get = function() {
-  return http_backend().expectGET().respond(err);
-};
-
-expect_post = function(uri, body, response) {
-  if (response != null) {
-    return http_backend().expectPOST(uri, body).respond(ok, response);
-  } else {
-    return http_backend().expectPOST(uri, body).respond(ok);
-  }
-};
-
-allow_post = function(response) {
-  if (response != null) {
-    return http_backend().expectPOST().respond(ok, response);
-  } else {
-    return http_backend().expectPOST().respond(ok);
-  }
-};
-
-fail_post = function() {
-  return http_backend().expectPOST().respond(err);
-};
-
 flush = function() {
   return http_backend().flush();
 };
@@ -432,6 +392,66 @@ assert_unwrapped_data = function(actual_data, expected_data) {
     }
   };
 };
+
+expect_get = function(uri, response) {
+  var get;
+  get = http_backend().expectGET(uri);
+  if (response != null) {
+    return get.respond(ok, response);
+  } else {
+    return get.respond(ok);
+  }
+};
+
+allow_get = function(response) {
+  var get;
+  get = http_backend().expectGET();
+  if (response != null) {
+    return get.respond(ok, response);
+  } else {
+    return get.respond(ok);
+  }
+};
+
+fail_get = function() {
+  return http_backend().expectGET().respond(err);
+};
+
+expect_post = function(uri, body, response) {
+  var post;
+  post = http_backend().expectPOST(uri, body);
+  if (response != null) {
+    return post.respond(ok, response);
+  } else {
+    return post.respond(ok);
+  }
+};
+
+allow_post = function(response) {
+  var post;
+  post = http_backend().expectPOST();
+  if (response != null) {
+    return post.respond(ok, response);
+  } else {
+    return post.respond(ok);
+  }
+};
+
+fail_post = function() {
+  return http_backend().expectPOST().respond(err);
+};
+
+ref = [expect_get, expect_get], window.expect_get = ref[0], window.expectGet = ref[1];
+
+ref1 = [allow_get, allow_get], window.allow_get = ref1[0], window.allowGet = ref1[1];
+
+ref2 = [fail_get, fail_get], window.fail_get = ref2[0], window.failGet = ref2[1];
+
+ref3 = [expect_post, expect_post], window.expect_post = ref3[0], window.expectPost = ref3[1];
+
+ref4 = [allow_post, allow_post], window.allow_post = ref4[0], window.allowPost = ref4[1];
+
+ref5 = [fail_post, fail_post], window.fail_post = ref5[0], window.failPost = ref5[1];
 
 to_get = function() {
   return {
@@ -1365,7 +1385,7 @@ module.exports = {
 
 },{}],2:[function(require,module,exports){
 'use strict';
-var allow_get, allow_post, assert_unwrapped_data, common, err, expect_get, expect_post, expect_to_be_function, expect_to_be_promise, fail_get, fail_post, flush, http_backend, is_a_function, ok, pass, throw_fn_expected, to_get, to_get_and_unwrap, to_post, to_post_and_unwrap, to_unwrap_get, to_unwrap_post, validate_arguments_count;
+var allow_get, allow_post, assert_unwrapped_data, common, err, expect_get, expect_post, expect_to_be_function, expect_to_be_promise, fail_get, fail_post, flush, http_backend, is_a_function, ok, pass, ref, ref1, ref2, ref3, ref4, ref5, throw_fn_expected, to_get, to_get_and_unwrap, to_post, to_post_and_unwrap, to_unwrap_get, to_unwrap_post, validate_arguments_count;
 
 common = require('./jangular_common');
 
@@ -1401,46 +1421,6 @@ http_backend = function() {
   return _http_backend;
 };
 
-expect_get = function(uri, response) {
-  if (response != null) {
-    return http_backend().expectGET(uri).respond(ok, response);
-  } else {
-    return http_backend().expectGET(uri).respond(ok);
-  }
-};
-
-allow_get = function(response) {
-  if (response != null) {
-    return http_backend().expectGET().respond(ok, response);
-  } else {
-    return http_backend().expectGET().respond(ok);
-  }
-};
-
-fail_get = function() {
-  return http_backend().expectGET().respond(err);
-};
-
-expect_post = function(uri, body, response) {
-  if (response != null) {
-    return http_backend().expectPOST(uri, body).respond(ok, response);
-  } else {
-    return http_backend().expectPOST(uri, body).respond(ok);
-  }
-};
-
-allow_post = function(response) {
-  if (response != null) {
-    return http_backend().expectPOST().respond(ok, response);
-  } else {
-    return http_backend().expectPOST().respond(ok);
-  }
-};
-
-fail_post = function() {
-  return http_backend().expectPOST().respond(err);
-};
-
 flush = function() {
   return http_backend().flush();
 };
@@ -1454,6 +1434,66 @@ assert_unwrapped_data = function(actual_data, expected_data) {
     }
   };
 };
+
+expect_get = function(uri, response) {
+  var get;
+  get = http_backend().expectGET(uri);
+  if (response != null) {
+    return get.respond(ok, response);
+  } else {
+    return get.respond(ok);
+  }
+};
+
+allow_get = function(response) {
+  var get;
+  get = http_backend().expectGET();
+  if (response != null) {
+    return get.respond(ok, response);
+  } else {
+    return get.respond(ok);
+  }
+};
+
+fail_get = function() {
+  return http_backend().expectGET().respond(err);
+};
+
+expect_post = function(uri, body, response) {
+  var post;
+  post = http_backend().expectPOST(uri, body);
+  if (response != null) {
+    return post.respond(ok, response);
+  } else {
+    return post.respond(ok);
+  }
+};
+
+allow_post = function(response) {
+  var post;
+  post = http_backend().expectPOST();
+  if (response != null) {
+    return post.respond(ok, response);
+  } else {
+    return post.respond(ok);
+  }
+};
+
+fail_post = function() {
+  return http_backend().expectPOST().respond(err);
+};
+
+ref = [expect_get, expect_get], window.expect_get = ref[0], window.expectGet = ref[1];
+
+ref1 = [allow_get, allow_get], window.allow_get = ref1[0], window.allowGet = ref1[1];
+
+ref2 = [fail_get, fail_get], window.fail_get = ref2[0], window.failGet = ref2[1];
+
+ref3 = [expect_post, expect_post], window.expect_post = ref3[0], window.expectPost = ref3[1];
+
+ref4 = [allow_post, allow_post], window.allow_post = ref4[0], window.allowPost = ref4[1];
+
+ref5 = [fail_post, fail_post], window.fail_post = ref5[0], window.failPost = ref5[1];
 
 to_get = function() {
   return {
