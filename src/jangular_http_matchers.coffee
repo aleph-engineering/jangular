@@ -26,9 +26,6 @@ http_backend = ->
   inject ($httpBackend) -> _http_backend = $httpBackend
   _http_backend
 
-flush = ->
-  http_backend().flush()
-
 assert_unwrapped_data = (actual_data, expected_data) ->
   result =
     pass: actual_data is expected_data
@@ -73,12 +70,16 @@ allow_post = (response) ->
 fail_post = ->
   http_backend().expectPOST().respond err
 
+flush = ->
+  http_backend().flush()
+
 [window.expect_get, window.expectGet] = [expect_get, expect_get]
 [window.allow_get, window.allowGet] = [allow_get, allow_get]
 [window.fail_get, window.failGet] = [fail_get, fail_get]
 [window.expect_post, window.expectPost] = [expect_post, expect_post]
 [window.allow_post, window.allowPost] = [allow_post, allow_post]
 [window.fail_post, window.failPost] = [fail_post, fail_post]
+window.flush = flush
 
 ############
 # matchers #

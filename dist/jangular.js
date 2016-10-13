@@ -379,10 +379,6 @@ http_backend = function() {
   return _http_backend;
 };
 
-flush = function() {
-  return http_backend().flush();
-};
-
 assert_unwrapped_data = function(actual_data, expected_data) {
   var result;
   return result = {
@@ -441,6 +437,10 @@ fail_post = function() {
   return http_backend().expectPOST().respond(err);
 };
 
+flush = function() {
+  return http_backend().flush();
+};
+
 ref = [expect_get, expect_get], window.expect_get = ref[0], window.expectGet = ref[1];
 
 ref1 = [allow_get, allow_get], window.allow_get = ref1[0], window.allowGet = ref1[1];
@@ -452,6 +452,8 @@ ref3 = [expect_post, expect_post], window.expect_post = ref3[0], window.expectPo
 ref4 = [allow_post, allow_post], window.allow_post = ref4[0], window.allowPost = ref4[1];
 
 ref5 = [fail_post, fail_post], window.fail_post = ref5[0], window.failPost = ref5[1];
+
+window.flush = flush;
 
 to_get = function() {
   return {
@@ -1421,10 +1423,6 @@ http_backend = function() {
   return _http_backend;
 };
 
-flush = function() {
-  return http_backend().flush();
-};
-
 assert_unwrapped_data = function(actual_data, expected_data) {
   var result;
   return result = {
@@ -1483,6 +1481,10 @@ fail_post = function() {
   return http_backend().expectPOST().respond(err);
 };
 
+flush = function() {
+  return http_backend().flush();
+};
+
 ref = [expect_get, expect_get], window.expect_get = ref[0], window.expectGet = ref[1];
 
 ref1 = [allow_get, allow_get], window.allow_get = ref1[0], window.allowGet = ref1[1];
@@ -1494,6 +1496,8 @@ ref3 = [expect_post, expect_post], window.expect_post = ref3[0], window.expectPo
 ref4 = [allow_post, allow_post], window.allow_post = ref4[0], window.allowPost = ref4[1];
 
 ref5 = [fail_post, fail_post], window.fail_post = ref5[0], window.failPost = ref5[1];
+
+window.flush = flush;
 
 to_get = function() {
   return {
