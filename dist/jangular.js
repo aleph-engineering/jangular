@@ -103,7 +103,7 @@ module.exports = {
 
 },{}],3:[function(require,module,exports){
 'use strict';
-var assert_is_spy, common, expect_to_be_function, is_a_function, q, rootScope, spy_have_been_called, spy_have_been_called_with, throw_fn_expected, to_call_service, to_call_service_with, to_callback_error_with, to_callback_success_with, to_subscribe, to_subscribe_error, to_subscribe_success, validate_arguments_count, validate_arguments_gt,
+var assert_is_spy, common, expect_to_be_function, is_a_function, q, rootScope, spy_have_been_called, spy_have_been_called_with, throw_fn_expected, to_call, to_call_with, to_callback_error_with, to_callback_success_with, to_subscribe, to_subscribe_error, to_subscribe_success, validate_arguments_count, validate_arguments_gt,
   slice = [].slice;
 
 common = require('./jangular_common');
@@ -135,11 +135,11 @@ rootScope = function() {
   return _rootScope;
 };
 
-to_call_service = function() {
+to_call = function() {
   return {
     compare: function(fn, service, fn_name) {
       var _spy, deferred;
-      validate_arguments_count(arguments, 3, 'to_call_service takes only 2 arguments: target service to spy on and the function name');
+      validate_arguments_count(arguments, 3, 'to_call takes only 2 arguments: target service to spy on and the function name');
       if (!is_a_function(fn)) {
         throw_fn_expected('fn');
       }
@@ -154,12 +154,12 @@ to_call_service = function() {
   };
 };
 
-to_call_service_with = function() {
+to_call_with = function() {
   return {
     compare: function() {
       var _spy, args, deferred, fn, fn_name, service;
       fn = arguments[0], service = arguments[1], fn_name = arguments[2], args = 4 <= arguments.length ? slice.call(arguments, 3) : [];
-      validate_arguments_gt(arguments, 3, 'to_call_service_with takes 3 or more arguments: target service to spy on, the function name and the expected arguments');
+      validate_arguments_gt(arguments, 3, 'to_call_with takes 3 or more arguments: target service to spy on, the function name and the expected arguments');
       if (!is_a_function(fn)) {
         throw_fn_expected('fn');
       }
@@ -325,10 +325,10 @@ to_callback_error_with = function() {
 };
 
 module.exports = {
-  to_call_service: to_call_service,
-  toCallService: to_call_service,
-  to_call_service_with: to_call_service_with,
-  toCallServiceWith: to_call_service_with,
+  to_call: to_call,
+  toCall: to_call,
+  to_call_with: to_call_with,
+  toCallWith: to_call_with,
   to_subscribe_success: to_subscribe_success,
   toSubscribeSuccess: to_subscribe_success,
   to_subscribe_error: to_subscribe_error,
@@ -1064,7 +1064,7 @@ module.exports = {
 
 },{}],2:[function(require,module,exports){
 'use strict';
-var assert_is_spy, common, expect_to_be_function, is_a_function, q, rootScope, spy_have_been_called, spy_have_been_called_with, throw_fn_expected, to_call_service, to_call_service_with, to_callback_error_with, to_callback_success_with, to_subscribe, to_subscribe_error, to_subscribe_success, validate_arguments_count, validate_arguments_gt,
+var assert_is_spy, common, expect_to_be_function, is_a_function, q, rootScope, spy_have_been_called, spy_have_been_called_with, throw_fn_expected, to_call, to_call_with, to_callback_error_with, to_callback_success_with, to_subscribe, to_subscribe_error, to_subscribe_success, validate_arguments_count, validate_arguments_gt,
   slice = [].slice;
 
 common = require('./jangular_common');
@@ -1096,11 +1096,11 @@ rootScope = function() {
   return _rootScope;
 };
 
-to_call_service = function() {
+to_call = function() {
   return {
     compare: function(fn, service, fn_name) {
       var _spy, deferred;
-      validate_arguments_count(arguments, 3, 'to_call_service takes only 2 arguments: target service to spy on and the function name');
+      validate_arguments_count(arguments, 3, 'to_call takes only 2 arguments: target service to spy on and the function name');
       if (!is_a_function(fn)) {
         throw_fn_expected('fn');
       }
@@ -1115,12 +1115,12 @@ to_call_service = function() {
   };
 };
 
-to_call_service_with = function() {
+to_call_with = function() {
   return {
     compare: function() {
       var _spy, args, deferred, fn, fn_name, service;
       fn = arguments[0], service = arguments[1], fn_name = arguments[2], args = 4 <= arguments.length ? slice.call(arguments, 3) : [];
-      validate_arguments_gt(arguments, 3, 'to_call_service_with takes 3 or more arguments: target service to spy on, the function name and the expected arguments');
+      validate_arguments_gt(arguments, 3, 'to_call_with takes 3 or more arguments: target service to spy on, the function name and the expected arguments');
       if (!is_a_function(fn)) {
         throw_fn_expected('fn');
       }
@@ -1286,10 +1286,10 @@ to_callback_error_with = function() {
 };
 
 module.exports = {
-  to_call_service: to_call_service,
-  toCallService: to_call_service,
-  to_call_service_with: to_call_service_with,
-  toCallServiceWith: to_call_service_with,
+  to_call: to_call,
+  toCall: to_call,
+  to_call_with: to_call_with,
+  toCallWith: to_call_with,
   to_subscribe_success: to_subscribe_success,
   toSubscribeSuccess: to_subscribe_success,
   to_subscribe_error: to_subscribe_error,

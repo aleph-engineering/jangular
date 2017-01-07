@@ -15,16 +15,16 @@ describe 'sample controller matchers', ->
     @subject = $controller 'SampleController'
     @sampleHttpService = sampleHttpService
 
-  # to_call_service
+  # to_call
   it 'calls a service', =>
-    expect(@subject.do_service_call).to_call_service @sampleHttpService, 'do_get'
+    expect(@subject.do_service_call).to_call @sampleHttpService, 'do_get'
 
-  # to_call_service_with
+  # to_call_with
   it 'calls a service with parameters', =>
-    expect(=> @subject.do_service_call_with_params 1, 2, 3).to_call_service_with @sampleHttpService, 'do_get_with', 1, 2, 3
+    expect(=> @subject.do_service_call_with_params 1, 2, 3).to_call_with @sampleHttpService, 'do_get_with', 1, 2, 3
 
   it 'calls a service with hash parameters', =>
-    expect(=> @subject.do_service_call_with_hash_params a: 1, b: 2, c: 3).to_call_service_with @sampleHttpService, 'do_get_with_hash', x: 1, y: 2, z: 3
+    expect(=> @subject.do_service_call_with_hash_params a: 1, b: 2, c: 3).to_call_with @sampleHttpService, 'do_get_with_hash', x: 1, y: 2, z: 3
 
   # to_subscribe_success
   it 'subscribes to promise success', =>

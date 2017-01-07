@@ -21,11 +21,11 @@ rootScope = ->
   inject ($rootScope) -> _rootScope = $rootScope
   _rootScope
 
-to_call_service = ->
+to_call = ->
   compare: (fn, service, fn_name) ->
 
     # validations
-    validate_arguments_count arguments, 3, 'to_call_service takes only 2 arguments: target service to spy on and the function name'
+    validate_arguments_count arguments, 3, 'to_call takes only 2 arguments: target service to spy on and the function name'
     throw_fn_expected 'fn' unless is_a_function fn
 
     # spy on service
@@ -43,9 +43,9 @@ to_call_service = ->
     # assert
     spy_have_been_called _spy
 
-to_call_service_with = ->
+to_call_with = ->
   compare: (fn, service, fn_name, args...) ->
-    validate_arguments_gt arguments, 3, 'to_call_service_with takes 3 or more arguments: target service to spy on, the function name and the expected arguments'
+    validate_arguments_gt arguments, 3, 'to_call_with takes 3 or more arguments: target service to spy on, the function name and the expected arguments'
     throw_fn_expected 'fn' unless is_a_function fn
 
     # spy on service
@@ -201,10 +201,10 @@ to_callback_error_with = ->
     spy_have_been_called_with _spy, args
 
 module.exports =
-  to_call_service: to_call_service
-  toCallService: to_call_service
-  to_call_service_with: to_call_service_with
-  toCallServiceWith: to_call_service_with
+  to_call: to_call
+  toCall: to_call
+  to_call_with: to_call_with
+  toCallWith: to_call_with
   to_subscribe_success: to_subscribe_success
   toSubscribeSuccess: to_subscribe_success
   to_subscribe_error: to_subscribe_error

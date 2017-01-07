@@ -23,8 +23,8 @@ $ npm install jangular-matchers
 
 ### Controller
 
-* [to_call_service()](#to_call_service)
-* [to_call_service_with()](#to_call_service_with)
+* [to_call()](#to_call)
+* [to_call_with()](#to_call_with)
 * [to_subscribe_success()](#to_subscribe_success)
 * [to_subscribe_error()](#to_subscribe_error)
 * [to_subscribe()](#to_subscribe)
@@ -388,14 +388,14 @@ class SampleController
     console.log 'Hello I am an AngularJS controller!'
 ```
 
-### `to_call_service()`
+### `to_call()`
 Ensures that the controller operation calls the given service operation without arguments.
 
 #### spec
 
 ``` Coffeescript
   it 'calls a service', =>
-    expect(@subject.do_service_call).to_call_service @sampleHttpService, 'do_get'
+    expect(@subject.do_service_call).to_call @sampleHttpService, 'do_get'
 ```
 
 #### impl
@@ -404,17 +404,17 @@ Ensures that the controller operation calls the given service operation without 
     @sampleHttpService.do_get()
 ```
 
-### `to_call_service_with()`
+### `to_call_with()`
 Ensures that the controller operation calls the given service operation with the provided arguments.
 
 #### spec
 
 ``` Coffeescript
   it 'calls a service with parameters', =>
-    expect(=> @subject.do_service_call_with_params 1, 2, 3).to_call_service_with @sampleHttpService, 'do_get_with', 1, 2, 3
+    expect(=> @subject.do_service_call_with_params 1, 2, 3).to_call_with @sampleHttpService, 'do_get_with', 1, 2, 3
 
   it 'calls a service with hash parameters', =>
-    expect(=> @subject.do_service_call_with_hash_params a: 1, b: 2, c: 3).to_call_service_with @sampleHttpService, 'do_get_with_hash', x: 1, y: 2, z: 3
+    expect(=> @subject.do_service_call_with_hash_params a: 1, b: 2, c: 3).to_call_with @sampleHttpService, 'do_get_with_hash', x: 1, y: 2, z: 3
 ```
 
 #### impl
