@@ -1,8 +1,8 @@
 # JAngular
 
 You are here probably because you are tired of writing verbose specs for [AngularJS](https://angularjs.org/) projects. 
-Or because you feel that [UI-Router](https://angular-ui.github.io/ui-router/) besides of the fact of being awesome is 
-also difficult to test. Or both.
+Or because you feel that projects using [UI-Router](https://angular-ui.github.io/ui-router/) besides of the fact of being awesome are 
+also difficult to test. Or both!.
 
 **JAngular** (alternatively `jangular-matchers`) is set of [Jasmine](http://jasmine.github.io/) matchers for [AngularJS](https://angularjs.org/) and [UI-Router](https://angular-ui.github.io/ui-router/) 
 that makes developers life easier. 
