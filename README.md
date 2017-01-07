@@ -617,7 +617,7 @@ Ensures that the controller operation subscribes to promise on success (completi
   do_get_success: ->
 ```
 
-### `toSubscribeEerror()`
+### `toSubscribeError()`
 Ensures that the controller operation subscribes to promise on failure (rejection) with the provided operation.
 
 #### Javascript
