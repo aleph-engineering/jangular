@@ -19,7 +19,7 @@
     "testing"
   ],
   "author": "Eduardo Lago Aguilar",
-  "license": "GPLv3",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/eduardo-lago-aguilar/jangular/issues"
   },

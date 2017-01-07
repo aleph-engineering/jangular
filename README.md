@@ -1,8 +1,29 @@
 # JAngular
 
-[Jasmine](http://jasmine.github.io/) matchers for [AngularJS](https://angularjs.org/) and [UI-Router](https://angular-ui.github.io/ui-router/)
+You are here probably because you are tired of writing verbose specs for [AngularJS](https://angularjs.org/) projects. 
+Or because you feel that [UI-Router](https://angular-ui.github.io/ui-router/) besides of the fact of being awesome is 
+also difficult to test. Or both.
 
-Examples are written in **Javascript** and **Coffeescript**.
+**JAngular** (alternatively `jangular-matchers`) is set of [Jasmine](http://jasmine.github.io/) matchers for [AngularJS](https://angularjs.org/) and [UI-Router](https://angular-ui.github.io/ui-router/) 
+that makes developers life easier. 
+
+Sources are completely written in **Coffeescript**, however it can be successfully used in **Javascript** and samples are 
+provided as well in **Javascript**.
+
+## Structure
+
+* `coffee/`: sample [AngularJS](https://angularjs.org/) **Coffeescript** code, module, controller, service, [UI-Router](https://angular-ui.github.io/ui-router/) state configuration. 
+* `dist/`: packaged **Javascript** code to be included in your specs (see samples and `karma.conf.js`).
+* `js/`: sample [AngularJS](https://angularjs.org/) **Javascript** code, module, controller, service, [UI-Router](https://angular-ui.github.io/ui-router/) state configuration. 
+* `spec_coffee`: sample **Coffeescript** specs testing code located at `coffee` directory.
+* `spec_js`: sample **Javascript** specs testing code located at `js` directory.
+* `src`: **Coffeescript** source code of [Jasmine](http://jasmine.github.io/) matchers.
+* `coffeelint.json`: coffee lint configuration.
+* `gulpfile.js`: gulp tasks for building **JAngular** if you want to contribute.
+* `karma.conf.js`: configuration file [Karma](https://github.com/karma-runner/karma) test runner for **Javascript**. Users of **JAngular** should take a look to this file.
+* `LICENSE`: license file
+* `package.json`: npm configuration for **JAngular**
+* `README.md`: this document.
 
 ## Usage
 
