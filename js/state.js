@@ -8,7 +8,8 @@ var config = function ($stateProvider) {
     });
 
     $stateProvider.state('stateC', {
-        url: '/some_url'
+        url: '/some_url',
+        controller: 'SomeUserController'
     });
 
 };

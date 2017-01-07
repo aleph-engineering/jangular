@@ -57,7 +57,7 @@ $ npm install jangular-matchers
 * [toBeAnState()](#tobeanstate)
 * [toBeAbstract()](#tobeabstract)
 * [toHaveUrl()](#tohaveurl)
-* [to_have_controller()](#to_have_controller)
+* [toHaveController()](#tohavecontroller)
 * [to_have_controller_alias()](#to_have_controller_alias)
 * [to_have_template()](#to_have_template)
 * [to_have_template_url()](#to_have_template_url)
@@ -1075,10 +1075,46 @@ Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state has an e
     url: '/some_url'
 ```
 
-### `to_have_controller()`
+### `toHaveController()`
 Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state has an expected controller. It can be use in both variants: object and string with state name.
 
-#### spec
+#### Javascript
+
+##### spec
+
+``` Javascript
+    describe('stateC', function () {
+
+        beforeEach(function () {
+            subject = state.get('stateC');
+        });
+
+        // toHaveController
+        it('has controller, using object variant', function () {
+            expect(subject).toHaveController('SomeUserController');
+        });
+
+        it('has controller, using string variant', function () {
+            expect('stateC').toHaveController('SomeUserController');
+        });
+    });
+
+```
+
+##### impl
+
+``` Javascript
+
+    $stateProvider.state('stateC', {
+        url: '/some_url',
+        controller: 'SomeUserController'
+    });
+
+```
+
+#### Coffeescript
+
+##### spec
 
 ``` Coffeescript
   describe 'stateC', =>
@@ -1089,7 +1125,7 @@ Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state has an e
     it 'has controller, using string variant', => expect('stateC').to_have_controller 'SomeUserController'
 ```
 
-#### impl
+##### impl
 ``` Coffeescript
   $stateProvider.state 'stateC',
     url: '/some_url'

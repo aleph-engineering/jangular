@@ -49,19 +49,28 @@ describe('sample ui.router state matchers', function () {
         });
     });
 
-    // toHaveUrl
     describe('stateC', function () {
 
         beforeEach(function () {
             subject = state.get('stateC');
         });
 
+        // toHaveUrl
         it('has an URL, using object variant', function () {
             expect(subject).toHaveUrl('/some_url');
         });
 
         it('has an URL, using string variant', function () {
             expect('stateC').toHaveUrl('/some_url');
+        });
+
+        // toHaveController
+        it('has controller, using object variant', function () {
+            expect(subject).toHaveController('SomeUserController');
+        });
+
+        it('has controller, using string variant', function () {
+            expect('stateC').toHaveController('SomeUserController');
         });
     });
 
