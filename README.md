@@ -1282,6 +1282,16 @@ Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state has an e
             expect('stateE').toHaveTemplateUrl('/templates/footer.html');
         });
 
+        describe('some nested view', function () {
+            beforeEach(function () {
+                subject = state.get('stateE').views['nested_view'];
+            });
+
+            it('view has a template Url', function() {
+                expect(subject).toHaveTemplateUrl('/templates/views/nested.html');
+            });
+        });
+
     });
 
 ```
@@ -1291,7 +1301,13 @@ Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state has an e
 ``` Javascript
 
     $stateProvider.state('stateE', {
-        templateUrl: '/templates/footer.html'
+        templateUrl: '/templates/footer.html',
+        views: {
+            nested_view: {
+                templateUrl: '/templates/views/nested.html'
+            }
+        }
+
     });
 
 ```

@@ -18,7 +18,13 @@ var config = function ($stateProvider) {
     });
 
     $stateProvider.state('stateE', {
-        templateUrl: '/templates/footer.html'
+        templateUrl: '/templates/footer.html',
+        views: {
+            nested_view: {
+                templateUrl: '/templates/views/nested.html'
+            }
+        }
+
     });
 };
 

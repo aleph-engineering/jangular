@@ -122,6 +122,16 @@ describe('sample ui.router state matchers', function () {
             expect('stateE').toHaveTemplateUrl('/templates/footer.html');
         });
 
+        describe('some nested view', function () {
+            beforeEach(function () {
+                subject = state.get('stateE').views['nested_view'];
+            });
+
+            it('view has a template Url', function() {
+                expect(subject).toHaveTemplateUrl('/templates/views/nested.html');
+            });
+        });
+
     });
 
 });
