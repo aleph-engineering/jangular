@@ -844,6 +844,7 @@ describe('sample ui.router state matchers', function () {
 
     var subject;
     var state;
+    var sampleHttpService;
 
     beforeEach(function () {
         // make matchers available
@@ -853,8 +854,9 @@ describe('sample ui.router state matchers', function () {
         module('sample.js.module');
     });
 
-    beforeEach(inject(function ($state) {
+    beforeEach(inject(function ($state, _sampleHttpService_) {
         state = $state;
+        sampleHttpService = _sampleHttpService_;
     }));
 
     // some specs listed here!

@@ -4,6 +4,7 @@ describe('sample ui.router state matchers', function () {
 
     var subject;
     var state;
+    var sampleHttpService;
 
     beforeEach(function () {
         // make matchers available
@@ -13,8 +14,9 @@ describe('sample ui.router state matchers', function () {
         module('sample.js.module');
     });
 
-    beforeEach(inject(function ($state) {
+    beforeEach(inject(function ($state, _sampleHttpService_) {
         state = $state;
+        sampleHttpService = _sampleHttpService_;
     }));
 
     // toBeAnState
@@ -132,6 +134,18 @@ describe('sample ui.router state matchers', function () {
             });
         });
 
+    });
+
+    // toResolveByCallingService
+    describe('stateF', function () {
+
+        beforeEach(function () {
+            subject = state.get('stateF');
+        });
+
+        it('resolves the promise by calling service without arguments', function () {
+            expect(subject.resolve.userProfile).toResolveByCallingService(sampleHttpService, 'doGet');
+        });
     });
 
 });

@@ -26,6 +26,16 @@ var config = function ($stateProvider) {
         }
 
     });
+
+    var resolveUserProfile = function (sampleHttpService) {
+        sampleHttpService.doGet();
+    };
+
+    $stateProvider.state('stateF', {
+        resolve: {
+            userProfile: ['sampleHttpService', resolveUserProfile]
+        }
+    });
 };
 
 angular.module('sample.js.module').config(config);

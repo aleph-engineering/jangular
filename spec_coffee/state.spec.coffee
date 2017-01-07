@@ -71,6 +71,7 @@ describe 'sample ui.router state matchers', ->
       it 'view has a template URL', =>
         expect(@subject).to_have_template_url '/templates/views/nested.html'
 
+  # to_have_template_url (another example)
   describe 'stateX', =>
     beforeEach inject ($state) =>
       @subject = $state.get('stateX')
@@ -82,6 +83,7 @@ describe 'sample ui.router state matchers', ->
       it 'view has a template URL', inject ($state) =>
         expect($state.get('stateX').views['my_view']).to_have_template_url '/view_url'
 
+  # to_resolve_by_calling_service
   describe 'stateF', =>
     beforeEach inject ($state, @sampleHttpService) =>
       @subject = $state.get 'stateF'
