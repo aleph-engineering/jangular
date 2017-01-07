@@ -107,4 +107,21 @@ describe('sample ui.router state matchers', function () {
         });
     });
 
+    // toHaveTemplateUrl
+    describe('stateE', function () {
+
+        beforeEach(function () {
+            subject = state.get('stateE');
+        });
+
+        it('has a template, using object variant', function () {
+            expect(subject).toHaveTemplateUrl('/templates/footer.html');
+        });
+
+        it('has a template, using string variant', function () {
+            expect('stateE').toHaveTemplateUrl('/templates/footer.html');
+        });
+
+    });
+
 });

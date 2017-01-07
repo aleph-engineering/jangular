@@ -60,7 +60,7 @@ $ npm install jangular-matchers
 * [toHaveController()](#tohavecontroller)
 * [toHaveControllerAlias()](#tohavecontrolleralias)
 * [toHaveTemplate()](#tohavetemplate)
-* [to_have_template_url()](#to_have_template_url)
+* [toHaveTemplateUrl()](#tohavetemplateurl)
 * [to_resolve_by_calling_service()](#to_resolve_by_calling_service)
 * [to_resolve_by_calling_service_with()](#to_resolve_by_calling_service_with)
 * [to_have_view()](#to_have_view) *TODO*
@@ -1258,10 +1258,47 @@ Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state has an e
     template: '<div id="some_template"></div>'
 ```
 
-### `to_have_template_url()`
+### `toHaveTemplateUrl()`
 Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state has an expected template URL. It can be use in both variants: object and string with state name.
 
-#### spec
+#### Javascript
+
+##### spec
+
+``` Javascript
+
+    // toHaveTemplateUrl
+    describe('stateE', function () {
+
+        beforeEach(function () {
+            subject = state.get('stateE');
+        });
+
+        it('has a template, using object variant', function () {
+            expect(subject).toHaveTemplateUrl('/templates/footer.html');
+        });
+
+        it('has a template, using string variant', function () {
+            expect('stateE').toHaveTemplateUrl('/templates/footer.html');
+        });
+
+    });
+
+```
+
+##### impl
+
+``` Javascript
+
+    $stateProvider.state('stateE', {
+        templateUrl: '/templates/footer.html'
+    });
+
+```
+
+#### Coffeescript
+
+##### spec
 
 ``` Coffeescript
   describe 'stateE', =>
@@ -1272,7 +1309,7 @@ Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state has an e
     it 'has a template URL, using string variant', => expect('stateE').to_have_template_url '/templates/footer.html'
 ```
 
-#### impl
+##### impl
 ``` Coffeescript
   $stateProvider.state 'stateE',
     templateUrl: '/templates/footer.html'
