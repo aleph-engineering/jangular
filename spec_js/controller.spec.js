@@ -61,5 +61,10 @@
         it('callbacks the function when promise success with given parameters', function(){
             expect(subject.doCallback).toCallbackSuccessWith(sampleHttpService, 'doGet', subject, 'doGetSuccessWith', 1, 2, 3);
         });
+
+        // toCallbackErrorWith
+        it('callbacks the function when promise fails with given parameters', function() {
+            expect(subject.doFailingCallback).toCallbackErrorWith(sampleHttpService, 'doGet', subject, 'doGetFailsWith', 1, 2, 3);
+        });
     });
 })();

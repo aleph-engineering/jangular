@@ -45,6 +45,17 @@ SampleController = function (sampleHttpService) {
     this.doGetSuccessWith = function (a, b, c) {
         console.log('calling back with parameters');
     };
+
+    this.doFailingCallback = function () {
+        sampleHttpService.doGet().then(function () {
+        }, function () {
+            me.doGetFailsWith(1, 2, 3);
+        });
+    };
+
+    this.doGetFailsWith = function (a, b, c) {
+        console.log('failing back with parameters');
+    };
 };
 
 angular.module('sample.js.module').controller('SampleController', ['sampleHttpService', SampleController]);

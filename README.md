@@ -50,7 +50,7 @@ $ npm install jangular-matchers
 * [toSubscribeError()](#tosubscribeerror)
 * [toSubscribe()](#tosubscribe)
 * [toCallbackSuccessWith()](#tocallbacksuccesswith)
-* [to_callback_error_with()](#to_callback_error_with)
+* [toCallbackErrorWith()](#tocallbackerrorwith)
 
 ### State
 
@@ -780,10 +780,43 @@ Notice the indirection on the subscription using an anonymous function that call
   do_get_success_with: =>
 ```
 
-### `to_callback_error_with()`
+### `toCallbackErrorWith()`
 Ensures that the controller operation callbacks the provided operation directly or indirectly when then promise fails (rejection). The difference between [to_subscribe_error()](#to_subscribe_error) and [to_subscribe()](#to_subscribe) with respect to [to_callback_error_with()](#to_callback_error_with) is the indirection level. [to_callback_error_with()](#to_callback_error_with) allows indirect calls, so is more flexible. The `with` suffix demands for arguments during the callback.   
 
-#### spec
+#### Javascript
+##### spec
+
+``` Javascript
+
+        // toCallbackErrorWith
+        it('callbacks the function when promise fails with given parameters', function() {
+            expect(subject.doFailingCallback).toCallbackErrorWith(sampleHttpService, 'doGet', subject, 'doGetFailsWith', 1, 2, 3);
+        });
+
+```
+
+##### impl
+
+``` Javascript
+
+    var me = this;
+    
+    this.doFailingCallback = function () {
+        sampleHttpService.doGet().then(function () {
+        }, function () {
+            me.doGetFailsWith(1, 2, 3);
+        });
+    };
+
+    this.doGetFailsWith = function (a, b, c) {
+        console.log('failing back with parameters');
+    };
+
+```
+
+#### Coffeescript
+
+##### spec
 
 ``` Coffeescript
   it 'callbacks the function when promise fails with given parameters', =>
@@ -791,7 +824,7 @@ Ensures that the controller operation callbacks the provided operation directly 
 
 ```
 
-#### impl
+##### impl
 Notice the indirection on the subscription using an anonymous function that calls the expected operation:
 
 ``` Coffeescript
