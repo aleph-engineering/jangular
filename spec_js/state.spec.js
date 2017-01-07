@@ -20,7 +20,6 @@ describe('sample ui.router state matchers', function () {
     // toBeAnState
     describe('stateA', function () {
 
-        // inject ui.router $state helper and get the state object
         beforeEach(function () {
             subject = state.get('stateA');
         });
@@ -31,6 +30,22 @@ describe('sample ui.router state matchers', function () {
 
         it('is an state, using string variant', function () {
             expect('stateA').toBeAnState();
+        });
+    });
+
+    // toBeAbstract
+    describe('stateB', function () {
+
+        beforeEach(function () {
+            subject = state.get('stateB');
+        });
+
+        it('is an state, using object variant', function () {
+            expect(subject).toBeAbstract();
+        });
+
+        it('is an state, using string variant', function () {
+            expect('stateB').toBeAbstract();
         });
     });
 

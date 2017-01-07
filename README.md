@@ -55,7 +55,7 @@ $ npm install jangular-matchers
 ### State
 
 * [toBeAnState()](#tobeanstate)
-* [to_be_abstract()](#to_be_abstract)
+* [toBeAbstract()](#tobeabstract)
 * [to_have_url()](#to_have_url)
 * [to_have_controller()](#to_have_controller)
 * [to_have_controller_alias()](#to_have_controller_alias)
@@ -962,10 +962,46 @@ Ensures that actual subject is an [UI-Router](https://angular-ui.github.io/ui-ro
   $stateProvider.state 'stateA', {}
 ```
 
-### `to_be_abstract()`
+### `toBeAbstract()`
 Ensures that actual subject is an abstract [UI-Router](https://angular-ui.github.io/ui-router/) state. It can be use in both variants: object and string with state name.
 
-#### spec
+#### Javascript
+
+##### spec
+
+``` Javascript
+
+    // toBeAbstract
+    describe('stateB', function () {
+
+        beforeEach(function () {
+            subject = state.get('stateB');
+        });
+
+        it('is an state, using object variant', function () {
+            expect(subject).toBeAbstract();
+        });
+
+        it('is an state, using string variant', function () {
+            expect('stateB').toBeAbstract();
+        });
+    });
+
+```
+
+##### impl
+
+``` Javascript
+
+    $stateProvider.state('stateB', {
+        abstract: true
+    });
+
+```
+
+#### Coffeescript
+
+##### spec
 
 ``` Coffeescript
   describe 'stateB', =>
@@ -977,7 +1013,7 @@ Ensures that actual subject is an abstract [UI-Router](https://angular-ui.github
     it 'is an abstract, using string variant', => expect('stateB').to_be_abstract()
 ```
 
-#### impl
+##### impl
 ``` Coffeescript
   $stateProvider.state 'stateB',
     abstract: yes

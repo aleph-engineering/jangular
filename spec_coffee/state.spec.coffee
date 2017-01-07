@@ -10,6 +10,7 @@ describe 'sample ui.router state matchers', ->
   beforeEach ->
     module 'sample.coffee.module'
 
+  # to_be_an_state
   describe 'stateA', =>
 
     # inject ui.router $state helper and get the state object
@@ -19,6 +20,7 @@ describe 'sample ui.router state matchers', ->
     it 'is an state, using object variant', => expect(@subject).to_be_an_state()
     it 'is an state, using string variant', => expect('stateA').to_be_an_state()
 
+  # to_be_abstract
   describe 'stateB', =>
 
     beforeEach inject ($state) =>
