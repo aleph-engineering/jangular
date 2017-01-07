@@ -56,5 +56,10 @@
         it('subscribes to success & error', function(){
             expect(subject.doFullSubscribe).toSubscribe(sampleHttpService, 'doGet', subject.doGetSuccess, subject.doGetFails);
         });
+
+        // toCallbackSuccessWith
+        it('callbacks the function when promise success with given parameters', function(){
+            expect(subject.doCallback).toCallbackSuccessWith(sampleHttpService, 'doGet', subject, 'doGetSuccessWith', 1, 2, 3);
+        });
     });
 })();

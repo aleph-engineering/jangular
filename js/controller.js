@@ -35,6 +35,16 @@ SampleController = function (sampleHttpService) {
     this.doFullSubscribe = function () {
         sampleHttpService.doGet().then(me.doGetSuccess, me.doGetFails);
     };
+
+    this.doCallback = function () {
+        sampleHttpService.doGet().then(function () {
+            me.doGetSuccessWith(1, 2, 3);
+        });
+    };
+
+    this.doGetSuccessWith = function (a, b, c) {
+        console.log('calling back with parameters');
+    };
 };
 
 angular.module('sample.js.module').controller('SampleController', ['sampleHttpService', SampleController]);
