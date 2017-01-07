@@ -29,10 +29,12 @@ describe 'sample ui.router state matchers', ->
     it 'is an abstract, using object variant', => expect(@subject).to_be_abstract()
     it 'is an abstract, using string variant', => expect('stateB').to_be_abstract()
 
+
   describe 'stateC', =>
     beforeEach inject ($state) =>
       @subject = $state.get 'stateC'
 
+    # to_have_url
     it 'has an URL, using object variant', => expect(@subject).to_have_url '/some_url'
     it 'has an URL, using string variant', => expect('stateC').to_have_url '/some_url'
 

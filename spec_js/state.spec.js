@@ -49,4 +49,20 @@ describe('sample ui.router state matchers', function () {
         });
     });
 
+    // toHaveUrl
+    describe('stateC', function () {
+
+        beforeEach(function () {
+            subject = state.get('stateC');
+        });
+
+        it('has an URL, using object variant', function () {
+            expect(subject).toHaveUrl('/some_url');
+        });
+
+        it('has an URL, using string variant', function () {
+            expect('stateC').toHaveUrl('/some_url');
+        });
+    });
+
 });

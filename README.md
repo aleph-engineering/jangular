@@ -56,7 +56,7 @@ $ npm install jangular-matchers
 
 * [toBeAnState()](#tobeanstate)
 * [toBeAbstract()](#tobeabstract)
-* [to_have_url()](#to_have_url)
+* [toHaveUrl()](#tohaveurl)
 * [to_have_controller()](#to_have_controller)
 * [to_have_controller_alias()](#to_have_controller_alias)
 * [to_have_template()](#to_have_template)
@@ -1019,10 +1019,46 @@ Ensures that actual subject is an abstract [UI-Router](https://angular-ui.github
     abstract: yes
 ```
 
-### `to_have_url()`
+### `toHaveUrl()`
 Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state has an expected URL. It can be use in both variants: object and string with state name.
 
-#### spec
+#### Javascript
+
+##### spec
+
+``` Javascript
+
+    // toHaveUrl
+    describe('stateC', function () {
+
+        beforeEach(function () {
+            subject = state.get('stateC');
+        });
+
+        it('has an URL, using object variant', function () {
+            expect(subject).toHaveUrl('/some_url');
+        });
+
+        it('has an URL, using string variant', function () {
+            expect('stateC').toHaveUrl('/some_url');
+        });
+    });
+
+```
+
+##### impl
+
+``` Javascript
+
+    $stateProvider.state('stateC', {
+        url: '/some_url'
+    });
+
+```
+
+#### Coffeescript
+
+##### spec
 
 ``` Coffeescript
   describe 'stateC', =>
@@ -1033,7 +1069,7 @@ Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state has an e
     it 'has an URL, using string variant', => expect('stateC').to_have_url '/some_url'
 ```
 
-#### impl
+##### impl
 ``` Coffeescript
   $stateProvider.state 'stateC',
     url: '/some_url'
