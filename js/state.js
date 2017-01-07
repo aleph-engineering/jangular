@@ -9,7 +9,8 @@ var config = function ($stateProvider) {
 
     $stateProvider.state('stateC', {
         url: '/some_url',
-        controller: 'SomeUserController'
+        controller: 'SomeUserController',
+        controllerAs: 'suc'
     });
 
 };

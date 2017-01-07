@@ -72,6 +72,23 @@ describe('sample ui.router state matchers', function () {
         it('has controller, using string variant', function () {
             expect('stateC').toHaveController('SomeUserController');
         });
+
+        // toHaveControllerAlias / toHaveControllerAs
+        it('has controller alias, using object variant', function(){
+            expect(subject).toHaveControllerAlias('suc');
+        });
+
+        it('has controller alias, using string variant', function(){
+            expect('stateC').toHaveControllerAlias('suc');
+        });
+
+        it('has controller alias, using object variant', function(){
+            expect(subject).toHaveControllerAs('suc');
+        });
+
+        it('has controller alias, using string variant', function(){
+            expect('stateC').toHaveControllerAs('suc');
+        });
     });
 
 });

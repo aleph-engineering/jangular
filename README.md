@@ -58,7 +58,7 @@ $ npm install jangular-matchers
 * [toBeAbstract()](#tobeabstract)
 * [toHaveUrl()](#tohaveurl)
 * [toHaveController()](#tohavecontroller)
-* [to_have_controller_alias()](#to_have_controller_alias)
+* [toHaveControllerAlias()](#tohavecontrolleralias)
 * [to_have_template()](#to_have_template)
 * [to_have_template_url()](#to_have_template_url)
 * [to_resolve_by_calling_service()](#to_resolve_by_calling_service)
@@ -1132,10 +1132,55 @@ Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state has an e
     controller: 'SomeUserController'
 ```
 
-### `to_have_controller_alias()`
+### `toHaveControllerAlias()`
 Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state has an expected controller alias. It can be use in both variants: object and string with state name.
 
-#### spec
+#### Javascript
+
+##### spec
+
+``` Javascript
+    describe('stateC', function () {
+
+        beforeEach(function () {
+            subject = state.get('stateC');
+        });
+
+        // toHaveControllerAlias / toHaveControllerAs
+        it('has controller alias, using object variant', function(){
+            expect(subject).toHaveControllerAlias('suc');
+        });
+
+        it('has controller alias, using string variant', function(){
+            expect('stateC').toHaveControllerAlias('suc');
+        });
+
+        it('has controller alias, using object variant', function(){
+            expect(subject).toHaveControllerAs('suc');
+        });
+
+        it('has controller alias, using string variant', function(){
+            expect('stateC').toHaveControllerAs('suc');
+        });
+    });
+
+```
+
+##### impl
+
+``` Javascript
+
+    $stateProvider.state('stateC', {
+        url: '/some_url',
+        controller: 'SomeUserController',
+        controllerAs: 'suc'
+    });
+
+```
+
+#### Coffeescript
+
+##### spec
 
 ``` Coffeescript
   describe 'stateC', =>
@@ -1149,7 +1194,7 @@ Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state has an e
    
 ```
 
-#### impl
+##### impl
 ``` Coffeescript
   $stateProvider.state 'stateC',
     url: '/some_url'
