@@ -19,9 +19,18 @@ SampleController = function (sampleHttpService) {
         sampleHttpService.doGet().then(me.doGetSuccess);
     };
 
-    this.doGetSuccess = function() {
+    this.doGetSuccess = function () {
         console.log('get successfully executed');
     };
+
+    this.doSubscribeToError = function () {
+        sampleHttpService.doGet().then(function () {
+        }, me.doGetFails);
+    };
+
+    this.doGetFails = function () {
+        console.log('the get that failed you!');
+    }
 };
 
 angular.module('sample.js.module').controller('SampleController', ['sampleHttpService', SampleController]);

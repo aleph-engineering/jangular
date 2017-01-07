@@ -47,7 +47,7 @@ $ npm install jangular-matchers
 * [toCall()](#tocall)
 * [toCallWith()](#tocallwith)
 * [toSubscribeSuccess()](#tosubscribesuccess)
-* [to_subscribe_error()](#to_subscribe_error)
+* [toSubscribeError()](#tosubscribeerror)
 * [to_subscribe()](#to_subscribe)
 * [to_callback_success_with()](#to_callback_success_with)
 * [to_callback_error_with()](#to_callback_error_with)
@@ -589,7 +589,6 @@ Ensures that the controller operation subscribes to promise on success (completi
     // disambiguation of context    
     var me = this;
 
-
     this.doSubscribe = function () {
         sampleHttpService.doGet().then(me.doGetSuccess);
     };
@@ -618,17 +617,56 @@ Ensures that the controller operation subscribes to promise on success (completi
   do_get_success: ->
 ```
 
-### `to_subscribe_error()`
+### `toSubscribeEerror()`
 Ensures that the controller operation subscribes to promise on failure (rejection) with the provided operation.
 
-#### spec
+#### Javascript
+
+##### spec
+
+``` Javascript
+
+        // toSubscribeSuccess
+        it('subscribes to promise success', function () {
+            expect(subject.doSubscribe).toSubscribeSuccess(sampleHttpService, 'doGet', subject.doGetSuccess);
+        });
+
+        // toSubscribeError
+        it('subscribes to promise error', function () {
+            expect(subject.doSubscribeToError).toSubscribeError(sampleHttpService, 'doGet', subject.doGetFails);
+        });
+
+```
+
+##### impl
+
+``` Javascript
+
+    // disambiguation of context    
+    var me = this;
+
+    this.doSubscribeToError = function () {
+        sampleHttpService.doGet().then(function () {
+        }, me.doGetFails);
+    };
+
+    this.doGetFails = function () {
+        console.log('the get that failed you!');
+    }
+
+```
+
+#### Coffeescript
+
+##### spec
 
 ``` Coffeescript
   it 'subscribes to promise error', =>
     expect(@subject.do_subscribe_to_error).to_subscribe_error @sampleHttpService, 'do_get', @subject.do_get_fails
 ```
 
-#### impl
+##### impl
+
 ``` Coffeescript
   do_subscribe_to_error: =>
     @sampleHttpService.do_get().then (->), @do_get_fails

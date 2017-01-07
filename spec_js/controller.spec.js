@@ -43,8 +43,13 @@
         });
 
         // toSubscribeSuccess
-        it('subscribes to promise success', function(){
+        it('subscribes to promise success', function () {
             expect(subject.doSubscribe).toSubscribeSuccess(sampleHttpService, 'doGet', subject.doGetSuccess);
+        });
+
+        // toSubscribeError
+        it('subscribes to promise error', function () {
+            expect(subject.doSubscribeToError).toSubscribeError(sampleHttpService, 'doGet', subject.doGetFails);
         });
     });
 })();
