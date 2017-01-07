@@ -54,7 +54,7 @@ $ npm install jangular-matchers
 
 ### State
 
-* [to_be_an_state()](#to_be_an_state)
+* [toBeAnState()](#tobeanstate)
 * [to_be_abstract()](#to_be_abstract)
 * [to_have_url()](#to_have_url)
 * [to_have_controller()](#to_have_controller)
@@ -837,6 +837,34 @@ Notice the indirection on the subscription using an anonymous function that call
 ## UI Router State matchers
 These matchers are designed for [AngularJS](https://angularjs.org/) when it is combined with [UI-Router](https://angular-ui.github.io/ui-router/). Every sample [Jasmine](http://jasmine.github.io/) matcher for [UI-Router](https://angular-ui.github.io/ui-router/) state will be enclosed in the following `describe` code section:
 
+### Javascript
+``` Javascript
+
+describe('sample ui.router state matchers', function () {
+
+    var subject;
+    var state;
+
+    beforeEach(function () {
+        // make matchers available
+        jasmine.addMatchers(jangular_matchers);
+
+        // initialize module
+        module('sample.js.module');
+    });
+
+    beforeEach(inject(function ($state) {
+        state = $state;
+    }));
+
+    // some specs listed here!
+
+});
+
+```
+
+### Coffeescript
+
 ``` Coffeescript
 describe 'sample ui.router state matchers', ->
 
@@ -855,6 +883,20 @@ describe 'sample ui.router state matchers', ->
 
 Every [UI-Router](https://angular-ui.github.io/ui-router/) state definition will be enclosed in the following `config` function:
 
+### Javascript
+
+``` Javascript
+
+var config = function($stateProvider) {
+  // here state configuration
+};
+
+angular.module('sample.js.module').config(config);
+
+```
+
+### Coffeescript
+
 ``` Coffeescript
 config = ($stateProvider) ->
   # here state configuration for the module takes places, for instance:
@@ -864,10 +906,45 @@ config = ($stateProvider) ->
 angular.module('sample.coffee.module').config config
 ```
 
-### `to_be_an_state()`
+### `toBeAnState()`
 Ensures that actual subject is an [UI-Router](https://angular-ui.github.io/ui-router/) state object or alternatively an state name.
 
-#### spec
+#### Javascript
+
+##### spec
+
+``` Javascript
+
+    // toBeAnState
+    describe('stateA', function () {
+
+        // inject ui.router $state helper and get the state object
+        beforeEach(function () {
+            subject = state.get('stateA');
+        });
+
+        it('is an state, using object variant', function () {
+            expect(subject).toBeAnState();
+        });
+
+        it('is an state, using string variant', function () {
+            expect('stateA').toBeAnState();
+        });
+    });
+
+```
+
+##### impl
+
+``` Javascript
+
+    $stateProvider.state('stateA', {});
+
+```
+
+#### Coffeescript
+
+##### spec
 
 ``` Coffeescript
   describe 'stateA', =>
@@ -880,7 +957,7 @@ Ensures that actual subject is an [UI-Router](https://angular-ui.github.io/ui-ro
     it 'is an state, using string variant', => expect('stateA').to_be_an_state()
 ```
 
-#### impl
+##### impl
 ``` Coffeescript
   $stateProvider.state 'stateA', {}
 ```
