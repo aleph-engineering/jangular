@@ -1,9 +1,12 @@
-(function(){
+(function () {
     'use strict';
 
-    describe('sample Javascript controller matchers', function(){
+    describe('sample Javascript controller matchers', function () {
 
-        beforeEach(function(){
+        var subject;
+        var sampleHttpService;
+
+        beforeEach(function () {
             // make matchers available
             jasmine.addMatchers(jangular_matchers);
 
@@ -12,8 +15,31 @@
         });
 
         // create controller an inject dependencies
-        beforeEach(inject(function($controller, sampleHttpService){
-            
+        beforeEach(inject(function ($controller, _sampleHttpService_) {
+            subject = $controller('SampleController');
+            sampleHttpService = _sampleHttpService_
         }));
+
+        it('is defined', function () {
+            expect(subject).toBeDefined();
+        });
+
+        // toCall
+        it('calls a service', function () {
+            expect(subject.doServiceCall).toCall(sampleHttpService, 'doGet');
+        });
+
+        // toCallWith
+        it('calls a service with parameters', function () {
+            expect(function () {
+                subject.doServiceCallWithParams(1, 2, 3)
+            }).toCallWith(sampleHttpService, 'doGetWith', 1, 2, 3);
+        });
+
+        it('calls a service with hash parameters', function () {
+            expect(function () {
+                subject.doServiceCallWithHashParams({a: 1, b: 2, c: 3})
+            }).toCallWith(sampleHttpService, 'doGetWithHash', {x: 1, y: 2, z: 3});
+        });
     });
 })();

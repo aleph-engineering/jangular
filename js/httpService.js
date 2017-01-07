@@ -7,6 +7,11 @@
             doGet: function () {
                 $http.get('/data');
             },
+            doGetWith: function (a, b, c) {
+
+            },
+            doGetWithHash: function () {
+            },
             doUnwrap: function () {
                 return $http.get('/any_path').then(function (response) {
                     return response.data;

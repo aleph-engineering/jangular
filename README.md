@@ -23,8 +23,8 @@ $ npm install jangular-matchers
 
 ### Controller
 
-* [to_call()](#to_call)
-* [to_call_with()](#to_call_with)
+* [toCall()](#tocall)
+* [toCallWith()](#tocallwith)
 * [to_subscribe_success()](#to_subscribe_success)
 * [to_subscribe_error()](#to_subscribe_error)
 * [to_subscribe()](#to_subscribe)
@@ -356,6 +356,39 @@ Ensures that the service operation issues a POST to a given URI and unwraps the 
 ## Controller matchers
 These matchers are not exclusively for [AngularJS](https://angularjs.org/) controllers, they may be used in other [AngularJS](https://angularjs.org/) services as well. Every sample [Jasmine](http://jasmine.github.io/) matcher for [AngularJS](https://angularjs.org/) controller will be enclosed in the following `describe` code section:
 
+### Javascript
+``` Javascript
+
+    describe('sample Javascript controller matchers', function () {
+
+        var subject;
+        var sampleHttpService;
+
+        beforeEach(function () {
+            // make matchers available
+            jasmine.addMatchers(jangular_matchers);
+
+            // initialize module
+            module('sample.js.module');
+        });
+
+        // create controller an inject dependencies
+        beforeEach(inject(function ($controller, _sampleHttpService_) {
+            subject = $controller('SampleController');
+            sampleHttpService = _sampleHttpService_
+        }));
+
+        it('is defined', function () {
+            expect(subject).toBeDefined();
+        });
+        
+        // more specs listed here!
+
+    })
+```
+
+### Coffeescript
+
 ``` Coffeescript
 describe 'sample controller matchers', ->
   
@@ -377,37 +410,122 @@ describe 'sample controller matchers', ->
     expect(true).toEqual true
 ```
 
-Every sample [AngularJS](https://angularjs.org/) controller operation will be enclosed in the following Coffeescript `class`:
+Every sample [AngularJS](https://angularjs.org/) controller operation will be enclosed in the following block:
+
+### Javascript
+
+``` Javascript
+
+    SampleController = function (sampleHttpService) {
+        this.someSampleOperation = function () {
+            console.log('Hello I am an AngularJS controller!');
+        };
+        
+        // more operations listed here!
+    
+    };
+
+    angular.module('sample.js.module').controller('SampleController', ['sampleHttpService', SampleController]);
+
+```
+
+### Coffeescript
 
 ``` Coffeescript
+
 class SampleController
   constructor: (@sampleHttpService) ->
 
   # (sample operations listed here)
   some_sample_operation: =>
     console.log 'Hello I am an AngularJS controller!'
+    
+  # more operations listed here
+    
 ```
 
-### `to_call()`
+### `toCall()`
 Ensures that the controller operation calls the given service operation without arguments.
 
-#### spec
+#### Javascript
+
+##### spec
+``` Javascript
+
+        // toCall
+        it('calls a service', function () {
+            expect(subject.doServiceCall).toCall(sampleHttpService, 'doGet');
+        });
+    
+``
+
+##### impl
+
+``` Javascript
+
+    this.doServiceCall = function () {
+        sampleHttpService.doGet();
+    };
+    
+```
+
+
+#### Coffeescript
+
+##### spec
 
 ``` Coffeescript
   it 'calls a service', =>
     expect(@subject.do_service_call).to_call @sampleHttpService, 'do_get'
 ```
 
-#### impl
+##### impl
 ``` Coffeescript
   do_service_call: =>
     @sampleHttpService.do_get()
 ```
 
-### `to_call_with()`
+### `toCallWith()`
 Ensures that the controller operation calls the given service operation with the provided arguments.
 
-#### spec
+#### Javascript
+
+##### spec
+
+``` Javascript
+
+        // toCallWith
+        it('calls a service with parameters', function () {
+            expect(function () {
+                subject.doServiceCallWithParams(1, 2, 3)
+            }).toCallWith(sampleHttpService, 'doGetWith', 1, 2, 3);
+        });
+
+        it('calls a service with hash parameters', function () {
+            expect(function () {
+                subject.doServiceCallWithHashParams({a: 1, b: 2, c: 3})
+            }).toCallWith(sampleHttpService, 'doGetWithHash', {x: 1, y: 2, z: 3});
+        });
+
+```
+
+##### impl
+
+``` Javascript
+
+    this.doServiceCallWithParams = function (a, b, c) {
+        sampleHttpService.doGetWith(a, b, c);
+    };
+
+    this.doServiceCallWithHashParams = function (h) {
+        sampleHttpService.doGetWithHash({x: h.a, y: h.b, z: h.c});
+    }
+
+```
+
+#### Coffeescript
+
+##### spec
 
 ``` Coffeescript
   it 'calls a service with parameters', =>
@@ -417,7 +535,7 @@ Ensures that the controller operation calls the given service operation with the
     expect(=> @subject.do_service_call_with_hash_params a: 1, b: 2, c: 3).to_call_with @sampleHttpService, 'do_get_with_hash', x: 1, y: 2, z: 3
 ```
 
-#### impl
+##### impl
 ``` Coffeescript
   do_service_call_with_params: (a, b, c) =>
     @sampleHttpService.do_get_with a, b, c
