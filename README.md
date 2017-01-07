@@ -565,6 +565,10 @@ Ensures that the controller operation subscribes to promise on success (completi
 
 ``` Javascript
 
+    // disambiguation of context    
+    var me = this;
+
+
     this.doSubscribe = function () {
         sampleHttpService.doGet().then(me.doGetSuccess);
     };
