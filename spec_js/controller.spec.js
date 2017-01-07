@@ -51,5 +51,10 @@
         it('subscribes to promise error', function () {
             expect(subject.doSubscribeToError).toSubscribeError(sampleHttpService, 'doGet', subject.doGetFails);
         });
+
+        // toSubscribe
+        it('subscribes to success & error', function(){
+            expect(subject.doFullSubscribe).toSubscribe(sampleHttpService, 'doGet', subject.doGetSuccess, subject.doGetFails);
+        });
     });
 })();

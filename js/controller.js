@@ -31,6 +31,10 @@ SampleController = function (sampleHttpService) {
     this.doGetFails = function () {
         console.log('the get that failed you!');
     }
+
+    this.doFullSubscribe = function () {
+        sampleHttpService.doGet().then(me.doGetSuccess, me.doGetFails);
+    };
 };
 
 angular.module('sample.js.module').controller('SampleController', ['sampleHttpService', SampleController]);

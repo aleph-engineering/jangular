@@ -48,7 +48,7 @@ $ npm install jangular-matchers
 * [toCallWith()](#tocallwith)
 * [toSubscribeSuccess()](#tosubscribesuccess)
 * [toSubscribeError()](#tosubscribeerror)
-* [to_subscribe()](#to_subscribe)
+* [toSubscribe()](#tosubscribe)
 * [to_callback_success_with()](#to_callback_success_with)
 * [to_callback_error_with()](#to_callback_error_with)
 
@@ -674,17 +674,50 @@ Ensures that the controller operation subscribes to promise on failure (rejectio
   do_get_fails: ->
 ```
 
-### `to_subscribe()`
+### `toSubscribe()`
 Ensures that the controller operation subscribes to promise on success (completion) and failure (rejection) at the same time with the provided operations.
 
-#### spec
+#### Javascript
+
+##### spec
+``` Javascript
+
+        // toSubscribe
+        it('subscribes to success & error', function(){
+            expect(subject.doFullSubscribe).toSubscribe(sampleHttpService, 'doGet', subject.doGetSuccess, subject.doGetFails);
+        });
+
+```
+##### impl
+
+``` Javascript
+
+    var me = this;
+
+    this.doFullSubscribe = function () {
+        sampleHttpService.doGet().then(me.doGetSuccess, me.doGetFails);
+    };
+
+    this.doGetSuccess = function () {
+        console.log('get successfully executed');
+    };
+
+    this.doGetFails = function () {
+        console.log('the get that failed you!');
+    }
+
+```
+
+#### Coffeescript
+
+##### spec
 
 ``` Coffeescript
   it 'subscribes to success & error', =>
     expect(@subject.do_full_subscribe).to_subscribe @sampleHttpService, 'do_get', @subject.do_get_success, @subject.do_get_fails
 ```
 
-#### impl
+##### impl
 ``` Coffeescript
   do_full_subscribe: =>
     @sampleHttpService.do_get().then @do_get_success, @do_get_fails
