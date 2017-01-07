@@ -25,7 +25,7 @@ $ npm install jangular-matchers
 
 * [toCall()](#tocall)
 * [toCallWith()](#tocallwith)
-* [to_subscribe_success()](#to_subscribe_success)
+* [toSubscribeSuccess()](#tosubscribesuccess)
 * [to_subscribe_error()](#to_subscribe_error)
 * [to_subscribe()](#to_subscribe)
 * [to_callback_success_with()](#to_callback_success_with)
@@ -544,17 +544,48 @@ Ensures that the controller operation calls the given service operation with the
     @sampleHttpService.do_get_with_hash x: a, y: b, z: c
 ```
 
-### `to_subscribe_success()`
+### `toSubscribeSuccess()`
 Ensures that the controller operation subscribes to promise on success (completion) with the provided operation.
 
-#### spec
+
+#### Javascript
+
+##### spec
+
+``` Javascript
+
+        // toSubscribeSuccess
+        it('subscribes to promise success', function(){
+            expect(subject.doSubscribe).toSubscribeSuccess(sampleHttpService, 'doGet', subject.doGetSuccess);
+        });
+
+```
+
+##### impl
+
+``` Javascript
+
+    this.doSubscribe = function () {
+        sampleHttpService.doGet().then(me.doGetSuccess);
+    };
+
+    this.doGetSuccess = function() {
+        console.log('get successfully executed');
+    };
+
+
+```
+
+#### Coffeescript
+
+##### spec
 
 ``` Coffeescript
   it 'subscribes to promise success', =>
     expect(@subject.do_subscribe).to_subscribe_success @sampleHttpService, 'do_get', @subject.do_get_success
 ```
 
-#### impl
+##### impl
 ``` Coffeescript
   do_subscribe: =>
     @sampleHttpService.do_get().then @do_get_success

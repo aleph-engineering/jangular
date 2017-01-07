@@ -41,5 +41,10 @@
                 subject.doServiceCallWithHashParams({a: 1, b: 2, c: 3})
             }).toCallWith(sampleHttpService, 'doGetWithHash', {x: 1, y: 2, z: 3});
         });
+
+        // toSubscribeSuccess
+        it('subscribes to promise success', function(){
+            expect(subject.doSubscribe).toSubscribeSuccess(sampleHttpService, 'doGet', subject.doGetSuccess);
+        });
     });
 })();
