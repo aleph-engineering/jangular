@@ -74,20 +74,36 @@ describe('sample ui.router state matchers', function () {
         });
 
         // toHaveControllerAlias / toHaveControllerAs
-        it('has controller alias, using object variant', function(){
+        it('has controller alias, using object variant', function () {
             expect(subject).toHaveControllerAlias('suc');
         });
 
-        it('has controller alias, using string variant', function(){
+        it('has controller alias, using string variant', function () {
             expect('stateC').toHaveControllerAlias('suc');
         });
 
-        it('has controller alias, using object variant', function(){
+        it('has controller alias, using object variant', function () {
             expect(subject).toHaveControllerAs('suc');
         });
 
-        it('has controller alias, using string variant', function(){
+        it('has controller alias, using string variant', function () {
             expect('stateC').toHaveControllerAs('suc');
+        });
+    });
+
+    // toHaveTemplate
+    describe('stateD', function () {
+
+        beforeEach(function () {
+            subject = state.get('stateD');
+        });
+
+        it('has a template, using object variant', function () {
+            expect(subject).toHaveTemplate('<div id="some_template"></div>');
+        });
+
+        it('has a template, using string variant', function () {
+            expect('stateD').toHaveTemplate('<div id="some_template"></div>');
         });
     });
 

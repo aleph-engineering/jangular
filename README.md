@@ -59,7 +59,7 @@ $ npm install jangular-matchers
 * [toHaveUrl()](#tohaveurl)
 * [toHaveController()](#tohavecontroller)
 * [toHaveControllerAlias()](#tohavecontrolleralias)
-* [to_have_template()](#to_have_template)
+* [toHaveTemplate()](#tohavetemplate)
 * [to_have_template_url()](#to_have_template_url)
 * [to_resolve_by_calling_service()](#to_resolve_by_calling_service)
 * [to_resolve_by_calling_service_with()](#to_resolve_by_calling_service_with)
@@ -1202,10 +1202,46 @@ Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state has an e
     controllerAs: 'suc'
 ```
 
-### `to_have_template()`
+### `toHaveTemplate()`
 Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state has an expected template. It can be use in both variants: object and string with state name.
 
-#### spec
+#### Javascript
+
+##### spec
+
+``` Javascript
+
+    // toHaveTemplate
+    describe('stateD', function () {
+
+        beforeEach(function () {
+            subject = state.get('stateD');
+        });
+
+        it('has a template, using object variant', function () {
+            expect(subject).toHaveTemplate('<div id="some_template"></div>');
+        });
+
+        it('has a template, using string variant', function () {
+            expect('stateD').toHaveTemplate('<div id="some_template"></div>');
+        });
+    });
+
+```
+
+##### impl
+
+``` Javascript
+
+    $stateProvider.state('stateD', {
+        template: '<div id="some_template"></div>'
+    });
+
+```
+
+#### Coffeescript
+
+##### spec
 
 ``` Coffeescript
   describe 'stateD', =>
@@ -1216,7 +1252,7 @@ Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state has an e
     it 'has a template, using string variant', => expect('stateD').to_have_template '<div id="some_template"></div>'
 ```
 
-#### impl
+##### impl
 ``` Coffeescript
   $stateProvider.state 'stateD',
     template: '<div id="some_template"></div>'

@@ -13,6 +13,9 @@ var config = function ($stateProvider) {
         controllerAs: 'suc'
     });
 
+    $stateProvider.state('stateD', {
+        template: '<div id="some_template"></div>'
+    });
 };
 
 angular.module('sample.js.module').config(config);

@@ -48,6 +48,7 @@ describe 'sample ui.router state matchers', ->
     it 'has controller alias, using object variant', => expect(@subject).to_have_controller_as 'suc'
     it 'has controller alias, using string variant', => expect('stateC').to_have_controller_as 'suc'
 
+  # to_have_template
   describe 'stateD', =>
     beforeEach inject ($state) =>
       @subject = $state.get 'stateD'
