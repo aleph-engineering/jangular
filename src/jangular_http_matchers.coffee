@@ -92,10 +92,10 @@ window.flush = flush
 # matchers #
 ############
 
-to_get = ->
+to_bare_get = ->
   compare: (fn, uri) ->
 # validations
-    validate_arguments_count arguments, 2, 'to_get takes a single uri argument.'
+    validate_arguments_count arguments, 2, 'to_bare_get takes a single uri argument.'
     throw_fn_expected 'fn' unless is_a_function fn
 
     # expect http call
@@ -131,10 +131,10 @@ to_unwrap_get = ->
 
     assert_unwrapped_data actual_data, expected_data
 
-to_get_and_unwrap = ->
+to_get = ->
   compare: (fn, uri) ->
 # validations
-    validate_arguments_count arguments, 2, 'to_get_and_unwrap takes a single uri argument.'
+    validate_arguments_count arguments, 2, 'to_get takes a single uri argument.'
     throw_fn_expected 'fn' unless is_a_function fn
 
     # expect http call & reply a random number
@@ -233,12 +233,12 @@ to_put = ->
     assert_unwrapped_data actual_data, expected_data
 
 module.exports =
-  to_get: to_get
-  toGet: to_get
+  to_bare_get: to_bare_get
+  toBareGet: to_bare_get
   to_unwrap_get: to_unwrap_get
   toUnwrapGet: to_unwrap_get
-  to_get_and_unwrap: to_get_and_unwrap
-  toGetAndUnwrap: to_get_and_unwrap
+  to_get: to_get
+  toGet: to_get
   to_post: to_post
   toPost: to_post
   to_unwrap_post: to_unwrap_post

@@ -343,7 +343,7 @@ module.exports = {
 
 },{"./jangular_common":2}],4:[function(require,module,exports){
 'use strict';
-var allow_get, allow_post, assert_unwrapped_data, common, err, expect_get, expect_post, expect_put, expect_to_be_function, expect_to_be_promise, fail_get, fail_post, flush, http_backend, is_a_function, ok, pass, ref, ref1, ref2, ref3, ref4, ref5, throw_fn_expected, to_get, to_get_and_unwrap, to_post, to_post_and_unwrap, to_put, to_unwrap_get, to_unwrap_post, validate_arguments_count;
+var allow_get, allow_post, assert_unwrapped_data, common, err, expect_get, expect_post, expect_put, expect_to_be_function, expect_to_be_promise, fail_get, fail_post, flush, http_backend, is_a_function, ok, pass, ref, ref1, ref2, ref3, ref4, ref5, throw_fn_expected, to_bare_get, to_get, to_post, to_post_and_unwrap, to_put, to_unwrap_get, to_unwrap_post, validate_arguments_count;
 
 common = require('./jangular_common');
 
@@ -465,10 +465,10 @@ ref5 = [fail_post, fail_post], window.fail_post = ref5[0], window.failPost = ref
 
 window.flush = flush;
 
-to_get = function() {
+to_bare_get = function() {
   return {
     compare: function(fn, uri) {
-      validate_arguments_count(arguments, 2, 'to_get takes a single uri argument.');
+      validate_arguments_count(arguments, 2, 'to_bare_get takes a single uri argument.');
       if (!is_a_function(fn)) {
         throw_fn_expected('fn');
       }
@@ -502,11 +502,11 @@ to_unwrap_get = function() {
   };
 };
 
-to_get_and_unwrap = function() {
+to_get = function() {
   return {
     compare: function(fn, uri) {
       var actual_data, expected_data, promise;
-      validate_arguments_count(arguments, 2, 'to_get_and_unwrap takes a single uri argument.');
+      validate_arguments_count(arguments, 2, 'to_get takes a single uri argument.');
       if (!is_a_function(fn)) {
         throw_fn_expected('fn');
       }
@@ -606,12 +606,12 @@ to_put = function() {
 };
 
 module.exports = {
-  to_get: to_get,
-  toGet: to_get,
+  to_bare_get: to_bare_get,
+  toBareGet: to_bare_get,
   to_unwrap_get: to_unwrap_get,
   toUnwrapGet: to_unwrap_get,
-  to_get_and_unwrap: to_get_and_unwrap,
-  toGetAndUnwrap: to_get_and_unwrap,
+  to_get: to_get,
+  toGet: to_get,
   to_post: to_post,
   toPost: to_post,
   to_unwrap_post: to_unwrap_post,
@@ -1433,7 +1433,7 @@ module.exports = {
 
 },{}],2:[function(require,module,exports){
 'use strict';
-var allow_get, allow_post, assert_unwrapped_data, common, err, expect_get, expect_post, expect_put, expect_to_be_function, expect_to_be_promise, fail_get, fail_post, flush, http_backend, is_a_function, ok, pass, ref, ref1, ref2, ref3, ref4, ref5, throw_fn_expected, to_get, to_get_and_unwrap, to_post, to_post_and_unwrap, to_put, to_unwrap_get, to_unwrap_post, validate_arguments_count;
+var allow_get, allow_post, assert_unwrapped_data, common, err, expect_get, expect_post, expect_put, expect_to_be_function, expect_to_be_promise, fail_get, fail_post, flush, http_backend, is_a_function, ok, pass, ref, ref1, ref2, ref3, ref4, ref5, throw_fn_expected, to_bare_get, to_get, to_post, to_post_and_unwrap, to_put, to_unwrap_get, to_unwrap_post, validate_arguments_count;
 
 common = require('./jangular_common');
 
@@ -1555,10 +1555,10 @@ ref5 = [fail_post, fail_post], window.fail_post = ref5[0], window.failPost = ref
 
 window.flush = flush;
 
-to_get = function() {
+to_bare_get = function() {
   return {
     compare: function(fn, uri) {
-      validate_arguments_count(arguments, 2, 'to_get takes a single uri argument.');
+      validate_arguments_count(arguments, 2, 'to_bare_get takes a single uri argument.');
       if (!is_a_function(fn)) {
         throw_fn_expected('fn');
       }
@@ -1592,11 +1592,11 @@ to_unwrap_get = function() {
   };
 };
 
-to_get_and_unwrap = function() {
+to_get = function() {
   return {
     compare: function(fn, uri) {
       var actual_data, expected_data, promise;
-      validate_arguments_count(arguments, 2, 'to_get_and_unwrap takes a single uri argument.');
+      validate_arguments_count(arguments, 2, 'to_get takes a single uri argument.');
       if (!is_a_function(fn)) {
         throw_fn_expected('fn');
       }
@@ -1696,12 +1696,12 @@ to_put = function() {
 };
 
 module.exports = {
-  to_get: to_get,
-  toGet: to_get,
+  to_bare_get: to_bare_get,
+  toBareGet: to_bare_get,
   to_unwrap_get: to_unwrap_get,
   toUnwrapGet: to_unwrap_get,
-  to_get_and_unwrap: to_get_and_unwrap,
-  toGetAndUnwrap: to_get_and_unwrap,
+  to_get: to_get,
+  toGet: to_get,
   to_post: to_post,
   toPost: to_post,
   to_unwrap_post: to_unwrap_post,

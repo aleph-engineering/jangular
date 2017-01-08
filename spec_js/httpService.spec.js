@@ -23,7 +23,7 @@
         }));
 
         it('GETs the given URI', function () {
-            expect(subject.doGet).toGet('/data');
+            expect(subject.doGet).toBareGet('/data');
         });
 
         it('GET unwraps the response', function () {
@@ -31,7 +31,7 @@
         });
 
         it('GETs a given URI and unwraps the response', function () {
-            expect(subject.doGetAndUnwrap).toGetAndUnwrap('/data');
+            expect(subject.doGetAndUnwrap).toGet('/data');
         });
 
         it('POSTs a given URI', function () {

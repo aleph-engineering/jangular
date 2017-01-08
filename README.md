@@ -36,8 +36,8 @@ $ npm install jangular-matchers
 ### Service
 
 * [toGet()](#toget)
+* [toBareGet()](#tobareget)
 * [toUnwrapGet()](#tounwrapget)
-* [toGetAndUnwrap()](#togetandunwrap)
 * [toPost()](#topost)
 * [toUnwrapPost()](#tounwrappost)
 * [toPostAndUnwrap()](#topostandunwrap)
@@ -93,7 +93,7 @@ Every sample [Jasmine](http://jasmine.github.io/) matcher for [AngularJS](https:
         }));
 
         it('GETs the given URI', function(){
-            expect(subject.doGet).toGet('/data');
+            expect(subject.doGet).toBareGet('/data');
         });
 
     });
@@ -156,6 +156,43 @@ angular.module('sample.coffee.module').factory 'sampleHttpService', ['$http', sa
 ```
 
 ### `toGet()`
+Ensures that the service operation issues a GET to a given URI and unwraps the response body on success. Expects the service operation under test to return the `GET` promise as well. 
+
+#### Javascript
+
+##### spec
+```Javascript
+        it('GETs a given URI and unwraps the response', function(){
+            expect(subject.doGetAndUnwrap).toGet('/data');
+        });
+
+```
+
+##### impl
+```Javascript
+            doGetAndUnwrap: function() {
+                return $http.get('/data').then(function(response){
+                    return response.data;
+                });
+            }
+
+```
+
+#### Coffeescript
+
+##### spec
+``` Coffeescript
+  it 'GETs a given URI and unwraps the response', =>
+    expect(@subject.do_get_and_unwrap).to_get '/data'
+```
+
+##### impl
+``` Coffeescript
+    do_get_and_unwrap: ->
+      $http.get('/data').then (reply) -> reply.data
+```
+
+### `toBareGet()`
 Ensures that the service operation issues a GET to a given URI.
 
 #### Javascript
@@ -163,7 +200,7 @@ Ensures that the service operation issues a GET to a given URI.
 
 ``` Javascript
         it('GETs the given URI', function(){
-            expect(subject.doGet).toGet('/data');
+            expect(subject.doGet).toBareGet('/data');
         });
 ```
 
@@ -179,7 +216,7 @@ Ensures that the service operation issues a GET to a given URI.
 
 ``` Coffeescript
   it 'GETs a given URI', =>
-    expect(@subject.do_get).to_get '/data'
+    expect(@subject.do_get).to_bare_get '/data'
 ```
 
 ##### impl
@@ -221,43 +258,6 @@ Ensures that the service operation unwraps the response body on success. Expects
 ``` Coffeescript
     do_unwrap: ->
       $http.get('/any_path').then (reply) -> reply.data
-```
-
-### `toGetAndUnwrap()`
-Ensures that the service operation issues a GET to a given URI and unwraps the response body on success. Expects the service operation under test to return the `GET` promise as well. 
-
-#### Javascript
-
-##### spec
-```Javascript
-        it('GETs a given URI and unwraps the response', function(){
-            expect(subject.doGetAndUnwrap).toGetAndUnwrap('/data');
-        });
-
-```
-
-##### impl
-```Javascript
-            doGetAndUnwrap: function() {
-                return $http.get('/data').then(function(response){
-                    return response.data;
-                });
-            }
-
-```
-
-#### Coffeescript
-
-##### spec
-``` Coffeescript
-  it 'GETs a given URI and unwraps the response', =>
-    expect(@subject.do_get_and_unwrap).to_get_and_unwrap '/data'
-```
-
-##### impl
-``` Coffeescript
-    do_get_and_unwrap: ->
-      $http.get('/data').then (reply) -> reply.data
 ```
 
 ### `toPost()`
