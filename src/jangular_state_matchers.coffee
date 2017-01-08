@@ -145,9 +145,9 @@ to_have_template_url = ->
     pass: st?.templateUrl is expected_template_url
     message: "Expected state/view `#{display_name}` seems to NOT have the template URL '#{expected_template_url}'. Ensure that you properly initialize the state with `template` property `$stateProvider.state('state_name', {templateUrl: '#{expected_template_url}'})` or alternatively you defined a view"
 
-to_resolve_by_calling_service = ->
+to_resolve_by_calling = ->
   compare: (promise, service, fn_name) ->
-    validate_arguments_count arguments, 3, 'to_resolve_by_calling_service takes only 2 arguments: target service and the function name to spy on'
+    validate_arguments_count arguments, 3, 'to_resolve_by_calling takes only 2 arguments: target service and the function name to spy on'
 
     throw new Error 'Actual promise seems to be null or undefined, please define the promise using the syntax `resolve: { my_promise: [..., my_promise_resolution_fn] }`' unless promise?
 
@@ -175,9 +175,9 @@ to_resolve_by_calling_service = ->
     # TODO: improve this assertion
     spy_have_been_called _spy
 
-to_resolve_by_calling_service_with = ->
+to_resolve_by_calling_with = ->
   compare: (promise, service, fn_name, args...) ->
-    validate_arguments_gt args, 0, 'to_resolve_by_calling_service_with takes 3 or more arguments: target service, the function name to spy on and the expected arguments'
+    validate_arguments_gt args, 0, 'to_resolve_by_calling_with takes 3 or more arguments: target service, the function name to spy on and the expected arguments'
 
     throw new Error 'Actual promise seems to be null or undefined, please define the promise using the syntax `resolve: { my_promise: [..., my_promise_resolution_fn] }`' unless promise?
 
@@ -222,7 +222,7 @@ module.exports =
   toHaveTemplate: to_have_template
   to_have_template_url: to_have_template_url
   toHaveTemplateUrl: to_have_template_url
-  to_resolve_by_calling_service: to_resolve_by_calling_service
-  toResolveByCallingService: to_resolve_by_calling_service
-  to_resolve_by_calling_service_with: to_resolve_by_calling_service_with
-  toResolveByCallingServiceWith: to_resolve_by_calling_service_with
+  to_resolve_by_calling: to_resolve_by_calling
+  toResolveByCalling: to_resolve_by_calling
+  to_resolve_by_calling_with: to_resolve_by_calling_with
+  toResolveByCallingWith: to_resolve_by_calling_with

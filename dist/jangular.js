@@ -602,7 +602,7 @@ module.exports = {};
 
 },{}],6:[function(require,module,exports){
 'use strict';
-var assert_is_spy, common, get_state, injector, is_an_state, is_not_an_state, is_state_result, q, spy_have_been_called, spy_have_been_called_with, state, to_be_abstract, to_be_an_state, to_have_controller, to_have_controller_alias, to_have_template, to_have_template_url, to_have_url, to_resolve_by_calling_service, to_resolve_by_calling_service_with, validate_arguments_count, validate_arguments_gt,
+var assert_is_spy, common, get_state, injector, is_an_state, is_not_an_state, is_state_result, q, spy_have_been_called, spy_have_been_called_with, state, to_be_abstract, to_be_an_state, to_have_controller, to_have_controller_alias, to_have_template, to_have_template_url, to_have_url, to_resolve_by_calling, to_resolve_by_calling_with, validate_arguments_count, validate_arguments_gt,
   slice = [].slice;
 
 common = require('./jangular_common');
@@ -806,11 +806,11 @@ to_have_template_url = function() {
   };
 };
 
-to_resolve_by_calling_service = function() {
+to_resolve_by_calling = function() {
   return {
     compare: function(promise, service, fn_name) {
       var _spy, actual, deferred, expected;
-      validate_arguments_count(arguments, 3, 'to_resolve_by_calling_service takes only 2 arguments: target service and the function name to spy on');
+      validate_arguments_count(arguments, 3, 'to_resolve_by_calling takes only 2 arguments: target service and the function name to spy on');
       if (promise == null) {
         throw new Error('Actual promise seems to be null or undefined, please define the promise using the syntax `resolve: { my_promise: [..., my_promise_resolution_fn] }`');
       }
@@ -827,12 +827,12 @@ to_resolve_by_calling_service = function() {
   };
 };
 
-to_resolve_by_calling_service_with = function() {
+to_resolve_by_calling_with = function() {
   return {
     compare: function() {
       var _spy, actual, args, deferred, expected, fn_name, promise, service;
       promise = arguments[0], service = arguments[1], fn_name = arguments[2], args = 4 <= arguments.length ? slice.call(arguments, 3) : [];
-      validate_arguments_gt(args, 0, 'to_resolve_by_calling_service_with takes 3 or more arguments: target service, the function name to spy on and the expected arguments');
+      validate_arguments_gt(args, 0, 'to_resolve_by_calling_with takes 3 or more arguments: target service, the function name to spy on and the expected arguments');
       if (promise == null) {
         throw new Error('Actual promise seems to be null or undefined, please define the promise using the syntax `resolve: { my_promise: [..., my_promise_resolution_fn] }`');
       }
@@ -866,10 +866,10 @@ module.exports = {
   toHaveTemplate: to_have_template,
   to_have_template_url: to_have_template_url,
   toHaveTemplateUrl: to_have_template_url,
-  to_resolve_by_calling_service: to_resolve_by_calling_service,
-  toResolveByCallingService: to_resolve_by_calling_service,
-  to_resolve_by_calling_service_with: to_resolve_by_calling_service_with,
-  toResolveByCallingServiceWith: to_resolve_by_calling_service_with
+  to_resolve_by_calling: to_resolve_by_calling,
+  toResolveByCalling: to_resolve_by_calling,
+  to_resolve_by_calling_with: to_resolve_by_calling_with,
+  toResolveByCallingWith: to_resolve_by_calling_with
 };
 
 },{"./jangular_common":2}]},{},[1]);
@@ -1755,7 +1755,7 @@ module.exports = {
 
 },{}],2:[function(require,module,exports){
 'use strict';
-var assert_is_spy, common, get_state, injector, is_an_state, is_not_an_state, is_state_result, q, spy_have_been_called, spy_have_been_called_with, state, to_be_abstract, to_be_an_state, to_have_controller, to_have_controller_alias, to_have_template, to_have_template_url, to_have_url, to_resolve_by_calling_service, to_resolve_by_calling_service_with, validate_arguments_count, validate_arguments_gt,
+var assert_is_spy, common, get_state, injector, is_an_state, is_not_an_state, is_state_result, q, spy_have_been_called, spy_have_been_called_with, state, to_be_abstract, to_be_an_state, to_have_controller, to_have_controller_alias, to_have_template, to_have_template_url, to_have_url, to_resolve_by_calling, to_resolve_by_calling_with, validate_arguments_count, validate_arguments_gt,
   slice = [].slice;
 
 common = require('./jangular_common');
@@ -1959,11 +1959,11 @@ to_have_template_url = function() {
   };
 };
 
-to_resolve_by_calling_service = function() {
+to_resolve_by_calling = function() {
   return {
     compare: function(promise, service, fn_name) {
       var _spy, actual, deferred, expected;
-      validate_arguments_count(arguments, 3, 'to_resolve_by_calling_service takes only 2 arguments: target service and the function name to spy on');
+      validate_arguments_count(arguments, 3, 'to_resolve_by_calling takes only 2 arguments: target service and the function name to spy on');
       if (promise == null) {
         throw new Error('Actual promise seems to be null or undefined, please define the promise using the syntax `resolve: { my_promise: [..., my_promise_resolution_fn] }`');
       }
@@ -1980,12 +1980,12 @@ to_resolve_by_calling_service = function() {
   };
 };
 
-to_resolve_by_calling_service_with = function() {
+to_resolve_by_calling_with = function() {
   return {
     compare: function() {
       var _spy, actual, args, deferred, expected, fn_name, promise, service;
       promise = arguments[0], service = arguments[1], fn_name = arguments[2], args = 4 <= arguments.length ? slice.call(arguments, 3) : [];
-      validate_arguments_gt(args, 0, 'to_resolve_by_calling_service_with takes 3 or more arguments: target service, the function name to spy on and the expected arguments');
+      validate_arguments_gt(args, 0, 'to_resolve_by_calling_with takes 3 or more arguments: target service, the function name to spy on and the expected arguments');
       if (promise == null) {
         throw new Error('Actual promise seems to be null or undefined, please define the promise using the syntax `resolve: { my_promise: [..., my_promise_resolution_fn] }`');
       }
@@ -2019,10 +2019,10 @@ module.exports = {
   toHaveTemplate: to_have_template,
   to_have_template_url: to_have_template_url,
   toHaveTemplateUrl: to_have_template_url,
-  to_resolve_by_calling_service: to_resolve_by_calling_service,
-  toResolveByCallingService: to_resolve_by_calling_service,
-  to_resolve_by_calling_service_with: to_resolve_by_calling_service_with,
-  toResolveByCallingServiceWith: to_resolve_by_calling_service_with
+  to_resolve_by_calling: to_resolve_by_calling,
+  toResolveByCalling: to_resolve_by_calling,
+  to_resolve_by_calling_with: to_resolve_by_calling_with,
+  toResolveByCallingWith: to_resolve_by_calling_with
 };
 
 },{"./jangular_common":1}]},{},[2]);

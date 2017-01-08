@@ -83,17 +83,17 @@ describe 'sample ui.router state matchers', ->
       it 'view has a template URL', inject ($state) =>
         expect($state.get('stateX').views['my_view']).to_have_template_url '/view_url'
 
-  # to_resolve_by_calling_service
+  # to_resolve_by_calling
   describe 'stateF', =>
     beforeEach inject ($state, @sampleHttpService) =>
       @subject = $state.get 'stateF'
 
     it 'resolves the promise by calling service without arguments', =>
-      expect(@subject.resolve.user_profile).to_resolve_by_calling_service @sampleHttpService, 'do_get'
+      expect(@subject.resolve.user_profile).to_resolve_by_calling @sampleHttpService, 'do_get'
 
   describe 'stateG', =>
     beforeEach inject ($state, @sampleHttpService) =>
       @subject = $state.get 'stateG'
 
     it 'resolves the promise by calling service with arguments', =>
-      expect(@subject.resolve.user_history).to_resolve_by_calling_service_with @sampleHttpService, 'do_get_with', 1, 'a', true
+      expect(@subject.resolve.user_history).to_resolve_by_calling_with @sampleHttpService, 'do_get_with', 1, 'a', true

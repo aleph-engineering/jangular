@@ -136,7 +136,7 @@ describe('sample ui.router state matchers', function () {
 
     });
 
-    // toResolveByCallingService
+    // toResolveByCalling
     describe('stateF', function () {
 
         beforeEach(function () {
@@ -144,7 +144,7 @@ describe('sample ui.router state matchers', function () {
         });
 
         it('resolves the promise by calling service without arguments', function () {
-            expect(subject.resolve.userProfile).toResolveByCallingService(sampleHttpService, 'doGet');
+            expect(subject.resolve.userProfile).toResolveByCalling(sampleHttpService, 'doGet');
         });
     });
 

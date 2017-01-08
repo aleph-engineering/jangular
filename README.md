@@ -61,8 +61,8 @@ $ npm install jangular-matchers
 * [toHaveControllerAlias()](#tohavecontrolleralias)
 * [toHaveTemplate()](#tohavetemplate)
 * [toHaveTemplateUrl()](#tohavetemplateurl)
-* [to_resolve_by_calling_service()](#to_resolve_by_calling_service)
-* [to_resolve_by_calling_service_with()](#to_resolve_by_calling_service_with)
+* [toResolveByCalling()](#toresolvebycalling)
+* [to_resolve_by_calling_with()](#to_resolve_by_calling_with)
 * [to_have_view()](#to_have_view) *TODO*
 
 ## HTTP Service matchers
@@ -1333,10 +1333,48 @@ Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state has an e
     templateUrl: '/templates/footer.html'
 ```
 
-### `to_resolve_by_calling_service()`
+### `toResolveByCalling()`
 Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state resolves a given promise before entering. The expected promise resolution should take place by issuing an service call without arguments.
 
-#### spec
+#### Javascript
+
+##### spec
+
+``` Javascript
+
+    // toResolveByCalling
+    describe('stateF', function () {
+
+        beforeEach(function () {
+            subject = state.get('stateF');
+        });
+
+        it('resolves the promise by calling service without arguments', function () {
+            expect(subject.resolve.userProfile).toResolveByCalling(sampleHttpService, 'doGet');
+        });
+    });
+
+```
+
+##### impl
+
+``` Javascript
+
+    var resolveUserProfile = function (sampleHttpService) {
+        return sampleHttpService.doGet();
+    };
+
+    $stateProvider.state('stateF', {
+        resolve: {
+            userProfile: ['sampleHttpService', resolveUserProfile]
+        }
+    });
+
+```
+
+#### Coffeescript
+
+##### spec
 
 ``` Coffeescript
   describe 'stateF', =>
@@ -1344,17 +1382,19 @@ Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state resolves
       @subject = $state.get 'stateF'
 
     it 'resolves the promise by calling service without arguments', =>
-      expect(@subject.resolve.user_profile).to_resolve_by_calling_service @sampleHttpService, 'do_get'
+      expect(@subject.resolve.user_profile).to_resolve_by_calling @sampleHttpService, 'do_get'
+
 ```
 
-#### impl
+##### impl
+
 ``` Coffeescript
   $stateProvider.state 'stateF',
     resolve:
       user_profile: ['sampleHttpService', (sampleHttpService) -> sampleHttpService.do_get()]
 ```
 
-### `to_resolve_by_calling_service_with()`
+### `to_resolve_by_calling_with()`
 Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state resolves a given promise before entering. The expected promise resolution should take place by issuing an service call with the given arguments.
 
 #### spec
@@ -1365,7 +1405,7 @@ Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state resolves
       @subject = $state.get 'stateG'
 
     it 'resolves the promise by calling service with arguments', =>
-      expect(@subject.resolve.user_history).to_resolve_by_calling_service_with @sampleHttpService, 'do_get_with', 1, 'a', true
+      expect(@subject.resolve.user_history).to_resolve_by_calling_with @sampleHttpService, 'do_get_with', 1, 'a', true
 ```
 
 #### impl

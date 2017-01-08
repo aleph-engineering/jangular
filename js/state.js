@@ -28,7 +28,7 @@ var config = function ($stateProvider) {
     });
 
     var resolveUserProfile = function (sampleHttpService) {
-        sampleHttpService.doGet();
+        return sampleHttpService.doGet();
     };
 
     $stateProvider.state('stateF', {
