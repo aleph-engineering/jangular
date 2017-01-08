@@ -77,6 +77,13 @@ allow_post = (response) ->
 fail_post = ->
   http_backend().expectPOST().respond err
 
+expect_delete = (uri, response) ->
+  del = http_backend().expectDELETE uri
+  if response?
+    del.respond ok, response
+  else
+    del.respond ok
+
 flush = ->
   http_backend().flush()
 
@@ -232,6 +239,27 @@ to_put = ->
 
     assert_unwrapped_data actual_data, expected_data
 
+to_delete = ->
+  compare: (fn, uri) ->
+# validations
+    validate_arguments_count arguments, 2, 'to_delete takes a single uri argument.'
+    throw_fn_expected 'fn' unless is_a_function fn
+
+    # expect http call & reply a random number
+    expected_data = Math.random()
+    expect_delete uri, expected_data
+
+    # make the call & grab the returned value
+    promise = fn()
+    expect_to_be_promise promise
+    actual_data = undefined
+    promise.then (data) -> actual_data = data
+
+    # flush the call & assert
+    flush()
+
+    assert_unwrapped_data actual_data, expected_data
+
 module.exports =
   to_bare_get: to_bare_get
   toBareGet: to_bare_get
@@ -247,5 +275,5 @@ module.exports =
   toPost: to_post
   to_put: to_put
   toPut: to_put
-
-
+  to_delete: to_delete
+  toDelete: to_delete

@@ -46,6 +46,11 @@
                 return $http.put('/put_uri', payload).then(function (response) {
                     return response.data;
                 });
+            },
+            doDelete: function () {
+                return $http.delete('/customer/1').then(function (response) {
+                    return response.data;
+                });
             }
         };
     };

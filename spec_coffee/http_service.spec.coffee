@@ -43,3 +43,8 @@ describe 'sample http service matchers', ->
     # to_put
     it 'PUTs to a given URI', =>
       expect(@subject.do_put).to_put '/put_uri', id: 1, given_name: 'Maria', last_name: 'Juana'
+
+  describe 'DELETE', =>
+    # to_delete
+    it 'DELETEs to a given URI', =>
+      expect(@subject.do_delete).to_delete '/customer/1'

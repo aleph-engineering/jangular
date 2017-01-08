@@ -23,6 +23,9 @@ sampleHttpService = ($http) ->
     do_get_with: (a, b, c) ->
     do_get_with_hash: ({x, y, z}) ->
 
+    do_delete: ->
+      $http.delete('/customer/1').then (reply) -> reply.data
+
   new SampleHttpService
 
 angular.module('sample.coffee.module').factory 'sampleHttpService', ['$http', sampleHttpService]

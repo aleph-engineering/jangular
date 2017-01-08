@@ -42,6 +42,7 @@ $ npm install jangular-matchers
 * [toBarePost()](#tobarepost)
 * [toUnwrapPost()](#tounwrappost)
 * [toPut()](#toput)
+* [toDelete()](#todelete)
 
 ### Controller
 
@@ -421,6 +422,50 @@ Ensures that the service operation issues a `PUT` to a given URI and unwraps the
 
     do_put: ->
       $http.put('/put_uri', id: 1, given_name: 'Maria', last_name: 'Juana').then (reply) -> reply.data
+
+```
+
+### `toDelete()`
+Ensures that the service operation issues a `DELETE` to a given URI and unwraps the response body on success. Expects the service operation under test to return the `DELETE` promise as well.
+
+#### Javascript
+
+##### spec
+```Javascript
+
+            // doDelete
+            it('DELETEs to a given URI', function () {
+                expect(subject.doDelete).toDelete('/customer/1');
+            });
+
+```
+
+##### impl
+```Javascript
+
+            doDelete: function () {
+                return $http.delete('/customer/1').then(function (response) {
+                    return response.data;
+                });
+            }
+
+```
+
+#### Coffeescript
+
+##### spec
+
+``` Coffeescript
+    # to_delete
+    it 'DELETEs to a given URI', =>
+      expect(@subject.do_delete).to_delete '/customer/1'
+```
+
+##### impl
+``` Coffeescript
+
+    do_delete: ->
+      $http.delete('/customer/1').then (reply) -> reply.data
 
 ```
 

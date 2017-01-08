@@ -343,7 +343,7 @@ module.exports = {
 
 },{"./jangular_common":2}],4:[function(require,module,exports){
 'use strict';
-var allow_get, allow_post, assert_unwrapped_data, common, err, expect_get, expect_post, expect_put, expect_to_be_function, expect_to_be_promise, fail_get, fail_post, flush, http_backend, is_a_function, ok, pass, ref, ref1, ref2, ref3, ref4, ref5, throw_fn_expected, to_bare_get, to_bare_post, to_get, to_post, to_put, to_unwrap_get, to_unwrap_post, validate_arguments_count;
+var allow_get, allow_post, assert_unwrapped_data, common, err, expect_delete, expect_get, expect_post, expect_put, expect_to_be_function, expect_to_be_promise, fail_get, fail_post, flush, http_backend, is_a_function, ok, pass, ref, ref1, ref2, ref3, ref4, ref5, throw_fn_expected, to_bare_get, to_bare_post, to_delete, to_get, to_post, to_put, to_unwrap_get, to_unwrap_post, validate_arguments_count;
 
 common = require('./jangular_common');
 
@@ -445,6 +445,16 @@ allow_post = function(response) {
 
 fail_post = function() {
   return http_backend().expectPOST().respond(err);
+};
+
+expect_delete = function(uri, response) {
+  var del;
+  del = http_backend().expectDELETE(uri);
+  if (response != null) {
+    return del.respond(ok, response);
+  } else {
+    return del.respond(ok);
+  }
 };
 
 flush = function() {
@@ -605,6 +615,28 @@ to_put = function() {
   };
 };
 
+to_delete = function() {
+  return {
+    compare: function(fn, uri) {
+      var actual_data, expected_data, promise;
+      validate_arguments_count(arguments, 2, 'to_delete takes a single uri argument.');
+      if (!is_a_function(fn)) {
+        throw_fn_expected('fn');
+      }
+      expected_data = Math.random();
+      expect_delete(uri, expected_data);
+      promise = fn();
+      expect_to_be_promise(promise);
+      actual_data = void 0;
+      promise.then(function(data) {
+        return actual_data = data;
+      });
+      flush();
+      return assert_unwrapped_data(actual_data, expected_data);
+    }
+  };
+};
+
 module.exports = {
   to_bare_get: to_bare_get,
   toBareGet: to_bare_get,
@@ -619,7 +651,9 @@ module.exports = {
   to_post: to_post,
   toPost: to_post,
   to_put: to_put,
-  toPut: to_put
+  toPut: to_put,
+  to_delete: to_delete,
+  toDelete: to_delete
 };
 
 },{"./jangular_common":2}],5:[function(require,module,exports){
@@ -1433,7 +1467,7 @@ module.exports = {
 
 },{}],2:[function(require,module,exports){
 'use strict';
-var allow_get, allow_post, assert_unwrapped_data, common, err, expect_get, expect_post, expect_put, expect_to_be_function, expect_to_be_promise, fail_get, fail_post, flush, http_backend, is_a_function, ok, pass, ref, ref1, ref2, ref3, ref4, ref5, throw_fn_expected, to_bare_get, to_bare_post, to_get, to_post, to_put, to_unwrap_get, to_unwrap_post, validate_arguments_count;
+var allow_get, allow_post, assert_unwrapped_data, common, err, expect_delete, expect_get, expect_post, expect_put, expect_to_be_function, expect_to_be_promise, fail_get, fail_post, flush, http_backend, is_a_function, ok, pass, ref, ref1, ref2, ref3, ref4, ref5, throw_fn_expected, to_bare_get, to_bare_post, to_delete, to_get, to_post, to_put, to_unwrap_get, to_unwrap_post, validate_arguments_count;
 
 common = require('./jangular_common');
 
@@ -1535,6 +1569,16 @@ allow_post = function(response) {
 
 fail_post = function() {
   return http_backend().expectPOST().respond(err);
+};
+
+expect_delete = function(uri, response) {
+  var del;
+  del = http_backend().expectDELETE(uri);
+  if (response != null) {
+    return del.respond(ok, response);
+  } else {
+    return del.respond(ok);
+  }
 };
 
 flush = function() {
@@ -1695,6 +1739,28 @@ to_put = function() {
   };
 };
 
+to_delete = function() {
+  return {
+    compare: function(fn, uri) {
+      var actual_data, expected_data, promise;
+      validate_arguments_count(arguments, 2, 'to_delete takes a single uri argument.');
+      if (!is_a_function(fn)) {
+        throw_fn_expected('fn');
+      }
+      expected_data = Math.random();
+      expect_delete(uri, expected_data);
+      promise = fn();
+      expect_to_be_promise(promise);
+      actual_data = void 0;
+      promise.then(function(data) {
+        return actual_data = data;
+      });
+      flush();
+      return assert_unwrapped_data(actual_data, expected_data);
+    }
+  };
+};
+
 module.exports = {
   to_bare_get: to_bare_get,
   toBareGet: to_bare_get,
@@ -1709,7 +1775,9 @@ module.exports = {
   to_post: to_post,
   toPost: to_post,
   to_put: to_put,
-  toPut: to_put
+  toPut: to_put,
+  to_delete: to_delete,
+  toDelete: to_delete
 };
 
 },{"./jangular_common":1}]},{},[2]);

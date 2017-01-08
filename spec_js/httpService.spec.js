@@ -55,7 +55,14 @@
         describe('PUT', function () {
             // doPut
             it('PUTs to a given URI', function () {
-                expect(subject.doPut).to_put('/put_uri', {id: 1, given_name: 'Maria', last_name: 'Juana'});
+                expect(subject.doPut).toPut('/put_uri', {id: 1, given_name: 'Maria', last_name: 'Juana'});
+            });
+        });
+
+        describe('DELETE', function () {
+            // doDelete
+            it('DELETEs to a given URI', function () {
+                expect(subject.doDelete).toDelete('/customer/1');
             });
         });
 
