@@ -62,7 +62,7 @@ $ npm install jangular-matchers
 * [toHaveTemplate()](#tohavetemplate)
 * [toHaveTemplateUrl()](#tohavetemplateurl)
 * [toResolveByCalling()](#toresolvebycalling)
-* [to_resolve_by_calling_with()](#to_resolve_by_calling_with)
+* [toResolveByCallingWith()](#toresolvebycallingwith)
 * [to_have_view()](#to_have_view) *TODO*
 
 ## HTTP Service matchers
@@ -1394,10 +1394,48 @@ Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state resolves
       user_profile: ['sampleHttpService', (sampleHttpService) -> sampleHttpService.do_get()]
 ```
 
-### `to_resolve_by_calling_with()`
+### `toResolveByCallingWith()`
 Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state resolves a given promise before entering. The expected promise resolution should take place by issuing an service call with the given arguments.
 
-#### spec
+#### Javascript
+
+##### spec
+
+``` Javascript
+
+    // toResolveByCallingWith
+    describe('stateG', function () {
+
+        beforeEach(function () {
+            subject = state.get('stateG');
+        });
+
+        it('resolves the promise by calling service with arguments', function () {
+            expect(subject.resolve.userHistory).toResolveByCallingWith(sampleHttpService, 'doGetWith', 1, 'a', true);
+        });
+    });
+
+```
+
+##### impl
+
+``` Javascript
+
+    var resolveUserHistory = function (sampleHttpService) {
+        return sampleHttpService.doGetWith(1, 'a', true);
+    };
+
+    $stateProvider.state('stateG', {
+        resolve: {
+            userHistory: ['sampleHttpService', resolveUserHistory]
+        }
+    });
+
+```
+
+#### Coffeescript
+
+##### spec
 
 ``` Coffeescript
   describe 'stateG', =>
@@ -1408,7 +1446,7 @@ Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state resolves
       expect(@subject.resolve.user_history).to_resolve_by_calling_with @sampleHttpService, 'do_get_with', 1, 'a', true
 ```
 
-#### impl
+##### impl
 ``` Coffeescript
   $stateProvider.state 'stateG',
     resolve:

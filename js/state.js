@@ -36,6 +36,16 @@ var config = function ($stateProvider) {
             userProfile: ['sampleHttpService', resolveUserProfile]
         }
     });
+
+    var resolveUserHistory = function (sampleHttpService) {
+        return sampleHttpService.doGetWith(1, 'a', true);
+    };
+
+    $stateProvider.state('stateG', {
+        resolve: {
+            userHistory: ['sampleHttpService', resolveUserHistory]
+        }
+    });
 };
 
 angular.module('sample.js.module').config(config);

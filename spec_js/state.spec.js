@@ -129,7 +129,7 @@ describe('sample ui.router state matchers', function () {
                 subject = state.get('stateE').views['nested_view'];
             });
 
-            it('view has a template Url', function() {
+            it('view has a template Url', function () {
                 expect(subject).toHaveTemplateUrl('/templates/views/nested.html');
             });
         });
@@ -145,6 +145,18 @@ describe('sample ui.router state matchers', function () {
 
         it('resolves the promise by calling service without arguments', function () {
             expect(subject.resolve.userProfile).toResolveByCalling(sampleHttpService, 'doGet');
+        });
+    });
+
+    // toResolveByCallingWith
+    describe('stateG', function () {
+
+        beforeEach(function () {
+            subject = state.get('stateG');
+        });
+
+        it('resolves the promise by calling service with arguments', function () {
+            expect(subject.resolve.userHistory).toResolveByCallingWith(sampleHttpService, 'doGetWith', 1, 'a', true);
         });
     });
 
