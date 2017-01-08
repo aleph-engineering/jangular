@@ -41,6 +41,7 @@ $ npm install jangular-matchers
 * [toPost()](#topost)
 * [toUnwrapPost()](#tounwrappost)
 * [toPostAndUnwrap()](#topostandunwrap)
+* [toPut()](#toput)
 
 ### Controller
 
@@ -374,6 +375,55 @@ Ensures that the service operation issues a POST to a given URI and unwraps the 
       $http.post('/post', firstname: 'Olivia', lastname: 'Lago').then (reply) -> reply.data
 ```
 
+### `toPut()`
+Ensures that the service operation issues a `PUT` to a given URI and unwraps the response body on success. Expects the service operation under test to return the `PUT` promise as well.
+
+#### Javascript
+
+##### spec
+```Javascript
+
+            // doPut
+            it('PUTs to a given URI', function () {
+                expect(subject.doPut).to_put('/put_uri', {id: 1, given_name: 'Maria', last_name: 'Juana'});
+            });
+
+```
+
+##### impl
+```Javascript
+
+            doPut: function () {
+                var payload = {
+                    id: 1,
+                    given_name: 'Maria',
+                    last_name: 'Juana'
+                };
+                return $http.put('/put_uri', payload).then(function (response) {
+                    return response.data;
+                });
+            }
+
+```
+
+#### Coffeescript
+
+##### spec
+
+``` Coffeescript
+    # to_put
+    it 'PUTs to a given URI', =>
+      expect(@subject.do_put).to_put '/put_uri', id: 1, given_name: 'Maria', last_name: 'Juana'
+```
+
+##### impl
+``` Coffeescript
+
+    do_put: ->
+      $http.put('/put_uri', id: 1, given_name: 'Maria', last_name: 'Juana').then (reply) -> reply.data
+
+```
+
 ## Controller matchers
 These matchers are not exclusively for [AngularJS](https://angularjs.org/) controllers, they may be used in other [AngularJS](https://angularjs.org/) services as well. Every sample [Jasmine](http://jasmine.github.io/) matcher for [AngularJS](https://angularjs.org/) controller will be enclosed in the following `describe` code section:
 
@@ -625,11 +675,6 @@ Ensures that the controller operation subscribes to promise on failure (rejectio
 ##### spec
 
 ``` Javascript
-
-        // toSubscribeSuccess
-        it('subscribes to promise success', function () {
-            expect(subject.doSubscribe).toSubscribeSuccess(sampleHttpService, 'doGet', subject.doGetSuccess);
-        });
 
         // toSubscribeError
         it('subscribes to promise error', function () {
@@ -965,7 +1010,7 @@ Ensures that actual subject is an [UI-Router](https://angular-ui.github.io/ui-ro
 ```
 
 ### `toBeAbstract()`
-Ensures that actual subject is an abstract [UI-Router](https://angular-ui.github.io/ui-router/) state. It can be use in both variants: object and string with state name.
+Ensures that actual subject is an abstract [UI-Router](https://angular-ui.github.io/ui-router/) state. It can be used in both variants: object and string with state name.
 
 #### Javascript
 
@@ -1022,7 +1067,7 @@ Ensures that actual subject is an abstract [UI-Router](https://angular-ui.github
 ```
 
 ### `toHaveUrl()`
-Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state has an expected URL. It can be use in both variants: object and string with state name.
+Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state has an expected URL. It can be used in both variants: object and string with state name.
 
 #### Javascript
 
@@ -1078,7 +1123,7 @@ Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state has an e
 ```
 
 ### `toHaveController()`
-Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state has an expected controller. It can be use in both variants: object and string with state name.
+Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state has an expected controller. It can be used in both variants: object and string with state name.
 
 #### Javascript
 
@@ -1135,7 +1180,7 @@ Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state has an e
 ```
 
 ### `toHaveControllerAlias()`
-Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state has an expected controller alias. It can be use in both variants: object and string with state name.
+Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state has an expected controller alias. It can be used in both variants: object and string with state name.
 
 #### Javascript
 
@@ -1205,7 +1250,7 @@ Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state has an e
 ```
 
 ### `toHaveTemplate()`
-Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state has an expected template. It can be use in both variants: object and string with state name.
+Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state has an expected template. It can be used in both variants: object and string with state name.
 
 #### Javascript
 
@@ -1261,7 +1306,7 @@ Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state has an e
 ```
 
 ### `toHaveTemplateUrl()`
-Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state has an expected template URL. It can be use in both variants: object and string with state name.
+Ensures that [UI-Router](https://angular-ui.github.io/ui-router/) state has an expected template URL. It can be used in both variants: object and string with state name.
 
 #### Javascript
 

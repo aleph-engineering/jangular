@@ -36,6 +36,16 @@
                 return $http.post('/post', payload).then(function (response) {
                     return response.data;
                 });
+            },
+            doPut: function () {
+                var payload = {
+                    id: 1,
+                    given_name: 'Maria',
+                    last_name: 'Juana'
+                };
+                return $http.put('/put_uri', payload).then(function (response) {
+                    return response.data;
+                });
             }
         };
     };

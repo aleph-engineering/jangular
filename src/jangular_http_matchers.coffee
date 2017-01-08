@@ -60,6 +60,13 @@ expect_post = (uri, body, response) ->
   else
     post.respond ok
 
+expect_put = (uri, body, response) ->
+  put = http_backend().expectPUT uri, body
+  if response?
+    put.respond ok, response
+  else
+    put.respond ok
+
 allow_post = (response) ->
   post = http_backend().expectPOST()
   if response?
@@ -204,6 +211,27 @@ to_post_and_unwrap = ->
 
     assert_unwrapped_data actual_data, expected_data
 
+to_put = ->
+  compare: (fn, uri, body) ->
+# validations
+    validate_arguments_count arguments, 3, 'to_put takes a uri and post body arguments.'
+    throw_fn_expected 'fn' unless is_a_function fn
+
+    # expect http call
+    expected_data = Math.random()
+    expect_put uri, body, expected_data
+
+    # make the call & grab the returned value
+    promise = fn()
+    expect_to_be_promise promise
+    actual_data = undefined
+    promise.then (data) -> actual_data = data
+
+    # flush the call & assert
+    flush()
+
+    assert_unwrapped_data actual_data, expected_data
+
 module.exports =
   to_get: to_get
   toGet: to_get
@@ -217,5 +245,7 @@ module.exports =
   toUnwrapPost: to_unwrap_post
   to_post_and_unwrap: to_post_and_unwrap
   toPostAndUnwrap: to_post_and_unwrap
+  to_put: to_put
+  toPut: to_put
 
 

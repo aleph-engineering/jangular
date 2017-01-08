@@ -22,33 +22,40 @@
             $httpBackend.verifyNoOutstandingRequest();
         }));
 
-        it('GETs the given URI', function(){
+        it('GETs the given URI', function () {
             expect(subject.doGet).toGet('/data');
         });
 
-        it('GET unwraps the response', function() {
+        it('GET unwraps the response', function () {
             expect(subject.doUnwrap).toUnwrapGet();
         });
 
-        it('GETs a given URI and unwraps the response', function(){
+        it('GETs a given URI and unwraps the response', function () {
             expect(subject.doGetAndUnwrap).toGetAndUnwrap('/data');
         });
 
-        it('POSTs a given URI', function() {
+        it('POSTs a given URI', function () {
             expect(subject.doPost).toPost('/post', {
                 firstname: 'Olivia',
                 lastname: 'Lago'
             });
         });
 
-        it('POST unwraps the response', function(){
-           expect(subject.doPostAndUnwrap).toUnwrapPost();
+        it('POST unwraps the response', function () {
+            expect(subject.doPostAndUnwrap).toUnwrapPost();
         });
 
-        it('POST a given URI and unwraps the response', function() {
+        it('POST a given URI and unwraps the response', function () {
             expect(subject.doPostAndUnwrap).toPostAndUnwrap('/post', {
                 firstname: 'Olivia',
                 lastname: 'Lago'
+            });
+        });
+
+        describe('PUT', function () {
+            // doPut
+            it('PUTs to a given URI', function () {
+                expect(subject.doPut).to_put('/put_uri', {id: 1, given_name: 'Maria', last_name: 'Juana'});
             });
         });
 

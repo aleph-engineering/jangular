@@ -17,6 +17,9 @@ sampleHttpService = ($http) ->
     do_post_and_unwrap: ->
       $http.post('/post', firstname: 'Olivia', lastname: 'Lago').then (reply) -> reply.data
 
+    do_put: ->
+      $http.put('/put_uri', id: 1, given_name: 'Maria', last_name: 'Juana').then (reply) -> reply.data
+
     do_get_with: (a, b, c) ->
     do_get_with_hash: ({x, y, z}) ->
 

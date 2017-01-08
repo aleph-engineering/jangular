@@ -343,7 +343,7 @@ module.exports = {
 
 },{"./jangular_common":2}],4:[function(require,module,exports){
 'use strict';
-var allow_get, allow_post, assert_unwrapped_data, common, err, expect_get, expect_post, expect_to_be_function, expect_to_be_promise, fail_get, fail_post, flush, http_backend, is_a_function, ok, pass, ref, ref1, ref2, ref3, ref4, ref5, throw_fn_expected, to_get, to_get_and_unwrap, to_post, to_post_and_unwrap, to_unwrap_get, to_unwrap_post, validate_arguments_count;
+var allow_get, allow_post, assert_unwrapped_data, common, err, expect_get, expect_post, expect_put, expect_to_be_function, expect_to_be_promise, fail_get, fail_post, flush, http_backend, is_a_function, ok, pass, ref, ref1, ref2, ref3, ref4, ref5, throw_fn_expected, to_get, to_get_and_unwrap, to_post, to_post_and_unwrap, to_put, to_unwrap_get, to_unwrap_post, validate_arguments_count;
 
 common = require('./jangular_common');
 
@@ -420,6 +420,16 @@ expect_post = function(uri, body, response) {
     return post.respond(ok, response);
   } else {
     return post.respond(ok);
+  }
+};
+
+expect_put = function(uri, body, response) {
+  var put;
+  put = http_backend().expectPUT(uri, body);
+  if (response != null) {
+    return put.respond(ok, response);
+  } else {
+    return put.respond(ok);
   }
 };
 
@@ -573,6 +583,28 @@ to_post_and_unwrap = function() {
   };
 };
 
+to_put = function() {
+  return {
+    compare: function(fn, uri, body) {
+      var actual_data, expected_data, promise;
+      validate_arguments_count(arguments, 3, 'to_put takes a uri and post body arguments.');
+      if (!is_a_function(fn)) {
+        throw_fn_expected('fn');
+      }
+      expected_data = Math.random();
+      expect_put(uri, body, expected_data);
+      promise = fn();
+      expect_to_be_promise(promise);
+      actual_data = void 0;
+      promise.then(function(data) {
+        return actual_data = data;
+      });
+      flush();
+      return assert_unwrapped_data(actual_data, expected_data);
+    }
+  };
+};
+
 module.exports = {
   to_get: to_get,
   toGet: to_get,
@@ -585,7 +617,9 @@ module.exports = {
   to_unwrap_post: to_unwrap_post,
   toUnwrapPost: to_unwrap_post,
   to_post_and_unwrap: to_post_and_unwrap,
-  toPostAndUnwrap: to_post_and_unwrap
+  toPostAndUnwrap: to_post_and_unwrap,
+  to_put: to_put,
+  toPut: to_put
 };
 
 },{"./jangular_common":2}],5:[function(require,module,exports){
@@ -1399,7 +1433,7 @@ module.exports = {
 
 },{}],2:[function(require,module,exports){
 'use strict';
-var allow_get, allow_post, assert_unwrapped_data, common, err, expect_get, expect_post, expect_to_be_function, expect_to_be_promise, fail_get, fail_post, flush, http_backend, is_a_function, ok, pass, ref, ref1, ref2, ref3, ref4, ref5, throw_fn_expected, to_get, to_get_and_unwrap, to_post, to_post_and_unwrap, to_unwrap_get, to_unwrap_post, validate_arguments_count;
+var allow_get, allow_post, assert_unwrapped_data, common, err, expect_get, expect_post, expect_put, expect_to_be_function, expect_to_be_promise, fail_get, fail_post, flush, http_backend, is_a_function, ok, pass, ref, ref1, ref2, ref3, ref4, ref5, throw_fn_expected, to_get, to_get_and_unwrap, to_post, to_post_and_unwrap, to_put, to_unwrap_get, to_unwrap_post, validate_arguments_count;
 
 common = require('./jangular_common');
 
@@ -1476,6 +1510,16 @@ expect_post = function(uri, body, response) {
     return post.respond(ok, response);
   } else {
     return post.respond(ok);
+  }
+};
+
+expect_put = function(uri, body, response) {
+  var put;
+  put = http_backend().expectPUT(uri, body);
+  if (response != null) {
+    return put.respond(ok, response);
+  } else {
+    return put.respond(ok);
   }
 };
 
@@ -1629,6 +1673,28 @@ to_post_and_unwrap = function() {
   };
 };
 
+to_put = function() {
+  return {
+    compare: function(fn, uri, body) {
+      var actual_data, expected_data, promise;
+      validate_arguments_count(arguments, 3, 'to_put takes a uri and post body arguments.');
+      if (!is_a_function(fn)) {
+        throw_fn_expected('fn');
+      }
+      expected_data = Math.random();
+      expect_put(uri, body, expected_data);
+      promise = fn();
+      expect_to_be_promise(promise);
+      actual_data = void 0;
+      promise.then(function(data) {
+        return actual_data = data;
+      });
+      flush();
+      return assert_unwrapped_data(actual_data, expected_data);
+    }
+  };
+};
+
 module.exports = {
   to_get: to_get,
   toGet: to_get,
@@ -1641,7 +1707,9 @@ module.exports = {
   to_unwrap_post: to_unwrap_post,
   toUnwrapPost: to_unwrap_post,
   to_post_and_unwrap: to_post_and_unwrap,
-  toPostAndUnwrap: to_post_and_unwrap
+  toPostAndUnwrap: to_post_and_unwrap,
+  to_put: to_put,
+  toPut: to_put
 };
 
 },{"./jangular_common":1}]},{},[2]);
