@@ -152,10 +152,10 @@ to_get = ->
 
     assert_unwrapped_data actual_data, expected_data
 
-to_post = ->
+to_bare_post = ->
   compare: (fn, uri, body) ->
 # validations
-    validate_arguments_count arguments, 3, 'to_post takes a uri and post body arguments.'
+    validate_arguments_count arguments, 3, 'to_bare_post takes a uri and post body arguments.'
     throw_fn_expected 'fn' unless is_a_function fn
 
     # expect http call
@@ -190,10 +190,10 @@ to_unwrap_post = ->
 
     assert_unwrapped_data actual_data, expected_data
 
-to_post_and_unwrap = ->
+to_post = ->
   compare: (fn, uri, body) ->
 # validations
-    validate_arguments_count arguments, 3, 'to_post takes a uri and post body arguments.'
+    validate_arguments_count arguments, 3, 'to_bare_post takes a uri and post body arguments.'
     throw_fn_expected 'fn' unless is_a_function fn
 
     # expect http call
@@ -239,12 +239,12 @@ module.exports =
   toUnwrapGet: to_unwrap_get
   to_get: to_get
   toGet: to_get
-  to_post: to_post
-  toPost: to_post
+  to_bare_post: to_bare_post
+  toBarePost: to_bare_post
   to_unwrap_post: to_unwrap_post
   toUnwrapPost: to_unwrap_post
-  to_post_and_unwrap: to_post_and_unwrap
-  toPostAndUnwrap: to_post_and_unwrap
+  to_post: to_post
+  toPost: to_post
   to_put: to_put
   toPut: to_put
 

@@ -31,13 +31,13 @@ describe 'sample http service matchers', ->
 
   describe 'POST', =>
     it 'POSTs a given URI', =>
-      expect(@subject.do_post).to_post '/post', firstname: 'Olivia', lastname: 'Lago'
+      expect(@subject.do_post).to_bare_post '/post', firstname: 'Olivia', lastname: 'Lago'
 
     it 'POST unwraps the response', =>
       expect(@subject.do_post_and_unwrap).to_unwrap_post()
 
     it 'POST a given URI and unwraps the response', =>
-      expect(@subject.do_post_and_unwrap).to_post_and_unwrap '/post', firstname: 'Olivia', lastname: 'Lago'
+      expect(@subject.do_post_and_unwrap).to_post '/post', firstname: 'Olivia', lastname: 'Lago'
 
   describe 'PUT', =>
     # to_put

@@ -35,7 +35,7 @@
         });
 
         it('POSTs a given URI', function () {
-            expect(subject.doPost).toPost('/post', {
+            expect(subject.doPost).toBarePost('/post', {
                 firstname: 'Olivia',
                 lastname: 'Lago'
             });
@@ -46,7 +46,7 @@
         });
 
         it('POST a given URI and unwraps the response', function () {
-            expect(subject.doPostAndUnwrap).toPostAndUnwrap('/post', {
+            expect(subject.doPostAndUnwrap).toPost('/post', {
                 firstname: 'Olivia',
                 lastname: 'Lago'
             });

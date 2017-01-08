@@ -39,8 +39,8 @@ $ npm install jangular-matchers
 * [toBareGet()](#tobareget)
 * [toUnwrapGet()](#tounwrapget)
 * [toPost()](#topost)
+* [toBarePost()](#tobarepost)
 * [toUnwrapPost()](#tounwrappost)
-* [toPostAndUnwrap()](#topostandunwrap)
 * [toPut()](#toput)
 
 ### Controller
@@ -261,13 +261,56 @@ Ensures that the service operation unwraps the response body on success. Expects
 ```
 
 ### `toPost()`
+Ensures that the service operation issues a POST to a given URI and unwraps the response body on success. Expects the service operation under test to return the `POST` promise as well.
+
+#### Javascript
+
+##### spec
+```Javascript
+        it('POST a given URI and unwraps the response', function() {
+            expect(subject.doPostAndUnwrap).toPost('/post', {
+                firstname: 'Olivia',
+                lastname: 'Lago'
+            });
+        });
+```
+
+##### impl
+```Javascript
+            doPostAndUnwrap: function () {
+                var payload = {
+                    firstname: 'Olivia',
+                    lastname: 'Lago'
+                };
+                return $http.post('/post', payload).then(function (response) {
+                    return response.data;
+                });
+            }
+```
+
+#### Coffeescript
+
+##### spec
+
+``` Coffeescript
+  it 'POST a given URI and unwraps the response', =>
+    expect(@subject.do_post_and_unwrap).to_post '/post', firstname: 'Olivia', lastname: 'Lago'
+```
+
+##### impl
+``` Coffeescript
+    do_post_and_unwrap: ->
+      $http.post('/post', firstname: 'Olivia', lastname: 'Lago').then (reply) -> reply.data
+```
+
+### `toBarePost()`
 Ensures that the service operation issues a POST to a given URI.
 
 #### Javascript
 ##### spec
 ```Javascript
         it('POSTs a given URI', function() {
-            expect(subject.doPost).toPost('/post', {
+            expect(subject.doPost).toBarePost('/post', {
                 firstname: 'Olivia',
                 lastname: 'Lago'
             });
@@ -287,7 +330,7 @@ Ensures that the service operation issues a POST to a given URI.
 
 ``` Coffeescript
   it 'POSTs a given URI', =>
-    expect(@subject.do_post).to_post '/post', firstname: 'Olivia', lastname: 'Lago'
+    expect(@subject.do_post).to_bare_post '/post', firstname: 'Olivia', lastname: 'Lago'
 ```
 
 ##### impl
@@ -324,49 +367,6 @@ Ensures that the service operation unwraps the response body on success. Expects
 ``` Coffeescript
   it 'POST unwraps the response', =>
     expect(@subject.do_post_and_unwrap).to_unwrap_post()
-```
-
-##### impl
-``` Coffeescript
-    do_post_and_unwrap: ->
-      $http.post('/post', firstname: 'Olivia', lastname: 'Lago').then (reply) -> reply.data
-```
-
-### `toPostAndUnwrap()`
-Ensures that the service operation issues a POST to a given URI and unwraps the response body on success. Expects the service operation under test to return the `POST` promise as well.
-
-#### Javascript
-
-##### spec
-```Javascript
-        it('POST a given URI and unwraps the response', function() {
-            expect(subject.doPostAndUnwrap).toPostAndUnwrap('/post', {
-                firstname: 'Olivia',
-                lastname: 'Lago'
-            });
-        });
-```
-
-##### impl
-```Javascript
-            doPostAndUnwrap: function () {
-                var payload = {
-                    firstname: 'Olivia',
-                    lastname: 'Lago'
-                };
-                return $http.post('/post', payload).then(function (response) {
-                    return response.data;
-                });
-            }
-```
-
-#### Coffeescript
-
-##### spec
-
-``` Coffeescript
-  it 'POST a given URI and unwraps the response', =>
-    expect(@subject.do_post_and_unwrap).to_post_and_unwrap '/post', firstname: 'Olivia', lastname: 'Lago'
 ```
 
 ##### impl
